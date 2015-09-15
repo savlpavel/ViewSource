@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="filter" maintenanceversion="1.4" replicaid="C32573460041C723" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="13e" sequence="1" unid="66E1EB6472BDCC53C32573460041D5E0">
+<created><datetime dst="true">20070829T155905,92+04</datetime></created>
+<modified><datetime dst="true">20070829T155905,95+04</datetime></modified>
+<revised><datetime dst="true">20070829T155905,94+04</datetime></revised>
+<lastaccessed><datetime dst="true">20070829T155905,94+04</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20070829T155905,94+04</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Oleg V Smorchkov/OU=InformationDep/O=Assortiment</name></updatedby>
+<wassignedby><name>CN=Oleg V Smorchkov/OU=InformationDep/O=Assortiment</name></wassignedby>
+<item name="$TITLE" sign="true"><text>SortArray</text></item>
+<item name="$PublicAccess" sign="true"><text>1</text></item>
+
+
+<item name="$Flags"><text>s34Q</text></item></note>
