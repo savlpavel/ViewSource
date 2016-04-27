@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.4'
+<note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.5'
  replicaid='C32573460041C723'>
-<noteinfo noteid='382' unid='1B603B9A2A82184744257A7800321632' sequence='7'>
+<noteinfo noteid='382' unid='1B603B9A2A82184744257A7800321632' sequence='13'>
 <created><datetime>20120913T130704,82+04</datetime></created>
-<modified><datetime>20151027T103545,33+03</datetime></modified>
-<revised><datetime>20151027T103545,30+03</datetime></revised>
-<lastaccessed><datetime>20151027T103545,32+03</datetime></lastaccessed>
+<modified><datetime>20160427T175606,13+03</datetime></modified>
+<revised><datetime>20160427T175606,12+03</datetime></revised>
+<lastaccessed><datetime>20160427T175606,12+03</datetime></lastaccessed>
 <addedtofile><datetime>20120913T130706,01+04</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Pavel A. Aleshkevich/O=OTTO/C=RU</name></updatedby>
 <wassignedby><name>CN=Pavel A. Aleshkevich/O=OTTO/C=RU</name></wassignedby>
@@ -24,7 +24,6 @@ hhgBAIAAAAAAgAAAAQABAP///wAQAAAA
 <rawitemdata type='1'>
 i/8oAAEABSZUYWhvbWEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
 </rawitemdata></item>
-<item name='$$ScriptName' summary='false' sign='true'><text>dlgComment</text></item>
 <item name='CreateName' placeholder='true'>
 <rawitemdata type='0'>
 </rawitemdata></item>
@@ -36,6 +35,7 @@ i/8oAAEABSZUYWhvbWEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
 </rawitemdata></item>
 <item name='$Fields'><textlist><text>CommentText</text><text>CretatedDate</text><text
 >CreateName</text></textlist></item>
+<item name='$$ScriptName' summary='false' sign='true'><text>dlgComment</text></item>
 <item name='$Body' sign='true'>
 <rawitemdata type='1'>
 gQKC/1oAAQAAAAAAAAAAAKAFAACgBQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
