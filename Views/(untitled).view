@@ -1,18 +1,16 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note default='true' class='view' xmlns='http://www.lotus.com/dxl' version='9.0'
- maintenanceversion='1.5' replicaid='C32573460041C723'>
-<noteinfo noteid='116' unid='28F3FFD85A4A10EBC32573460041C737' sequence='11'>
-<created><datetime dst='true'>20070829T155828,39+04</datetime></created>
-<modified><datetime>20160427T175606,35+03</datetime></modified>
-<revised><datetime>20160427T175606,34+03</datetime></revised>
-<lastaccessed><datetime>20160427T175606,34+03</datetime></lastaccessed>
-<addedtofile><datetime dst='true'>20070829T155828,40+04</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Pavel A. Aleshkevich/O=OTTO/C=RU</name></updatedby>
-<wassignedby><name>CN=Pavel A. Aleshkevich/O=OTTO/C=RU</name></wassignedby>
-<item name='$FormulaClass' sign='true'><text>1</text></item>
-<item name='$TITLE' sign='true'><text/></item>
-<item name='$Formula' summary='true' sign='true'><formula compiled='true'>
-FAAAAAgAZgADAAcACgAEAAlMMVM=
+ maintenanceversion='1.0' replicaid='432580060036840F'>
+<noteinfo noteid='116' unid='3604B9213FCF4388432580060036841A' sequence='1'>
+<created><datetime>20160805T125527,62+03</datetime></created>
+<modified><datetime>20160805T125527,65+03</datetime></modified>
+<revised><datetime>20160805T125527,64+03</datetime></revised>
+<lastaccessed><datetime>20160805T131740,48+03</datetime></lastaccessed>
+<addedtofile><datetime>20160805T125527,65+03</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></updatedby>
+<item name='$TITLE'><text/></item>
+<item name='$Formula' summary='true'><formula compiled='true'>
+HAAFAA4ACgABAAQAJCQkJAQABAAAAAgAZgADAA==
 </formula></item>
-<item name='$Flags'><text/></item></note>
+<item name='$FormulaClass'><text>1</text></item></note>
 

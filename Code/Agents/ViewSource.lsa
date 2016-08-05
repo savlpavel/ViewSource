@@ -1,14 +1,14 @@
 <?xml version='1.0' encoding='utf-8'?>
-<note class='filter' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.5'
- replicaid='C32573460041C723'>
-<noteinfo noteid='146' unid='9974E9D34F84C3BBC32573460041DB34' sequence='77'>
+<note class='filter' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
+ replicaid='432580060036840F'>
+<noteinfo noteid='172' unid='9974E9D34F84C3BBC32573460041DB34' sequence='2'>
 <created><datetime dst='true'>20070829T155919,56+04</datetime></created>
-<modified><datetime>20160427T175606,27+03</datetime></modified>
-<revised><datetime>20160427T175606,26+03</datetime></revised>
-<lastaccessed><datetime>20160427T175606,26+03</datetime></lastaccessed>
-<addedtofile><datetime dst='true'>20070829T155919,58+04</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Pavel A. Aleshkevich/O=OTTO/C=RU</name></updatedby>
-<wassignedby><name>CN=Pavel A. Aleshkevich/O=OTTO/C=RU</name></wassignedby>
+<modified><datetime>20160805T125703,42+03</datetime></modified>
+<revised><datetime>20160805T125703,41+03</datetime></revised>
+<lastaccessed><datetime>20160805T125703,42+03</datetime></lastaccessed>
+<addedtofile><datetime>20160805T125703,40+03</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></updatedby>
+<wassignedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></wassignedby>
 <item name='$TITLE' sign='true'><text>ViewSource</text></item>
 <item name='$AssistType' sign='true'><number>65413</number></item>
 <item name='$AssistLastRun' sign='true'>
@@ -33,7 +33,7 @@ gQYAAAAA
 <item name='$DesignerVersion'><text>8.5.3</text></item>
 <item name='$AssistRunInfo' summary='true'>
 <rawitemdata type='3'>
-BgABAAAACACKBQAAAAAAAAUAAAAwAAAAAAAAAAAAAAAAAAAAjAAAAAAAAAAAAAAAAAAAABAAAAAA
+BgABAAAACABuAQAAAAAAAAUAAAAwAAAAAAAAAAAAAAAAAAAAjAAAAAAAAAAAAAAAAAAAABAAAAAA
 AAAAZZFQAKJ/JUMAAAAAUkVQAKJ/JUMjx0EARnMlwwAAAAAAAAAAAAAAAAAAAAAAAAAAU3RhcnRl
 ZCBydW5uaW5nIGFnZW50ICdWaWV3U291cmNlJyBvbiAyNy4wNC4yMDE2IDE3OjQwOjAwDQpSYW4g
 TG90dXNTY3JpcHQgY29kZQ0KRG9uZSBydW5uaW5nIGFnZW50ICdWaWV3U291cmNlJyBvbiAyNy4w
