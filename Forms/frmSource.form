@@ -2,11 +2,11 @@
 <form name='frmSource' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
  replicaid='432580060036840F' nocompose='true' noquery='true' treatashtml='true'
  publicaccess='false' designerversion='8.5.3' renderpassthrough='true'>
-<noteinfo noteid='162' unid='FBABB6C89702076F44257A780035E98B' sequence='3'>
+<noteinfo noteid='162' unid='FBABB6C89702076F44257A780035E98B' sequence='6'>
 <created><datetime>20120913T134851,95+04</datetime></created>
-<modified><datetime>20160805T133151,64+03</datetime></modified>
-<revised><datetime>20160805T133151,63+03</datetime></revised>
-<lastaccessed><datetime>20160805T133151,64+03</datetime></lastaccessed>
+<modified><datetime>20160809T100721,98+03</datetime></modified>
+<revised><datetime>20160809T100721,97+03</datetime></revised>
+<lastaccessed><datetime>20160809T100721,98+03</datetime></lastaccessed>
 <addedtofile><datetime>20160805T125703,26+03</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></updatedby>
 <wassignedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></wassignedby><code
@@ -438,11 +438,11 @@ End Sub
  type='98' prevtype='65418' nexttype='222' afterparcount='7' containertype='65418'
  aftercontainercount='1' afterbegincount='3'>
 Yg4BAIQAAAAAAAAAAAA=
-</compositedata><field type='text'
- allowmultivalues='true' kind='editable' name='Fields' listinputseparators='newline'
- listdisplayseparator='newline'/><compositedata type='98' prevtype='65418'
- nexttype='222' afterparcount='13' containertype='65418' aftercontainercount='1'
- afterbegincount='3'>
+</compositedata><run><font size='8pt'
+ color='red'/><field type='text' allowmultivalues='true' kind='editable' name='Fields'
+ listinputseparators='newline' listdisplayseparator='newline'/></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='13' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
 Yg4BAIQAAAAAAAAAAAA=
 </compositedata></par>
 <pardef id='2'/>
@@ -459,15 +459,16 @@ Yg4BAIQAAAAAAAAAAAA=
  width='16.6667%'/><tablecolumn width='16.6667%'/><tablecolumn width='16.6667%'/>
 <tablerow>
 <tablecell>
-<pardef id='6' keepwithnext='true' keeptogether='true'/>
+<pardef id='6' leftmargin='0.0785in' keepwithnext='true' keeptogether='true'/>
 <par def='6'/></tablecell>
 <tablecell>
-<pardef id='7' keepwithnext='true' keeptogether='true'/>
-<par def='7'><field lookupeachchar='false' lookupaddressonrefresh='false'
- type='keyword' kind='editable' name='FieldName'><keywords recalconchange='true'
- columns='1' ui='dialoglist'><formula>Fields</formula></keywords></field>   <button
- width='2in' widthtype='maximum' maxlines='0' wraptext='true' edge='rounded'
- bgcolor='system'><code event='click'><lotusscript>Sub Click(Source As Button)
+<pardef id='7' leftmargin='0.0785in' keepwithnext='true' keeptogether='true'/>
+<par def='7'><run><font name='Tahoma' pitch='variable' truetype='true' familyid='20'/><field
+ lookupeachchar='false' lookupaddressonrefresh='false' type='keyword' kind='editable'
+ name='FieldName'><keywords recalconchange='true' columns='1' ui='dialoglist'><formula
+>Fields</formula></keywords></field></run>   <button width='2in' widthtype='maximum'
+ maxlines='0' wraptext='true' edge='rounded' bgcolor='system'><code event='click'><lotusscript
+>Sub Click(Source As Button)
 	Dim ws As New NotesUIWorkspace
 	Dim docui As NotesUIDocument
 	Dim docView As NotesDocument
@@ -488,27 +489,29 @@ Yg4BAIQAAAAAAAAAAAA=
 	Call ws.CurrentDocument.Refresh
 End Sub</lotusscript></code></button></par></tablecell>
 <tablecell>
-<pardef id='8' keepwithnext='true' keeptogether='true'/>
-<par def='8'><field borderstyle='inset' lookupeachchar='false' lookupaddressonrefresh='false'
+<pardef id='8' leftmargin='0.0785in' keepwithnext='true' keeptogether='true'/>
+<par def='8'><run><font name='Tahoma' pitch='variable' truetype='true' familyid='20'/><field
+ borderstyle='inset' lookupeachchar='false' lookupaddressonrefresh='false'
  type='keyword' kind='editable' name='Type'><keywords helperbutton='false'
- columns='1' ui='radiobutton'><formula>Types</formula></keywords></field></par></tablecell>
+ columns='1' ui='radiobutton'><formula>Types</formula></keywords></field></run></par></tablecell>
 <tablecell>
-<pardef id='9' keepwithnext='true' keeptogether='true'/>
+<pardef id='9' leftmargin='0.0785in' keepwithnext='true' keeptogether='true'/>
 <par def='9'/></tablecell>
 <tablecell>
-<pardef id='10' keepwithnext='true' keeptogether='true'/>
+<pardef id='10' leftmargin='0.0785in' keepwithnext='true' keeptogether='true'/>
 <par def='10'/></tablecell>
 <tablecell>
-<pardef id='11' keepwithnext='true' keeptogether='true'/>
+<pardef id='11' leftmargin='0.0785in' keepwithnext='true' keeptogether='true'/>
 <par def='11'/></tablecell></tablerow>
 <tablerow>
 <tablecell>
 <par def='6'/></tablecell>
 <tablecell>
-<par def='7'><field type='text' allowmultivalues='true' kind='editable' name='FieldValues'
- listinputseparators='newline' listdisplayseparator='newline'/><compositedata
- type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
- aftercontainercount='1' afterbegincount='3'>
+<par def='7'><run><font name='Tahoma' pitch='variable' truetype='true' familyid='20'/><field
+ type='text' allowmultivalues='true' kind='editable' name='FieldValues' listinputseparators='newline'
+ listdisplayseparator='newline'/></run><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='6' containertype='65418' aftercontainercount='1'
+ afterbegincount='3'>
 Yg4BAIQAAAAAAAAAAAA=
 </compositedata></par></tablecell>
 <tablecell>
