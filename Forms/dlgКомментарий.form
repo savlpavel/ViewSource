@@ -1,43 +1,47 @@
-<?xml version='1.0' encoding='utf-8'?>
-<note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.4'
- replicaid='C32573460041C723'>
-<noteinfo noteid='382' unid='1B603B9A2A82184744257A7800321632' sequence='7'>
-<created><datetime>20120913T130704,82+04</datetime></created>
-<modified><datetime>20151027T103545,33+03</datetime></modified>
-<revised><datetime>20151027T103545,30+03</datetime></revised>
-<lastaccessed><datetime>20151027T103545,32+03</datetime></lastaccessed>
-<addedtofile><datetime>20120913T130706,01+04</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Pavel A. Aleshkevich/O=OTTO/C=RU</name></updatedby>
-<wassignedby><name>CN=Pavel A. Aleshkevich/O=OTTO/C=RU</name></wassignedby>
-<item name='$HTMLCode' sign='true'>
-<rawitemdata type='1'>
+<?xml version="1.0" encoding="UTF-8"?>
+<note xmlns="http://www.lotus.com/dxl" class="form">
+  <item name="$HTMLCode" sign="true">
+    <rawitemdata type="1">
 X/8QAAIADwAHAAAAAAAAAA==
-</rawitemdata></item>
-<item name='$TITLE'><textlist><text>dlgКомментарий</text><text>dlgComment</text></textlist></item>
-<item name='$Info' sign='true'>
-<rawitemdata type='1'>
+</rawitemdata>
+  </item>
+  <item name="$TITLE">
+    <textlist>
+      <text>dlgКомментарий</text>
+      <text>dlgComment</text>
+    </textlist>
+  </item>
+  <item name="$Info" sign="true">
+    <rawitemdata type="1">
 hhgBAIAAAAAAgAAAAQABAP///wAQAAAA
-</rawitemdata></item>
-<item name='$Flags'><text/></item>
-<item name='$DesignerVersion'><text>8.5.3</text></item>
-<item name='$Fonts'>
-<rawitemdata type='1'>
+</rawitemdata>
+  </item>
+  <item name="$Flags">
+    <text/>
+  </item>
+  <item name="$Fonts">
+    <rawitemdata type="1">
 i/8oAAEABSZUYWhvbWEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
-</rawitemdata></item>
-<item name='$$ScriptName' summary='false' sign='true'><text>dlgComment</text></item>
-<item name='CreateName' placeholder='true'>
-<rawitemdata type='0'>
-</rawitemdata></item>
-<item name='CretatedDate' placeholder='true'>
-<rawitemdata type='0'>
-</rawitemdata></item>
-<item name='CommentText' placeholder='true'>
-<rawitemdata type='0'>
-</rawitemdata></item>
-<item name='$Fields'><textlist><text>CommentText</text><text>CretatedDate</text><text
->CreateName</text></textlist></item>
-<item name='$Body' sign='true'>
-<rawitemdata type='1'>
+</rawitemdata>
+  </item>
+  <item name="CreateName" placeholder="true">
+    <rawitemdata type="0"/>
+  </item>
+  <item name="CretatedDate" placeholder="true">
+    <rawitemdata type="0"/>
+  </item>
+  <item name="CommentText" placeholder="true">
+    <rawitemdata type="0"/>
+  </item>
+  <item name="$Fields">
+    <textlist>
+      <text>CommentText</text>
+      <text>CretatedDate</text>
+      <text>CreateName</text>
+    </textlist>
+  </item>
+  <item name="$Body" sign="true">
+    <rawitemdata type="1">
 gQKC/1oAAQAAAAAAAAAAAKAFAACgBQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAACBAAAAAJWHAAAAAAAAAAAAAAAAAQAAAAYAAACDBAEA3QYAAIX/hf8IAAUAAgjSCAEA
 /wAAAN4GAACF/90GAACK//7/UAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -81,5 +85,6 @@ CQkJCQkJCQkJCQByCAkAAAAAAGIOAQCCAAAAAAAAAAAAqgLeBgAArgCF/wgAAQAACtASAgAwIyIp
 AAAAAgAAAQEAAIECgwQIAIX/CAABAAAK0QYAAAAAgQKC/1oACQAAAAAAAAAAAPcimyn3IgAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIYBAAAAAJSEOQAAADkAAAAAAAAA
 AQAAAAQAAACDBAkAhf8IAAEAAArTCAkAAAAAAKUGAAAAAIECgwQCAIX/CAABAAAK
-</rawitemdata></item></note>
-
+</rawitemdata>
+  </item>
+</note>
