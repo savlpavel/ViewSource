@@ -1,23 +1,15 @@
 <?xml version='1.0' encoding='utf-8'?>
-<note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.4'
- replicaid='C32573460041C723'>
-<noteinfo noteid='152' unid='CB417C50911AB018C325734600424C68' sequence='28'>
+<frameset name='frMain' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.6'
+ replicaid='432580060036840F' publicaccess='false' designerversion='7' spacing='0px'
+ bordercolor='none'>
+<noteinfo noteid='15e' unid='CB417C50911AB018C325734600424C68' sequence='11'>
 <created><datetime dst='true'>20070829T160409,36+04</datetime></created>
-<modified><datetime>20150915T180339,35+03</datetime></modified>
-<revised><datetime>20150915T180339,34+03</datetime></revised>
-<lastaccessed><datetime>20150915T180339,34+03</datetime></lastaccessed>
-<addedtofile><datetime dst='true'>20070829T160450,06+04</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Pavel A. Aleshkevich/O=OTTO/C=RU</name></updatedby>
-<wassignedby><name>CN=Pavel A. Aleshkevich/O=OTTO/C=RU</name></wassignedby>
-<item name='$TITLE' sign='true'><text>frMain</text></item>
-<item name='$Comment' sign='true'><text/></item>
-<item name='$DesignerVersion'><text>7</text></item>
-<item name='$FrameSet' sign='true'>
-<rawitemdata type='1'>
-7/8YAAIAAgAAAAAAAAAAAAAAAAAAAAAA8P86AAAAAAABAAAAAAAHAAcAAAAAAAUAAAAAAAUAAAAA
-AAEAAQAAAAAABQAAAAAAAAADAAEAAwABAPH/RgAAAAAAAEABAAMAAQABAAAAAAAJAAAACQABAAAA
-AAAAAE5vdGVzVmlld05vdGVzVmlldwEA////AAEAAAoBAAAAAAD2/yIAAAEAwAMAAgAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAA
-</rawitemdata></item>
-<item name='$Flags'><text>#34CQ</text></item></note>
+<modified><datetime>20160812T164802,24+03</datetime></modified>
+<revised><datetime>20160812T164802,23+03</datetime></revised>
+<lastaccessed><datetime>20160812T164802,24+03</datetime></lastaccessed>
+<addedtofile><datetime>20160805T125703,22+03</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></updatedby>
+<wassignedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></wassignedby>
+<frame name='NotesView' targetframe='NotesView' showactionbar='false' showheader='false'><namedelementlink
+ type='view' name=''/></frame></frameset>
 
