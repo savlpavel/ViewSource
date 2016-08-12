@@ -1,7 +1,23 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <note xmlns="http://www.lotus.com/dxl" class="form">
   <item name="$HTMLCode" sign="true">
     <rawitemdata type="1">
+=======
+<?xml version='1.0' encoding='utf-8'?>
+<note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.5'
+ replicaid='C32573460041C723'>
+<noteinfo noteid='382' unid='1B603B9A2A82184744257A7800321632' sequence='13'>
+<created><datetime>20120913T130704,82+04</datetime></created>
+<modified><datetime>20160427T175606,13+03</datetime></modified>
+<revised><datetime>20160427T175606,12+03</datetime></revised>
+<lastaccessed><datetime>20160427T175606,12+03</datetime></lastaccessed>
+<addedtofile><datetime>20120913T130706,01+04</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Pavel A. Aleshkevich/O=OTTO/C=RU</name></updatedby>
+<wassignedby><name>CN=Pavel A. Aleshkevich/O=OTTO/C=RU</name></wassignedby>
+<item name='$HTMLCode' sign='true'>
+<rawitemdata type='1'>
+>>>>>>> 691b7014147ff37561408e86be0d335f8901144a
 X/8QAAIADwAHAAAAAAAAAA==
 </rawitemdata>
   </item>
@@ -22,6 +38,7 @@ hhgBAIAAAAAAgAAAAQABAP///wAQAAAA
   <item name="$Fonts">
     <rawitemdata type="1">
 i/8oAAEABSZUYWhvbWEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
+<<<<<<< HEAD
 </rawitemdata>
   </item>
   <item name="CreateName" placeholder="true">
@@ -42,6 +59,23 @@ i/8oAAEABSZUYWhvbWEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
   </item>
   <item name="$Body" sign="true">
     <rawitemdata type="1">
+=======
+</rawitemdata></item>
+<item name='CreateName' placeholder='true'>
+<rawitemdata type='0'>
+</rawitemdata></item>
+<item name='CretatedDate' placeholder='true'>
+<rawitemdata type='0'>
+</rawitemdata></item>
+<item name='CommentText' placeholder='true'>
+<rawitemdata type='0'>
+</rawitemdata></item>
+<item name='$Fields'><textlist><text>CommentText</text><text>CretatedDate</text><text
+>CreateName</text></textlist></item>
+<item name='$$ScriptName' summary='false' sign='true'><text>dlgComment</text></item>
+<item name='$Body' sign='true'>
+<rawitemdata type='1'>
+>>>>>>> 691b7014147ff37561408e86be0d335f8901144a
 gQKC/1oAAQAAAAAAAAAAAKAFAACgBQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAACBAAAAAJWHAAAAAAAAAAAAAAAAAQAAAAYAAACDBAEA3QYAAIX/hf8IAAUAAgjSCAEA
 /wAAAN4GAACF/90GAACK//7/UAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA

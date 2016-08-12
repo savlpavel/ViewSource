@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <note xmlns="http://www.lotus.com/dxl" class="form">
   <item name="$HTMLCode" sign="true">
@@ -38,14 +39,256 @@ Declare Sub Querymodechange(Source As Notesuidocument, Continue As Variant)
 
 '++LotusScript Development Environment:2:2:Querymodechange:1:12
 Sub Querymodechange(Source As Notesuidocument, Continue As Variant) 
+=======
+<?xml version='1.0' encoding='utf-8'?>
+<form name='frmSource' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
+ replicaid='432580060036840F' nocompose='true' noquery='true' treatashtml='true'
+ publicaccess='false' designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='162' unid='FBABB6C89702076F44257A780035E98B' sequence='6'>
+<created><datetime>20120913T134851,95+04</datetime></created>
+<modified><datetime>20160809T100721,98+03</datetime></modified>
+<revised><datetime>20160809T100721,97+03</datetime></revised>
+<lastaccessed><datetime>20160809T100721,98+03</datetime></lastaccessed>
+<addedtofile><datetime>20160805T125703,26+03</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></updatedby>
+<wassignedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></wassignedby><code
+ event='windowtitle'><formula>"Поля документа"</formula></code><code event='querymodechange'><lotusscript
+>Sub Querymodechange(Source As Notesuidocument, Continue As Variant) 
+>>>>>>> 691b7014147ff37561408e86be0d335f8901144a
 	Continue = source.EditMode 
 End Sub
-'++LotusScript Development Environment:2:2:BindEvents:1:129
-Private Sub BindEvents(Byval Objectname_ As String)
-	Static Source As NOTESUIDOCUMENT
-	Set Source = Bind(Objectname_)
-	On Event Querymodechange From Source Call Querymodechange
+</lotusscript></code>
+<actionbar bgcolor='#ece9d8' bordercolor='black'>
+<actionbuttonstyle bgcolor='#ece9d8'/><font color='system'/><border style='solid'
+ width='0px 0px 1px'/>
+<action title='Edit'><code event='click'><lotusscript>Sub Click(Source As Button) 
+	Dim docui As NotesUIDocument 
+	Dim doc As NotesDocument 
+	Dim db As NotesDatabase 
+	Dim ws As New NotesUIWorkspace 
+	Dim ses As New NotesSession 
+	Dim Fieldstr As String 
+	Dim FieldVal As String 
+	Dim tmp As Variant 
+	Dim k As Variant 
+	
+	Set	docui = ws.CurrentDocument
+	Set db =ses.GetDatabase(docui.Document.GetItemValue("dbServer")(0),docui.Document.GetItemValue("dbFile")(0),False) 
+	Set doc =db.GetDocumentByUNID(docui.Document.GetItemValue("vUNID")(0)) 
+	save = False 
+	Do 
+		Fieldstr = Inputbox$("Имя поля") 
+		If Fieldstr = "" Then Goto saveP 
+		FieldVal = Inputbox$("Значение") 
+		tmp = Split(FieldVal,";") 
+		If Fieldstr &lt;&gt; "" Then 
+' Msgbox "" &amp;Typename(doc.GetItemValue(Fieldstr)(0)) 
+			Select Case Typename(doc.GetItemValue(Fieldstr)(0)) 
+			Case "DOUBLE": If Ubound(tmp) &gt; 0 Then '
+				Redim k(0 To Ubound(tmp)) As Variant ' Forall x In tmp 
+				Call doc.ReplaceItemValue(Fieldstr,tmp) 
+			Else 
+				Call doc.ReplaceItemValue(Fieldstr,Cdbl(FieldVal)) 
+			End If 
+		Case "DATE": 
+			Call doc.ReplaceItemValue(Fieldstr,Cdat(FieldVal)) 
+		Case Else: 
+			Call doc.ReplaceItemValue(Fieldstr,FieldVal) 
+		End Select 
+		save = True 
+	End If 
+Loop While(True) 
+saveP: 
+If save Then Call doc.Save(True,doc.IsResponse) 
 End Sub
+</lotusscript></code></action>
+<action title='Поставщики\Утвержден'><code event='click'><lotusscript>Sub Click(Source As Button) 
+	Dim docui As NotesUIDocument
+	Dim doc As NotesDocument
+	Dim db As NotesDatabase 
+	Dim ws As New NotesUIWorkspace 
+	Dim ses As New NotesSession 
+	Dim Fieldstr As String 
+	Dim FieldVal As String 
+	Dim tmp As Variant 
+	Dim k As Variant 
+	Set docui = ws.CurrentDocument 
+	Set db = ses.GetDatabase(docui.Document.GetItemValue("dbServer")(0),docui.Document.GetItemValue("dbFile")(0),False) 
+	Set doc = db.GetDocumentByUNID(docui.Document.GetItemValue("vUNID")(0)) 
+	Call doc.ReplaceItemValue("StatusText", "УТВЕРЖДЕН") 
+	Call doc.ReplaceItemValue("StatusNumber", "700") 
+	Call doc.Save(True,doc.IsResponse) 
+	Call docui.Close 
+End Sub</lotusscript></code></action>
+<action title='Поставщики\Заблокировать'><code event='click'><lotusscript
+>Sub Click(Source As Button) 
+	Dim docui As NotesUIDocument
+	Dim doc As NotesDocument
+	Dim db As NotesDatabase 
+	Dim ws As New NotesUIWorkspace 
+	Dim ses As New NotesSession 
+	Dim Fieldstr As String 
+	Dim FieldVal As String 
+	Dim tmp As Variant 
+	Dim k As Variant 
+	Set docui = ws.CurrentDocument 
+	Set db = ses.GetDatabase(docui.Document.GetItemValue("dbServer")(0),docui.Document.GetItemValue("dbFile")(0),False) 
+	Set doc = db.GetDocumentByUNID(docui.Document.GetItemValue("vUNID")(0)) 
+	Call doc.ReplaceItemValue("StatusText","ЗАБЛОКИРОВАН") 
+	Call doc.ReplaceItemValue("StatusNumber","900") 
+	Call doc.Save(True,doc.IsResponse) 
+	Call docui.Close 
+End Sub</lotusscript></code></action>
+<action title='ConvertToData'><code event='click'><lotusscript>Sub Click(Source As Button) 
+	Dim docui As NotesUIDocument 
+	Dim doc As NotesDocument 
+	Dim db As NotesDatabase 
+	Dim ws As New NotesUIWorkspace 
+	Dim ses As New NotesSession 
+	Dim Fieldstr As String 
+	Dim FieldVal As String 
+	Dim tmp As Variant 
+	Dim k As Variant 
+	Set docui = ws.CurrentDocument 
+	Set db =ses.GetDatabase(docui.Document.GetItemValue("dbServer")(0),docui.Document.GetItemValue("dbFile")(0),False) 
+	Set doc =db.GetDocumentByUNID(docui.Document.GetItemValue("vUNID")(0)) 
+	save = False 
+	Fieldstr = "CreatedDate" 
+	Call doc.RemoveItem(Fieldstr) 
+	tmp =doc.GetItemValue(Fieldstr)(0) 
+	Call doc.ReplaceItemValue(Fieldstr,Cdat(tmp)) 
+	save = True 
+	If save Then Call doc.Save(True,doc.IsResponse)
+End Sub
+</lotusscript></code></action>
+<action title='CWF'><code event='click'><lotusscript>Sub Click(Source As Button) 
+	Dim docui As NotesUIDocument 
+	Dim doc As NotesDocument 
+	Dim db As NotesDatabase 
+	Dim ws As New NotesUIWorkspace 
+	Dim ses As New NotesSession 
+	Dim ccDoc As NotesDocument 
+	Dim Fieldstr As String 
+	Dim FieldVal As Variant 
+	Dim tmp As	Variant 
+	Dim k As Variant 
+	Set docui = ws.CurrentDocument 
+	Set db =ses.GetDatabase(docui.Document.GetItemValue("dbServer")(0),docui.Document.GetItemValue("dbFile")(0),False) 
+	Set doc =db.GetDocumentByUNID(docui.Document.GetItemValue("vUNID")(0)) 
+	If Not doc Is Nothing Then 
+		Call doc.ComputeWithForm(False,False) 
+		Call doc.Save(False,doc.IsResponse) 
+	End If 
+End Sub
+</lotusscript></code></action>
+<action title='EditDbl'><code event='click'><lotusscript>Sub Click(Source As Button) 
+	Dim docui As NotesUIDocument 
+	Dim doc As NotesDocument 
+	Dim db As NotesDatabase 
+	Dim ws As New NotesUIWorkspace 
+	Dim ses As New NotesSession 
+	Dim Fieldstr As String 
+	Dim FieldVal As String 
+	Dim tmp As Variant 
+	Dim k As Variant 
+	Set docui = ws.CurrentDocument 
+	Set db =ses.GetDatabase(docui.Document.GetItemValue("dbServer")(0),docui.Document.GetItemValue("dbFile")(0),False) 
+	Set doc =db.GetDocumentByUNID(docui.Document.GetItemValue("vUNID")(0)) 
+	save = False 
+	Do 
+		Fieldstr = Inputbox$("Имя поля") 
+		If Fieldstr = "" Then Goto saveP 
+		FieldVal = Inputbox$("Значение") 
+		tmp = Split(FieldVal,";") 
+		If Fieldstr &lt;&gt; "" Then 
+			Call doc.ReplaceItemValue(Fieldstr,Cdbl(FieldVal)) 
+			save = True 
+		End If 
+	Loop While(True) 
+saveP: 
+	If save Then Call doc.Save(True,doc.IsResponse) 
+End Sub
+</lotusscript></code></action>
+<action title='EditDATA'><code event='click'><lotusscript>Sub Click(Source As Button) 
+	Dim docui As NotesUIDocument 
+	Dim doc As NotesDocument 
+	Dim db As NotesDatabase 
+	Dim ws As New NotesUIWorkspace 
+	Dim ses As New NotesSession 
+	Dim Fieldstr As String 
+	Dim FieldVal As String 
+	Dim tmp As Variant 
+	Dim k As Variant 
+	Set docui = ws.CurrentDocument 
+	Set db =ses.GetDatabase(docui.Document.GetItemValue("dbServer")(0),docui.Document.GetItemValue("dbFile")(0),False) 
+	Set doc =db.GetDocumentByUNID(docui.Document.GetItemValue("vUNID")(0)) 
+	save = False 
+	Do 
+		Fieldstr = Inputbox$("Имя поля") 
+		If Fieldstr = "" Then Goto saveP 
+		FieldVal = Inputbox$("Значение") 
+		tmp = Split(FieldVal,";") 
+		If Fieldstr &lt;&gt; "" Then 
+			Call doc.ReplaceItemValue(Fieldstr,Cdat(FieldVal)) 
+			save = True 
+		End If 
+	Loop While(True) 
+saveP: 
+	If save Then Call doc.Save(True,doc.IsResponse) 
+End Sub
+</lotusscript></code></action>
+<action title='no Conflict'><code event='click'><lotusscript>Sub Click(Source As Button) 
+	Dim docui As NotesUIDocument 
+	Dim doc As NotesDocument 
+	Dim db As NotesDatabase 
+	Dim ws As New NotesUIWorkspace 
+	Dim ses As New NotesSession 
+	Dim Fieldstr As String 
+	Dim FieldVal As String 
+	Dim tmp As Variant 
+	Dim k As Variant 
+	Set docui = ws.CurrentDocument 
+	Set db =ses.GetDatabase(docui.Document.GetItemValue("dbServer")(0),docui.Document.GetItemValue("dbFile")(0),False) 
+	Set doc =db.GetDocumentByUNID(docui.Document.GetItemValue("vUNID")(0)) 
+	Call doc.RemoveItem("$Conflict") 
+	If doc.GetItemValue("$Ref")(0) =doc.UniversalID Then 
+		Call doc.RemoveItem("$Ref") 
+	End If 
+	Call doc.Save(True,doc.IsResponse) 
+	Call docui.Close 
+End Sub
+</lotusscript></code></action>
+<action title='Edit2'><code event='click'><lotusscript>Sub Click(Source As Button) 
+	Dim docui As NotesUIDocument 
+	Dim doc As NotesDocument 
+	Dim db As NotesDatabase 
+	Dim ws As New NotesUIWorkspace 
+	Dim ses As New NotesSession 
+	Dim ccDoc As NotesDocument 
+	Dim Fieldstr As String 
+	Dim FieldVal As Variant 
+	Dim tmp As Variant 
+	Dim k As Variant 
+	Set docui = ws.CurrentDocument 
+	Set db =ses.GetDatabase(docui.Document.GetItemValue("dbServer")(0),docui.Document.GetItemValue("dbFile")(0),False)
+	Set doc =db.GetDocumentByUNID(docui.Document.GetItemValue("vUNID")(0)) 
+	save = False 
+	Fieldstr = Inputbox$("Имя поля") 
+	If Fieldstr = "" Then Goto saveP 
+					'FieldVal = Inputbox$("Значение") 
+	Set ccDoc = ses.CurrentDatabase.CreateDocument 
+	Call ccDoc.ReplaceItemValue("Form","dlgComment")
+	tmp = ws.DialogBox(ccDoc.GetItemValue("Form")(0),True,True,True,False,False,False,"Значение",ccDoc,True,True) 
+	If Not tmp Then Exit Sub
+	FieldVal = ccDoc.GetItemValue("CommentText") 
+	If Fieldstr &lt;&gt; "" Then ' Msgbox "" &amp; Typename(doc.GetItemValue(Fieldstr)(0))
+		Call doc.ReplaceItemValue(Fieldstr,FieldVal) 
+		save = True 
+	End If 
+saveP: 
+	If save Then Call doc.Save(True,doc.IsResponse) 
+End Sub
+<<<<<<< HEAD
 <break/>
     </text>
   </item>
@@ -1797,3 +2040,512 @@ pAAIABAEHAAKAAAA
 </rawitemdata>
   </item>
 </note>
+=======
+</lotusscript></code></action>
+<action title='RemoveItem'><code event='click'><lotusscript>Sub Click(Source As Button) 
+	Dim docui As NotesUIDocument 
+	Dim doc As NotesDocument 
+	Dim db As NotesDatabase 
+	Dim ws As New NotesUIWorkspace 
+	Dim ses As New NotesSession 
+	Dim Fieldstr As String 
+	Dim FieldVal As String 
+	Set docui = ws.CurrentDocument 
+	Set db =ses.GetDatabase(docui.Document.GetItemValue("dbServer")(0),docui.Document.GetItemValue("dbFile")(0),False) 
+	Set doc =db.GetDocumentByUNID(docui.Document.GetItemValue("vUNID")(0)) 
+	Fieldstr = Inputbox$("Имя поля") 
+	If Fieldstr = "" Then Exit Sub 
+	If	Fulltrim(Fieldstr) &lt;&gt; "" Then ' Select Case Typename(doc.GetItemValue(Fieldstr)(0)) 
+		Call doc.RemoveItem(Fieldstr) ' End Select
+		Call doc.Save(True,doc.IsResponse) 
+	End If 
+End Sub
+</lotusscript></code></action>
+<action title='ItemFrom'><code event='click'><lotusscript>Sub Click(Source As Button) 
+	Dim docui As NotesUIDocument 
+	Dim doc As NotesDocument 
+	Dim doc2 As NotesDocument 
+	Dim db As NotesDatabase 
+	Dim ws As New NotesUIWorkspace 
+	Dim ses As New NotesSession 
+	Dim Fieldstr As String 
+	Dim FieldVal As String 
+	Dim itm1 As NotesItem 
+	Dim itm2 As NotesItem 
+	Set docui = ws.CurrentDocument 
+	Set db = ses.GetDatabase(docui.Document.GetItemValue("dbServer")(0),docui.Document.GetItemValue("dbFile")(0),False) 
+	Set doc =db.GetDocumentByUNID(docui.Document.GetItemValue("vUNID")(0))
+	Fieldstr = Inputbox$("Имя поля")
+	If Fieldstr = "" Then Exit Sub 
+	If Fulltrim(Fieldstr) &lt;&gt; "" Then 
+		FieldVal = Inputbox$("UNID откуда брать") 
+		If FieldVal = "" Then 
+			Msgbox "Error" 
+			Exit Sub 
+		End If 
+		Set doc2 = db.GetDocumentByUNID(FieldVal) 
+		If doc2 Is Nothing Then 
+			Msgbox "not doc2" 
+			Exit Sub 
+		End If 
+		Set itm1 = doc.GetFirstItem(Fieldstr)
+		Set itm2 = doc2.GetFirstItem(Fieldstr) 
+		If Not itm1 Is Nothing Then 
+			Call itm1.CopyItemToDocument(doc,Fieldstr &amp; "_bkp") 
+			Call doc.RemoveItem(Fieldstr) 
+			If Not itm2 Is Nothing Then 
+				Call itm2.CopyItemToDocument(doc,Fieldstr) 
+			End If 
+		End If ' 
+		'Call doc.replaceItemvalue(Fieldstr &amp; "_bkp",doc.getitemvalue(Fieldstr)) ' 
+		'Call doc.replaceItemvalue(Fieldstr,Fulltrim(doc2.getitemvalue(Fieldstr))) 
+		Call doc.Save(True,doc.IsResponse) 
+	End If 
+End Sub
+</lotusscript></code></action>
+<action title='makeresp'><code event='click'><lotusscript>Sub Click(Source As Button) 
+	Dim docui As NotesUIDocument 
+	Dim doc As NotesDocument 
+	Dim doc2 As NotesDocument 
+	Dim db As NotesDatabase 
+	Dim ws As New NotesUIWorkspace
+	Dim ses As New NotesSession
+	Dim Fieldstr As String
+	Dim FieldVal As String
+	Dim itm1 As NotesItem
+	Dim itm2 As NotesItem 
+	Set docui = ws.CurrentDocument
+	Set db = ses.GetDatabase(docui.Document.GetItemValue("dbServer")(0),docui.Document.GetItemValue("dbFile")(0),False) 
+	Set doc = db.GetDocumentByUNID(docui.Document.GetItemValue("vUNID")(0))
+	FieldVal = Inputbox$("UNID откуда брать") 
+	If FieldVal = "" Then 
+		Msgbox "Error"
+		Exit Sub 
+	End If 
+	Set doc2 = db.GetDocumentByUNID(FieldVal) 
+	If doc2 Is Nothing Then 
+		Msgbox "not doc2" 
+		Exit Sub 
+	End If 
+	Call doc.MakeResponse(doc2) 
+	Call doc.Save(True,doc.IsResponse) 
+	
+End Sub
+</lotusscript></code></action>
+<action title='deleted'><code event='click'><lotusscript>Sub Click(Source As Button) 
+	Dim docui As NotesUIDocument
+	Dim doc As NotesDocument
+	Dim db As NotesDatabase 
+	Dim ws As New NotesUIWorkspace 
+	Dim ses As New NotesSession 
+	Dim Fieldstr As String 
+	Dim FieldVal As String 
+	Dim tmp As Variant 
+	Dim k As Variant 
+	Set docui = ws.CurrentDocument 
+	Set db = ses.GetDatabase(docui.Document.GetItemValue("dbServer")(0),docui.Document.GetItemValue("dbFile")(0),False) 
+	Set doc = db.GetDocumentByUNID(docui.Document.GetItemValue("vUNID")(0)) 
+	Call doc.ReplaceItemValue("deleted","1") 
+	Call doc.Save(True,doc.IsResponse) 
+	Call docui.Close 
+End Sub
+</lotusscript></code></action>
+<action title='CanUpdate'><code event='click'><lotusscript>Sub Click(Source As Button) 
+	Dim docui As NotesUIDocument 
+	Dim doc As NotesDocument 
+	Dim db As NotesDatabase 
+	Dim ws As New NotesUIWorkspace
+	Dim ses As New NotesSession
+	Dim Fieldstr As String
+	Dim FieldVal As String 
+	Dim tmp As Variant
+	Dim k As Variant 
+	Set docui = ws.CurrentDocument 
+	Set db = ses.GetDatabase(docui.Document.GetItemValue("dbServer")(0),docui.Document.GetItemValue("dbFile")(0),False) 
+	Set doc = db.GetDocumentByUNID(docui.Document.GetItemValue("vUNID")(0)) 
+	Call doc.ReplaceItemValue("CanUpdate","1")
+	Call doc.Save(True,doc.IsResponse) 
+	Call docui.Close 
+End Sub
+</lotusscript></code></action>
+<action title='Снять с визирвоания'><code event='click'><lotusscript>Sub Click(Source As Button) 
+	Dim docui As NotesUIDocument 
+	Dim doc As NotesDocument 
+	Dim db As NotesDatabase 
+	Dim ws As New NotesUIWorkspace 
+	Dim ses As New NotesSession 
+	Dim Fieldstr As String 
+	Dim FieldVal As String 
+	Dim tmp As Variant
+	Dim k As Variant 
+	Set docui = ws.CurrentDocument
+	Set db = ses.GetDatabase(docui.Document.GetItemValue("dbServer")(0),docui.Document.GetItemValue("dbFile")(0),False)
+	Set doc = db.GetDocumentByUNID(docui.Document.GetItemValue("vUNID")(0))
+	Call doc.ReplaceItemValue("Completion","Снят с визирования")
+	Call doc.ReplaceItemValue("CompletionDate",Today)
+	Call doc.ReplaceItemValue("CompletionSign",db.Server) 
+	Call doc.Save(True,doc.IsResponse)
+	Call docui.Close
+End Sub
+</lotusscript></code></action>
+<action title='Отклонено'><code event='click'><lotusscript>Sub Click(Source As Button) 
+' Dim docui As NotesUIDocument 
+	Dim doc As NotesDocument 
+	Dim db As NotesDatabase 
+	Dim ws As New NotesUIWorkspace 
+	Dim ses As New NotesSession 
+	Dim Fieldstr As String 
+	Dim FieldVal As String 
+	Dim tmp As Variant 
+	Dim k As Variant 
+	Set docui = ws.CurrentDocument 
+	Set db = ses.GetDatabase(docui.Document.GetItemValue("dbServer")(0),docui.Document.GetItemValue("dbFile")(0),False) 
+	Set doc = db.GetDocumentByUNID(docui.Document.GetItemValue("vUNID")(0)) 
+	Call doc.ReplaceItemValue("StatDoc","Отклонено") 
+	Call doc.ReplaceItemValue("priz","1") 
+	Call doc.Save(True,doc.IsResponse) 
+	Call docui.Close
+End Sub
+</lotusscript></code></action>
+<action title='Назад'><code event='click'><lotusscript>Sub Click(Source As Button) 
+	Dim docui As NotesUIDocument 
+	Dim doc As NotesDocument 
+	Dim db As NotesDatabase 
+	Dim ws As New NotesUIWorkspace 
+	Dim ses As New NotesSession 
+	Dim Fieldstr As String 
+	Dim FieldVal As String 
+	Dim tmp As Variant 
+	Dim k As Variant 
+	Set docui = ws.CurrentDocument 
+	Set db = ses.GetDatabase(docui.Document.GetItemValue("dbServer")(0),docui.Document.GetItemValue("dbFile")(0),False) 
+	Set doc = db.GetDocumentByUNID(docui.Document.GetItemValue("vUNID")(0)) 
+	If Not doc.HasItem("StatusNumber_bkp") Then Exit Sub 
+	Call doc.ReplaceItemValue("StatusNumber",doc.GetItemValue("StatusNumber_bkp")(0)) 
+	Call doc.ReplaceItemValue("StatusText",doc.GetItemValue("StatusText_bkp")(0)) 
+	Call doc.Save(True,doc.IsResponse) 
+	Call docui.Close 
+End Sub
+</lotusscript></code></action></actionbar>
+<body><richtext>
+<pardef id='1' hide='notes'/>
+<par def='1'><run><font size='8pt' color='red'/><field type='text' kind='computedwhencomposed'
+ name='SaveOptions'><code event='defaultvalue'><formula>"0"</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='8pt'
+ color='red'/><field type='text' allowmultivalues='true' kind='editable' name='Fields'
+ listinputseparators='newline' listdisplayseparator='newline'/></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='13' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<pardef id='2'/>
+<par def='2'/>
+<table widthtype='fitwindow' rowdisplay='tabs' sizetabsequally='true' leftmargin='0.8271in'
+ refwidth='9.2444in'><tablerowstyle><font size='9pt' style='bold' color='black'/></tablerowstyle><tablecolumn
+ width='100%'/>
+<tablerow tablabel='Поля'>
+<tablecell borderwidth='0px' bgcolor='#f0f0e8'>
+<pardef id='4' keepwithnext='true' keeptogether='true'/>
+<par def='4'/>
+<table widthtype='fitmargins' leftmargin='0.0396in' rightmargin='99%' refwidth='9.1042in'><tablecolumn
+ width='16.6667%'/><tablecolumn width='16.6667%'/><tablecolumn width='16.6667%'/><tablecolumn
+ width='16.6667%'/><tablecolumn width='16.6667%'/><tablecolumn width='16.6667%'/>
+<tablerow>
+<tablecell>
+<pardef id='6' leftmargin='0.0785in' keepwithnext='true' keeptogether='true'/>
+<par def='6'/></tablecell>
+<tablecell>
+<pardef id='7' leftmargin='0.0785in' keepwithnext='true' keeptogether='true'/>
+<par def='7'><run><font name='Tahoma' pitch='variable' truetype='true' familyid='20'/><field
+ lookupeachchar='false' lookupaddressonrefresh='false' type='keyword' kind='editable'
+ name='FieldName'><keywords recalconchange='true' columns='1' ui='dialoglist'><formula
+>Fields</formula></keywords></field></run>   <button width='2in' widthtype='maximum'
+ maxlines='0' wraptext='true' edge='rounded' bgcolor='system'><code event='click'><lotusscript
+>Sub Click(Source As Button)
+	Dim ws As New NotesUIWorkspace
+	Dim docui As NotesUIDocument
+	Dim docView As NotesDocument
+	Dim doc As NotesDocument
+	Dim db As NotesDatabase 
+	Dim ses As New NotesSession 
+	Dim Fieldstr As String 
+	Dim FieldVal As String 
+	Dim tmp As Variant 
+	Dim k As Variant 
+	Set docui = ws.CurrentDocument 
+	Set docView = docui.Document
+	Set db = ses.GetDatabase(docView.GetItemValue("dbServer")(0),docView.GetItemValue("dbFile")(0),False) 
+	Set doc = db.GetDocumentByUNID(docView.GetItemValue("vUNID")(0)) 
+	
+	Call docView.ReplaceItemValue("FieldValues", doc.GetItemValue(docView.GetItemValue("FieldName")(0)))
+	
+	Call ws.CurrentDocument.Refresh
+End Sub</lotusscript></code></button></par></tablecell>
+<tablecell>
+<pardef id='8' leftmargin='0.0785in' keepwithnext='true' keeptogether='true'/>
+<par def='8'><run><font name='Tahoma' pitch='variable' truetype='true' familyid='20'/><field
+ borderstyle='inset' lookupeachchar='false' lookupaddressonrefresh='false'
+ type='keyword' kind='editable' name='Type'><keywords helperbutton='false'
+ columns='1' ui='radiobutton'><formula>Types</formula></keywords></field></run></par></tablecell>
+<tablecell>
+<pardef id='9' leftmargin='0.0785in' keepwithnext='true' keeptogether='true'/>
+<par def='9'/></tablecell>
+<tablecell>
+<pardef id='10' leftmargin='0.0785in' keepwithnext='true' keeptogether='true'/>
+<par def='10'/></tablecell>
+<tablecell>
+<pardef id='11' leftmargin='0.0785in' keepwithnext='true' keeptogether='true'/>
+<par def='11'/></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<par def='6'/></tablecell>
+<tablecell>
+<par def='7'><run><font name='Tahoma' pitch='variable' truetype='true' familyid='20'/><field
+ type='text' allowmultivalues='true' kind='editable' name='FieldValues' listinputseparators='newline'
+ listdisplayseparator='newline'/></run><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='6' containertype='65418' aftercontainercount='1'
+ afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par></tablecell>
+<tablecell>
+<par def='8'/></tablecell>
+<tablecell>
+<par def='9'/></tablecell>
+<tablecell>
+<par def='10'/></tablecell>
+<tablecell>
+<par def='11'/></tablecell></tablerow></table>
+<par def='4'/>
+<table widthtype='fitmargins' leftmargin='0' refwidth='9.2444in'><tablecolumn
+ width='100%'/>
+<tablerow>
+<tablecell borderwidth='0px' bgcolor='#f0f0e8'>
+<pardef id='13' hide='notes' keepwithnext='true' keeptogether='true'/>
+<par def='13'/>
+<par def='13'><run><font size='8pt'/></run><run><font size='8pt'/><field type='richtext'
+ kind='editable' name='bodySource'/></run><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='6' containertype='65418' aftercontainercount='1'
+ afterbegincount='3'>
+Yg4BAIQAAAAAAAEAAAA=
+</compositedata></par></tablecell></tablerow></table></tablecell></tablerow>
+<tablerow tablabel='Свойства документа'>
+<tablecell borderwidth='0px' bgcolor='#f0f0e8'>
+<par def='4'/>
+<table leftmargin='0' widthtype='fixedleft' refwidth='9.0549in'><tablecolumn
+ width='9.0549in'/>
+<tablerow>
+<tablecell borderwidth='0px' bgcolor='#f0f0e8'>
+<pardef id='14' rightmargin='7.4958in' keepwithnext='true' keeptogether='true'/>
+<par def='14'/>
+<table widthtype='fitmargins' leftmargin='0' refwidth='9.0549in'><tablecolumn
+ width='6.0278%'/><tablecolumn width='40.7639%'/><tablecolumn width='2.8299%'/><tablecolumn
+ width='12.9444%'/><tablecolumn width='37.4340%'/>
+<tablerow>
+<tablecell valign='center' borderwidth='0px'>
+<pardef id='16' leftmargin='0.0396in' rightmargin='100%' tabs='L3.9368in'
+ keepwithnext='true' keeptogether='true'/>
+<par def='16'><run><font size='9pt' name='multilingual'/>UNID</run></par></tablecell>
+<tablecell borderwidth='0px'>
+<pardef id='17' keepwithnext='true' keeptogether='true'/>
+<par def='17'/>
+<table widthtype='fitmargins' cellbordercolor='white' leftmargin='0' refwidth='3.6806in'><tablecolumn
+ width='100%'/>
+<tablerow>
+<tablecell bgcolor='#e1e1d2'>
+<pardef id='19' leftmargin='0.0104in' rightmargin='2.5854in' firstlineleftmargin='0.1007in'
+ keepwithnext='true' keeptogether='true'/>
+<par def='19'><run><font size='9pt' name='multilingual'/></run><run><font
+ size='9pt' name='multilingual'/><field showdelimiters='false' type='text'
+ kind='editable' name='vUNID'/></run><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='8' containertype='65418' aftercontainercount='1'
+ afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par></tablecell></tablerow></table></tablecell>
+<tablecell borderwidth='0px'>
+<pardef id='21' keepwithnext='true' keeptogether='true'/>
+<par def='21'/></tablecell>
+<tablecell valign='center' borderwidth='0px'>
+<pardef id='22' align='right' rightmargin='0.9979in' tabs='L7.0861in' keepwithnext='true'
+ keeptogether='true'/>
+<par def='22'><run><font size='9pt' name='multilingual'/>Note ID</run></par></tablecell>
+<tablecell borderwidth='0px'>
+<pardef id='23' keepwithnext='true' keeptogether='true'/>
+<par def='23'/>
+<table widthtype='fitmargins' cellbordercolor='white' leftmargin='0' refwidth='3.3792in'><tablecolumn
+ width='100%'/>
+<tablerow>
+<tablecell bgcolor='#e1e1d2'>
+<pardef id='25' rightmargin='2.5813in' firstlineleftmargin='0.1208in' keepwithnext='true'
+ keeptogether='true'/>
+<par def='25'><run><font size='9pt' name='multilingual'/></run><run><font
+ size='9pt' name='multilingual'/><field showdelimiters='false' type='text'
+ kind='editable' name='vNID'/></run><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='8' containertype='65418' aftercontainercount='1'
+ afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par></tablecell></tablerow></table></tablecell></tablerow>
+<tablerow>
+<tablecell valign='center' borderwidth='0px'>
+<par def='16'><run><font size='9pt' name='multilingual'/>Авторы</run></par></tablecell>
+<tablecell rowspan='3' borderwidth='0px'>
+<par def='17'/>
+<table widthtype='fitmargins' cellbordercolor='white' leftmargin='0' refwidth='3.6806in'><tablecolumn
+ width='100%'/>
+<tablerow>
+<tablecell bgcolor='#e1e1d2'>
+<pardef id='29' leftmargin='0.1007in' keepwithnext='true' keeptogether='true'/>
+<par def='29'><run><font size='9pt' name='multilingual'/></run><run><font
+ size='9pt' name='multilingual'/><field showdelimiters='false' lookupeachchar='false'
+ lookupaddressonrefresh='false' type='names' allowmultivalues='true' kind='editable'
+ name='vAuthors' listinputseparators='comma semicolon newline' listdisplayseparator='newline'/></run></par></tablecell></tablerow></table>
+<par def='17'/>
+<table widthtype='fitmargins' cellbordercolor='white' leftmargin='0' refwidth='3.6806in'><tablecolumn
+ width='100%'/>
+<tablerow>
+<tablecell bgcolor='#e1e1d2'>
+<par def='19'><run><font size='9pt' name='multilingual'/></run><run><font
+ size='9pt' name='multilingual'/><field showdelimiters='false' type='text'
+ kind='editable' name='DBFile'/></run><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='7' containertype='65418' aftercontainercount='1'
+ afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par></tablecell></tablerow></table>
+<par def='17'/>
+<table widthtype='fitmargins' cellbordercolor='white' leftmargin='0' refwidth='3.6806in'><tablecolumn
+ width='100%'/>
+<tablerow>
+<tablecell bgcolor='#e1e1d2'>
+<par def='19'><run><font size='9pt' name='multilingual'/></run><run><font
+ size='9pt' name='multilingual'/><field showdelimiters='false' type='text'
+ kind='editable' name='dbServer'/></run><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='7' containertype='65418' aftercontainercount='1'
+ afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par></tablecell></tablerow></table></tablecell>
+<tablecell borderwidth='0px'>
+<par def='21'/></tablecell>
+<tablecell valign='center' borderwidth='0px'>
+<pardef id='26' align='right' rightmargin='0.9979in' keepwithnext='true' keeptogether='true'/>
+<par def='26'><run><font size='9pt' name='multilingual'/>Создан</run></par></tablecell>
+<tablecell borderwidth='0px'>
+<par def='23'/>
+<table widthtype='fitmargins' cellbordercolor='white' leftmargin='0' refwidth='3.3792in'><tablecolumn
+ width='100%'/>
+<tablerow>
+<tablecell bgcolor='#e1e1d2'>
+<pardef id='27' firstlineleftmargin='0.1208in' keepwithnext='true' keeptogether='true'/>
+<par def='27'><run><font size='9pt' name='multilingual'/></run><run><font
+ size='9pt' name='multilingual'/><field showdelimiters='false' type='datetime'
+ kind='editable' name='vdtCreated'><datetimeformat show='datetime' date='yearmonthday'
+ fourdigityearfor21stcentury='true' time='hourminutesecond' zone='never' dateformat='weekdaydaymonthyear'
+ dayformat='twodigitday' monthformat='twodigitmonth' yearformat='fourdigityear'
+ weekdayformat='shortname' dateseparator1=' ' dateseparator2='.' dateseparator3='.'
+ timeseparator=':' timeformat24='true' preference='usersetting'/></field></run></par></tablecell></tablerow></table></tablecell></tablerow>
+<tablerow>
+<tablecell valign='center' borderwidth='0px'>
+<pardef id='28' leftmargin='0.0396in' keepwithnext='true' keeptogether='true'/>
+<par def='28'><run><font size='8pt' name='multilingual'/>БД</run></par></tablecell>
+<tablecell borderwidth='0px'>
+<par def='21'/></tablecell>
+<tablecell valign='center' borderwidth='0px'>
+<par def='26'><run><font size='9pt' name='multilingual'/>Изменен</run></par></tablecell>
+<tablecell borderwidth='0px'>
+<par def='23'/>
+<table widthtype='fitmargins' cellbordercolor='white' leftmargin='0' refwidth='3.3792in'><tablecolumn
+ width='100%'/>
+<tablerow>
+<tablecell bgcolor='#e1e1d2'>
+<par def='27'><run><font size='9pt' name='multilingual'/></run><run><font
+ size='9pt' name='multilingual'/><field showdelimiters='false' type='datetime'
+ kind='editable' name='vdtModified'><datetimeformat show='datetime' date='yearmonthday'
+ fourdigityearfor21stcentury='true' time='hourminutesecond' zone='never' dateformat='weekdaydaymonthyear'
+ dayformat='twodigitday' monthformat='twodigitmonth' yearformat='fourdigityear'
+ weekdayformat='shortname' dateseparator1=' ' dateseparator2='.' dateseparator3='.'
+ timeseparator=':' timeformat24='true' preference='usersetting'/></field></run></par></tablecell></tablerow></table></tablecell></tablerow>
+<tablerow>
+<tablecell valign='center' borderwidth='0px'>
+<par def='28'><run><font size='8pt' name='multilingual'/>Сервер</run></par></tablecell>
+<tablecell borderwidth='0px'>
+<par def='21'/></tablecell>
+<tablecell valign='center' borderwidth='0px'>
+<pardef id='30' align='right' rightmargin='0.9979in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'
+ keepwithnext='true' keeptogether='true'/>
+<par def='30'><run><font size='9pt' name='multilingual'/>Прочитан</run></par></tablecell>
+<tablecell borderwidth='0px'>
+<pardef id='31' rightmargin='2.4833in' keepwithnext='true' keeptogether='true'/>
+<par def='31'/>
+<table widthtype='fitmargins' cellbordercolor='white' leftmargin='0' refwidth='3.3792in'><tablecolumn
+ width='100%'/>
+<tablerow>
+<tablecell bgcolor='#e1e1d2'>
+<par def='27'><run><font size='9pt' name='multilingual'/></run><run><font
+ size='9pt' name='multilingual'/><field showdelimiters='false' type='datetime'
+ kind='editable' name='vdtLastAccess'><datetimeformat show='datetime' date='yearmonthday'
+ fourdigityearfor21stcentury='true' time='hourminutesecond' zone='never' dateformat='weekdaydaymonthyear'
+ dayformat='twodigitday' monthformat='twodigitmonth' yearformat='fourdigityear'
+ weekdayformat='shortname' dateseparator1=' ' dateseparator2='.' dateseparator3='.'
+ timeseparator=':' timeformat24='true' preference='usersetting'/></field></run></par></tablecell></tablerow></table></tablecell></tablerow>
+<tablerow>
+<tablecell columnspan='2' borderwidth='0px'>
+<pardef id='33' keepwithnext='true' keeptogether='true'/>
+<par def='33'/></tablecell>
+<tablecell borderwidth='0px'>
+<par def='21'/></tablecell>
+<tablecell valign='center' borderwidth='0px'>
+<par def='30'><run><font size='9pt' name='multilingual'/>Размер</run></par></tablecell>
+<tablecell borderwidth='0px'>
+<par def='23'/>
+<table widthtype='fitmargins' cellbordercolor='white' leftmargin='0' refwidth='3.3792in'><tablecolumn
+ width='100%'/>
+<tablerow>
+<tablecell bgcolor='#e1e1d2'>
+<par def='27'><run><font size='9pt' name='multilingual'/></run><run><font
+ size='9pt' name='multilingual'/><field showdelimiters='false' type='text'
+ kind='editable' name='vSIZE'/></run><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='7' containertype='65418' aftercontainercount='1'
+ afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par></tablecell></tablerow></table></tablecell></tablerow></table>
+<pardef id='34' leftmargin='0' keepwithnext='true' keeptogether='true'/>
+<section onread='expand' onpreview='expand' onprint='expand' expanded='true'><sectiontitle
+ pardef='34' color='#c6c6aa' borderstyle='tabdiag'><font size='9pt' name='multilingual'/><text
+>Права автора</text></sectiontitle>
+<pardef id='35' leftmargin='0.2556in' keepwithnext='true' keeptogether='true'/>
+<par def='35'/>
+<table leftmargin='0' widthtype='fixedleft' refwidth='8.3375in'><tablecolumn
+ width='8.3375in'/>
+<tablerow>
+<tablecell borderwidth='0px'>
+<pardef id='37' keepwithnext='true' keeptogether='true'/>
+<par def='37'><run><font size='8pt' name='multilingual'/></run><run><font
+ size='8pt' name='multilingual'/><field type='richtext' kind='editable' name='listAuthors'/></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAEAAAA=
+</compositedata></par></tablecell></tablerow></table>
+<par def='35'/></section>
+<section onread='expand' onpreview='expand' onprint='expand' expanded='true'><sectiontitle
+ pardef='34' color='#bdbd9b' borderstyle='tabdiag'><font size='9pt' name='multilingual'/><text
+>Права читателя</text></sectiontitle>
+<par def='35'/>
+<table widthtype='fitmargins' leftmargin='0' refwidth='9.0549in'><tablecolumn
+ width='100%'/>
+<tablerow>
+<tablecell borderwidth='0px'>
+<pardef id='38' keepwithnext='true' keeptogether='true'/>
+<par def='38'><run><font size='8pt' name='multilingual'/></run><run><font
+ size='8pt' name='multilingual'/><field type='richtext' kind='editable' name='listReaders'/></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAEAAAA=
+</compositedata></par></tablecell></tablerow></table>
+<par def='35'/></section>
+<par def='38'/></tablecell></tablerow></table></tablecell></tablerow></table>
+<par def='1'/></richtext></body>
+<item name='$FrameInfo'><textlist><text>frMain</text><text>NotesView</text></textlist></item>
+<item name='$$ScriptName' summary='false' sign='true'><text>frmSource</text></item></form>
+
+>>>>>>> 691b7014147ff37561408e86be0d335f8901144a

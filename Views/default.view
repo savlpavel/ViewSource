@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
+<<<<<<< HEAD
 <view name='default' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.6'
+=======
+<view name='default' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
+>>>>>>> 691b7014147ff37561408e86be0d335f8901144a
  replicaid='432580060036840F' showinmenu='false' publicaccess='false' designerversion='8.5.3'
  default='true' unreadmarks='none' onopengoto='lastopened' onrefresh='displayindicator'
  headers='beveled' opencollapsed='false' showresponsehierarchy='true' showmargin='true'
@@ -8,18 +12,31 @@
  headerbgcolor='white' boldunreadrows='false' evaluateactions='false' allownewdocuments='false'
  allowcustomizations='false' hidemarginborder='false' marginwidth='0px' marginbgcolor='white'
  uniquekeys='false'>
+<<<<<<< HEAD
 <noteinfo noteid='116' unid='3604B9213FCF4388432580060036841A' sequence='7'>
 <created><datetime>20160805T125527,62+03</datetime></created>
 <modified><datetime>20160812T163139,20+03</datetime></modified>
 <revised><datetime>20160812T163139,19+03</datetime></revised>
 <lastaccessed><datetime>20160812T163139,20+03</datetime></lastaccessed>
+=======
+<noteinfo noteid='116' unid='3604B9213FCF4388432580060036841A' sequence='2'>
+<created><datetime>20160805T125527,62+03</datetime></created>
+<modified><datetime>20160805T133040,23+03</datetime></modified>
+<revised><datetime>20160805T133040,18+03</datetime></revised>
+<lastaccessed><datetime>20160805T133040,23+03</datetime></lastaccessed>
+>>>>>>> 691b7014147ff37561408e86be0d335f8901144a
 <addedtofile><datetime>20160805T125527,65+03</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></updatedby>
 <wassignedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></wassignedby><code
  event='selection'><formula>SELECT @All</formula></code>
 <actionbar bgcolor='#f0f0f0' bordercolor='black'>
+<<<<<<< HEAD
 <actionbuttonstyle bgcolor='#f0f0f0'/><font size='9pt' color='system'/><border
  style='solid' width='0px 0px 1px'/>
+=======
+<actionbuttonstyle bgcolor='#f0f0f0'/><font color='system'/><border style='solid'
+ width='0px 0px 1px'/>
+>>>>>>> 691b7014147ff37561408e86be0d335f8901144a
 <action title='Categori_ze' showinbar='false' systemcommand='categorize'/>
 <action title='_Edit Document' showinbar='false' systemcommand='edit'/>
 <action title='_Send Document' showinbar='false' systemcommand='send'/>
