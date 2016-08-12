@@ -13,6 +13,7 @@
  allowcustomizations='false' hidemarginborder='false' marginwidth='0px' marginbgcolor='white'
  uniquekeys='false'>
 <<<<<<< HEAD
+<<<<<<< HEAD
 <noteinfo noteid='116' unid='3604B9213FCF4388432580060036841A' sequence='7'>
 <created><datetime>20160805T125527,62+03</datetime></created>
 <modified><datetime>20160812T163139,20+03</datetime></modified>
@@ -25,6 +26,13 @@
 <revised><datetime>20160805T133040,18+03</datetime></revised>
 <lastaccessed><datetime>20160805T133040,23+03</datetime></lastaccessed>
 >>>>>>> 691b7014147ff37561408e86be0d335f8901144a
+=======
+<noteinfo noteid='116' unid='3604B9213FCF4388432580060036841A' sequence='12'>
+<created><datetime>20160805T125527,62+03</datetime></created>
+<modified><datetime>20160812T164802,20+03</datetime></modified>
+<revised><datetime>20160812T164802,19+03</datetime></revised>
+<lastaccessed><datetime>20160812T164802,20+03</datetime></lastaccessed>
+>>>>>>> return
 <addedtofile><datetime>20160805T125527,65+03</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></updatedby>
 <wassignedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></wassignedby><code

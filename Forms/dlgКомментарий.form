@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <note xmlns="http://www.lotus.com/dxl" class="form">
   <item name="$HTMLCode" sign="true">
@@ -122,3 +123,80 @@ AQAAAAQAAACDBAkAhf8IAAEAAArTCAkAAAAAAKUGAAAAAIECgwQCAIX/CAABAAAK
 </rawitemdata>
   </item>
 </note>
+=======
+<?xml version='1.0' encoding='utf-8'?>
+<form name='dlgКомментарий' alias='dlgComment' xmlns='http://www.lotus.com/dxl'
+ version='9.0' maintenanceversion='1.6' replicaid='432580060036840F' publicaccess='false'
+ renderpassthrough='true'>
+<noteinfo noteid='166' unid='1B603B9A2A82184744257A7800321632' sequence='14'>
+<created><datetime>20120913T130704,82+04</datetime></created>
+<modified><datetime>20160812T164802,22+03</datetime></modified>
+<revised><datetime>20160812T164802,21+03</datetime></revised>
+<lastaccessed><datetime>20160812T164802,22+03</datetime></lastaccessed>
+<addedtofile><datetime>20160805T125703,30+03</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></updatedby>
+<wassignedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></wassignedby>
+<body><richtext>
+<pardef id='1' hide='notes web mobile'/>
+<par def='1'><run><font size='8pt' name='Tahoma' pitch='variable' truetype='true'
+ familyid='20' color='red'/></run><run><font size='8pt' color='red' name='Tahoma'
+ pitch='variable' truetype='true' familyid='20'/><field type='text' kind='computedwhencomposed'
+ name='CreateName'><code event='defaultvalue'><formula>@UserName</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='10' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='8pt'
+ name='Tahoma' pitch='variable' truetype='true' familyid='20' color='red'/></run><run
+><font size='8pt' color='red' name='Tahoma' pitch='variable' truetype='true'
+ familyid='20'/><field type='text' kind='computedwhencomposed' name='CretatedDate'><code
+ event='defaultvalue'><formula>@Text(@Created)</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='19' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<pardef id='2'/>
+<par def='2'/>
+<table widthtype='fixedleft' cellborderstyle='ridge' refwidth='6.3965in'><tablecolumn
+ width='5.1764in'/><tablecolumn width='1.2201in'/>
+<tablerow>
+<tablecell borderwidth='1px 3px 1px 1px' bgcolor='system'>
+<pardef id='4' leftmargin='0.0785in' rightmargin='97%' keepwithnext='true'
+ keeptogether='true'/>
+<par def='4'/>
+<pardef id='5' leftmargin='0.0785in' rightmargin='100%' keepwithnext='true'
+ keeptogether='true'/>
+<par def='5'><field usenotesstyle='false' height='3.3993in' width='5.0549in'
+ multiline='true' borderstyle='inset' type='text' allowmultivalues='true'
+ kind='editable' name='CommentText' listinputseparators='newline' listdisplayseparator='newline'/></par></tablecell>
+<tablecell borderwidth='1px 1px 1px 3px' bgcolor='system'>
+<pardef id='6' keepwithnext='true' keeptogether='true'/>
+<par def='6'/>
+<table leftmargin='0.0792in' widthtype='fixedleft' refwidth='1.0569in'><tablecolumn
+ width='1.0569in'/>
+<tablerow>
+<tablecell borderwidth='0px'>
+<pardef id='8' leftmargin='0.0396in' keepwithnext='true' keeptogether='true'/>
+<par def='8'><button width='1in' widthtype='fixed' wraptext='false' edge='rounded'
+ bgcolor='system'><code event='click'><formula>@If(@Trim(CommentText) != ""; @Do(@Command([RefreshParentNote]); @Command([FileCloseWindow]));
+													@Prompt([Ok];"Внимание.";"Необходимо ввести комментарий!"))</formula></code><font
+ size='8pt' name='Tahoma' pitch='variable' truetype='true' familyid='20'/>
+											
+											
+											Ok
+										</button></par></tablecell></tablerow>
+<tablerow>
+<tablecell borderwidth='0px'>
+<par def='8'><button width='1in' widthtype='fixed' wraptext='false' edge='rounded'
+ bgcolor='system'><code event='click'><formula>@Command([FileCloseWindow])</formula></code><font
+ size='8pt' name='Tahoma' pitch='variable' truetype='true' familyid='20'/>
+											
+											
+											Cancel
+										</button></par></tablecell></tablerow>
+<tablerow>
+<tablecell borderwidth='0px'>
+<par def='8'/></tablecell></tablerow></table></tablecell></tablerow></table>
+<par def='2'/></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>dlgComment</text></item></form>
+
+>>>>>>> return
