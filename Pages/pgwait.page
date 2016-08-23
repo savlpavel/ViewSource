@@ -1,30 +1,26 @@
-<?xml version='1.0' encoding='utf-8'?>
-<note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.4'
- replicaid='C32573460041C723'>
-<noteinfo noteid='156' unid='E226A4C52F21C152C325734600444676' sequence='5'>
-<created><datetime dst='true'>20070829T162544,86+04</datetime></created>
-<modified><datetime>20150916T134123,79+03</datetime></modified>
-<revised><datetime>20150916T134123,78+03</datetime></revised>
-<lastaccessed><datetime>20150916T134123,78+03</datetime></lastaccessed>
-<addedtofile><datetime dst='true'>20070829T162626,94+04</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Pavel A. Aleshkevich/O=OTTO/C=RU</name></updatedby>
-<wassignedby><name>CN=Pavel A. Aleshkevich/O=OTTO/C=RU</name></wassignedby>
-<item name='$TITLE' sign='true'><text>pgwait</text></item>
-<item name='$DesignerVersion'><text>7</text></item>
-<item name='$HTMLCode' sign='true'>
-<rawitemdata type='1'>
+<?xml version="1.0" encoding="UTF-8"?>
+<note xmlns="http://www.lotus.com/dxl" class="form">
+  <item name="$TITLE" sign="true">
+    <text>pgwait</text>
+  </item>
+  <item name="$HTMLCode" sign="true">
+    <rawitemdata type="1">
 X/8QAAIADwAHAAAAAAAAAA==
-</rawitemdata></item>
-<item name='$Info' sign='true'>
-<rawitemdata type='1'>
+</rawitemdata>
+  </item>
+  <item name="$Info" sign="true">
+    <rawitemdata type="1">
 hhgBAIAAAAAAgAAAAQABAP///wAQAAAA
-</rawitemdata></item>
-<item name='$Flags'><text>C34WQ</text></item>
-<item name='$$ScriptName' summary='false' sign='true'><text>pgwait</text></item>
-<item name='$Body' sign='true'>
-<rawitemdata type='1'>
+</rawitemdata>
+  </item>
+  <item name="$Flags">
+    <text>C34WQ</text>
+  </item>
+  <item name="$Body" sign="true">
+    <rawitemdata type="1">
 gQKC/1oAAQADAAAAAAAAAKAFAACgBQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAABAAAAAJSHAAAAAAAAAAAAAAAAAQAAAAQAAACDBAEAhf8eAAEAAAoF7gXhBfAF4AXh
 Be4F8gXqBeAgLi4u
-</rawitemdata></item></note>
-
+</rawitemdata>
+  </item>
+</note>
