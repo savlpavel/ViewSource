@@ -1,0 +1,211 @@
+'++LotusScript Development Environment:2:5:(Options):0:74
+%REM
+	Library RunnerLib
+	Created Aug 31, 2016 by Pavel A Aleshkevich/DV2/RU
+	Description: Comments for Library
+%END REM
+Option Public
+Option Declare
+Use "Collection"
+
+'++LotusScript Development Environment:2:5:(Forward):0:1
+Declare Class Runner
+Declare Class RunnerUI As Runner
+Declare Sub Initialize
+Declare Function GetRunnerDB() As NotesDatabase
+
+'++LotusScript Development Environment:2:5:(Declarations):0:10
+Private Const DESIGN = {lib ("RunnerLib")}
+Private Const nLine={
+}
+
+Private Const SCRIPTDOC_FORMNAME = {ScriptDoc}
+Private Const SCRIPTDOC_SCRIPT_FIELDNAME = {Script.Text}
+Private Const SCRIPTDOC_LIST_VIEWNAME = {ScriptByCreator}
+Private RunnerDB As NotesDatabase
+
+Public param As Variant
+
+'/*************************************************************************************
+' * A Class to represent
+' * @author Pavel A Aleshkevich/DV2/RU
+' * @version Aug 31, 2016
+' *************************************************************************************/
+Class Runner
+	Private dScript As String
+	Private ExecObj As Variant
+	
+	Private ScriptDoc As NotesDocument	
+	Private ScriptDocs As DocumentCollection
+	
+	
+	'/*************************************************************************************
+	' * Sub New
+	' * @param 
+	' * @author Pavel A Aleshkevich/DV2/RU
+	' * @version Aug 31, 2016
+	' *************************************************************************************/
+	Sub New()
+	Const ModuleName = {Sub "Runner.New"}
+	On Error GoTo handler
+	
+	Dim dc As NotesDocumentCollection
+	Set dc = GetRunnerDB().getview(SCRIPTDOC_LIST_VIEWNAME).Getalldocumentsbykey(Implode(Evaluate({@Username})), True)
+	
+	Set me.ScriptDocs = New DocumentCollection
+	Call me.ScriptDocs.InitCollection(dc)
+	
+	Set me.ScriptDoc = me.ScriptDocs.GetFirst()
+	
+endh:
+	Exit Sub
+handler:
+	Dim errStr As String
+	errStr = DESIGN & {, } & ModuleName & {, line: } & Erl & {, Error: (} & Err() & {)} & nLine & Error$
+	Error Err, errStr
+	End Sub	
+	
+	'/*************************************************************************************
+	' * Function Save:A function to
+	' * @param
+	' * @return
+	' * @author Pavel A Aleshkevich/DV2/RU
+	' * @version Sep 1, 2016
+	' *************************************************************************************/
+	Function Save() As Boolean
+	Const ModuleName = {Function "Runner.Save"}
+	On Error GoTo handler
+	
+	Dim fSave As Boolean
+	
+	If Not me.ScriptDoc Is Nothing Then
+		Set me.scriptDoc = New NotesDocument(GetRunnerDB())
+		Call me.ScriptDoc.Replaceitemvalue("UNID", me.ScriptDoc.Universalid)
+		Call me.ScriptDoc.Replaceitemvalue("Form", SCRIPTDOC_FORMNAME)
+		Call me.ScriptDoc.Replaceitemvalue("Creator", Implode(Evaluate({@Username})))  
+	End If
+	
+	fSave = me.ScriptDoc.Save(False, False)
+	
+	If Not fSave Then Error 6001, {Не удалось сохранить скрипт.}
+	
+	Call ScriptDocs.AddDocument(ScriptDoc)
+				
+	Save = True 
+	
+endh:
+	Exit Function
+handler:
+	Dim errStr As String
+	errStr = DESIGN & {, } & ModuleName & {, line: } & Erl & {, Error: (} & Err() & {)} & nLine & Error$
+	Error Err, errStr
+	End Function
+	
+	'/*************************************************************************************
+	' * Function GetScript:A function to
+	' * @param
+	' * @return
+	' * @author Pavel A Aleshkevich/DV2/RU
+	' * @version Sep 1, 2016
+	' *************************************************************************************/
+	Function GetScript() As variant
+	Const ModuleName = {Function ""}
+	On Error GoTo handler
+	
+	Dim rtItem As NotesRichTextItem
+	
+	GetScript = ""
+	
+	If me.ScriptDoc Is Nothing Then Exit function 
+	
+	Set rtItem = ScriptDoc.Getfirstitem(SCRIPTDOC_SCRIPT_FIELDNAME)
+	GetScript = rtItem.Text
+	
+endh:
+	Exit Function
+handler:
+	Dim errStr As String
+	errStr = DESIGN & {, } & ModuleName & {, line: } & Erl & {, Error: (} & Err() & {)} & nLine & Error$
+	Error Err, errStr
+	End Function
+End Class
+'/*************************************************************************************
+' * A Class to represent
+' * @author Pavel A Aleshkevich/DV2/RU
+' * @version Sep 1, 2016
+' *************************************************************************************/
+Class RunnerUI As Runner
+	Private dlgDoc As NotesUIDocument
+	
+	'/*************************************************************************************
+	' * Sub New
+	' * @param 
+	' * @author Pavel A Aleshkevich/DV2/RU
+	' * @version Sep 1, 2016
+	' *************************************************************************************/
+	Sub New(param As NotesUIDocument)
+	Const ModuleName = {Sub "RunnerUI.New"}
+	On Error GoTo handler
+	
+	
+		
+endh:
+	Exit Sub
+handler:
+	Dim errStr As String
+	errStr = DESIGN & {, } & ModuleName & {, line: } & Erl & {, Error: (} & Err() & {)} & nLine & Error$
+	Error Err, errStr
+	End Sub
+	
+	'/*************************************************************************************
+	' * Sub LoadScript
+	' * @param 
+	' * @author Pavel A Aleshkevich/DV2/RU
+	' * @version Sep 1, 2016
+	' *************************************************************************************/
+	Sub LoadScript()
+	Const ModuleName = {Sub "RunnerUI.LoadScript"}
+	On Error GoTo handler
+	
+	Call me.dlgDoc.Fieldsettext("Script.Text", me.GetScript())
+	
+endh:
+	Exit Sub
+handler:
+	Dim errStr As String
+	errStr = DESIGN & {, } & ModuleName & {, line: } & Erl & {, Error: (} & Err() & {)} & nLine & Error$
+	Error Err, errStr
+	End Sub
+End Class
+'++LotusScript Development Environment:2:2:Initialize:1:10
+Sub Initialize
+	
+End Sub
+
+
+'++LotusScript Development Environment:2:1:GetRunnerDB:8:8
+'/*************************************************************************************
+' * Function GetRunnerDB:A function to
+' * @param
+' * @return
+' * @author Pavel A Aleshkevich/DV2/RU
+' * @version Sep 1, 2016
+' *************************************************************************************/
+Function GetRunnerDB() As NotesDatabase
+	Const ModuleName = {Function "GetRunnerDB"}
+	On Error GoTo handler
+	
+	If RunnerDB Is Nothing Then
+		Dim ses As New NotesSession
+		Set RunnerDB = ses.Currentdatabase
+	End If
+	
+	Set GetRunnerDB = RunnerDB
+	
+endh:
+	Exit Function
+handler:
+	Dim errStr As String
+	errStr = DESIGN & {, } & ModuleName & {, line: } & Erl & {, Error: (} & Err() & {)} & nLine & Error$
+	Error Err, errStr
+End Function

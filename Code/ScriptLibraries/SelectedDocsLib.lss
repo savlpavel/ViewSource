@@ -1,0 +1,472 @@
+'++LotusScript Development Environment:2:5:(Options):0:74
+Option public
+
+'++LotusScript Development Environment:2:5:(Forward):0:1
+Declare Class SelectedDocsList
+
+'++LotusScript Development Environment:2:5:(Declarations):0:10
+
+'** Notes C-API functions used by the UnreadDocList class (these are Windows-specific
+'** calls -- please adjust as necessary for other operating system platforms)
+Declare Function OSPathNetConstruct Lib "nnotes.dll" (ByVal portName As Integer, _
+ByVal serverName As String, ByVal fileName As String, ByVal pathName As String) As Integer
+
+Declare Function NSFDbOpen Lib "nnotes.dll" (ByVal dbName As String, rethDb As Long) As Integer
+Declare Function NSFDbClose Lib "nnotes.dll" (ByVal hDb As Long) As Integer
+
+Declare Function NIFOpenCollection Lib "nnotes.dll" (ByVal hDB As Long, _
+ByVal hDB As Long, ByVal ViewNoteID As Long, ByVal openFlags As Integer, _
+ByVal hUnreadList As Long, hCollection As Long, ByVal hNullVal As Long, _
+hViewUnid As Long, hCollapsedList As Long, hSelectedList As Long ) As Integer 
+
+Declare Function NIFCloseCollection Lib "nnotes.dll" (ByVal hCollection As Long) As Integer
+
+Declare Function IDEntries Lib "nnotes" ( ByVal hTable As Long ) As Long
+Declare Function IDScan Lib "nnotes" ( ByVal hTable As Long, ByVal tFirstBool As Integer, _
+retID As Long) As Integer
+
+Declare Function OSMemFree Lib "nnotes" (ByVal handle As Long) As Integer
+
+'** Error code masks
+Const ERR_MASK = &H3fff
+Const PKG_MASK = &H3f00
+Const ERRNUM_MASK = &H00ff
+
+Declare Function OSLoadString Lib "nnotes.dll" (ByVal hModule As Long, ByVal stringCode As Integer, _
+ByVal retBuffer As String, ByVal bufferLength As Integer) As Integer
+
+
+Class SelectedDocsList
+	
+%REM
+The SelectedDocsList class provides a way to programmatically access
+the list of selected docs in a view that's currently open in the Notes client
+(open in a tab, a frame, or as an embedded view), without relying on an
+agent to be running against "Selected docs" in a view.
+
+Because we're calling the C-API, you'll also need to declare several API
+functions in the Declarations section of the agent or script library that
+holds this class. If you got this class without the related API declarations,
+please see the original version of this code at http://www.nsftools.com
+
+Here's an example of getting the selected docs in a view:
+
+	Dim session As New NotesSession
+	Dim db As NotesDatabase
+	Dim view As NotesView
+	Dim doc As NotesDocument
+	
+	Set db = session.CurrentDatabase
+	Set view = db.GetView("All docs")
+	
+	Dim selected As New SelectedDocsList(view)
+	Print "Count = " & selected.Count
+	
+	Set doc = selected.GetFirstDocument
+	Do Until (doc Is Nothing)
+		Print doc.NoteID & " was created on " & doc.Created
+		Set doc = selected.GetNextDocument(doc)
+	Loop
+
+
+A few things to note about this class:
+
+1. This will ONLY work when running on a local Notes client, while the
+client is open. If you try to run it on your server, you may crash it.
+
+2. The docs are NOT returned in the same order they are seen in the view.
+They seem to be in order of creation date, starting from the earliest (although
+this is just what I've seen in preliminary testing, and might not be true all the time).
+
+3. If the view that you're pointing to is not currently open in the client anywhere,
+this class should just return a GetCount value of 0 (not an error or a crash).
+
+4. If you're using this in an agent, you do NOT need to have the agent set
+to run against "Selected Docs". However, it's very possible that the agent
+has to be run by the user (as opposed to a background agent) -- I haven't
+done any testing on background/scheduled agents, but this class is really
+meant to be run in the front-end.
+
+5. One way that I used this class was to get the docs that were selected
+in a view that was embedded on a Form. Doing this, I could allow actions
+and buttons on the Form to access the selected docs in the embedded view
+by simply passing a proper handle to the view that was embedded. In other
+words, if the embedded view is called "SpecialDocs", you simply create
+an instance of the class using db.GetView("SpecialDocs") in the constructor.
+You can do this when the form is opened and keep it in memory as a global
+object if you want. Just remember to call the RefreshList method before you
+try to get the selected docs at any given time, to make sure you have the
+current list. However....
+
+6. This does NOT return the proper document list for embedded views that
+have "Show Single Category" set.
+
+You can use this code in any way you want, as long as you don't hold me
+liable for anything, and you don't pretend you wrote it yourself.
+
+version 1.0
+December 29, 2005
+Julian Robichaux ( http://www.nsftools.com )
+%END REM
+	
+	
+	Private idArray() As String
+	Private thisDb As NotesDatabase
+	Private thisView As NotesView
+	Private lastError As String
+	Private lastDoc As NotesDocument
+	Private lastIndex As Integer
+	
+	
+	Public Sub New (view As NotesView)
+		'** We'll allow the user to pass a view when an instance of
+		'** this class is created, to make things a little easier. If you
+		'** don't have a valid view handle when you're instantiating
+		'** this class, just use Nothing as the view parameter.
+		Call SetView(view)
+		
+		'** No lazy referencing here. We'll go ahead and try to grab
+		'** the list of selected docs right away
+		Call RefreshList()
+	End Sub
+	
+	
+	Public Sub SetView (view As NotesView)
+		'** This can be used to change the view that we're looking at.
+		Set thisView = view
+		If (view Is Nothing) Then
+			Set thisDb = Nothing
+		Else
+			Set thisDb = view.Parent
+		End If
+		
+		'** reset the internal variables
+		Call ResetPrivates
+		
+		'** Notice that RefreshList is NOT called automatically when the
+		'** view reference is changed. If you want a new list of selected
+		'** docs, remember to call RefreshList yourself. This is just in case
+		'** you have code that switches views a lot (like a form with an
+		'** embedded view or a frameset)
+	End Sub
+	
+	
+	Private Sub ResetPrivates ()
+		'** reset all the internal references and counters
+		ReDim idArray(0) As String
+		lastError = ""
+		Set lastDoc = Nothing
+		lastIndex = 0
+	End Sub
+	
+	
+	Public Function GetIDArray () As Variant
+		'** return the internal list of NoteIDs we're storing as an array of Strings
+		GetIDArray = idArray
+	End Function
+	
+	
+	Public Function Parent () As NotesView
+		'** return the view that we're currently referencing
+		Set Parent = thisView
+	End Function
+	
+	
+	Public Function Count () As Long
+		'** How many NoteIDs do we have in our internal array?
+		Count = UBound(idArray) - LBound(idArray) + 1
+		
+		'** if there's only one item and it's blank, we should consider our
+		'** array to be empty and return a count of 0
+		If (Count = 1) And (idArray(LBound(idArray)) = "") Then
+			Count = 0
+		End If
+	End Function
+	
+	
+	Public Function GetNthDocument (n As Integer) As NotesDocument
+		'** return a handle to the Nth document in our array, if possible
+		Set lastDoc = Nothing
+		
+		'** exit early for invalid conditions
+		If (thisDb Is Nothing) Then
+			'** oops, no database handle
+			Exit Function
+		ElseIf (n > UBound(idArray)) Or (n < LBound(idArray)) Then
+			'** array out of bounds
+			Exit Function
+		ElseIf (idArray(n) = "") Then
+			'** empty value
+			Exit Function
+		End If
+		
+		Set GetNthDocument = thisDb.GetDocumentByID(idArray(n))
+		
+		'** we store references to the lastDoc and lastIndex for efficiency
+		'** in the GetNextDocument method
+		Set lastDoc = GetNthDocument
+		lastIndex = n
+	End Function
+	
+	
+	Public Function GetFirstDocument () As NotesDocument
+		'** returns a handle to the first doc in our collection
+		Set GetFirstDocument = GetNthDocument(LBound(idArray))
+	End Function
+	
+	
+	Public Function GetLastDocument () As NotesDocument
+		'** returns a handle to the last doc in our collection
+		Set GetLastDocument = GetNthDocument(UBound(idArray))
+	End Function
+	
+	
+	Public Function GetNextDocument (doc As NotesDocument) As NotesDocument
+		'** returns a handle to the next selected doc after the one that
+		'** the user passes us, just like GetNextDocument in NotesView
+		'** or NotesDocumentCollection (remember that the docs on
+		'** our list aren't in the same order as the View itself, though)
+		Dim i As Integer
+		
+		'** for efficiency, see if the doc the user passed as a parameter is
+		'** the same as the last doc we gave them (which is almost always
+		'** the case, because this will normally be called in a Do While loop)
+		If (doc Is lastDoc) Then
+			'** yes, this is the same as the last doc, so just get the next item
+			'** in our internal array
+			i = lastIndex
+		Else
+			'** nope, this is some other doc we don't know about, so we have to
+			'** check every single value in our array until we find a match
+			i = FindDocument(doc)
+		End If
+		
+		'** if we found a reference to the doc the user gave us, try to get the
+		'** next one
+		If (i < UBound(idArray)) And (i >= LBound(idArray)) Then
+			Set GetNextDocument = getNthDocument(i + 1)
+		End If
+		
+	End Function
+	
+	
+	Public Function GetPrevDocument (doc As NotesDocument) As NotesDocument
+		'** just like GetNextDocument, but returns the previous one instead
+		Dim i As Integer
+		
+		If (doc Is lastDoc) Then
+			i = lastIndex
+		Else
+			i = FindDocument(doc)
+		End If
+		
+		'** if we found a reference to the doc the user gave us, try to get the
+		'** previous one
+		If (i <= UBound(idArray)) And (i > LBound(idArray)) Then
+			Set GetPrevDocument = getNthDocument(i - 1)
+		End If
+		
+	End Function
+	
+	
+	Public Function FindDocument (doc As NotesDocument) As Integer
+		'** returns the index of the location of this document, if it's in our
+		'** array of NoteIDs; if the doc is not found, it returns -1
+		Dim i As Integer
+		Dim idVal As String
+		
+		FindDocument = -1
+		
+		If (doc Is Nothing) Then
+			Exit Function
+		End If
+		
+		idVal = ConvertNoteID(HexToLong(doc.NoteID))
+		For i = LBound(idArray) To UBound(idArray)
+			If (idArray(i) = idVal) Then
+				FindDocument = i
+				Exit For
+			End If
+		Next
+		
+	End Function
+	
+	
+	Public Sub RefreshList ()
+		'** This is the routine that actually gets the list of selected docs in the view
+		'** and stores their NoteIDs in an array. This is called automatically when
+		'** the class is instantiated, and should be called by the user every time
+		'** the view reference changes (as a result of a call to SetView) or
+		'** whenever you think the user may have changed their selection.
+		Dim hDb As Long
+		Dim viewNoteID As Long
+		Dim hCollection As Long
+		Dim hIDTable As Long
+		Dim pathName As String*256
+		Dim noteID As Long
+		Dim firstFlag As Integer
+		Dim result As Integer
+		Dim count As Long
+		
+		'** reset our internal variables
+		Call ResetPrivates
+		
+		'** exit early if we don't have a valid view to work with
+		If (thisView Is Nothing) Or (thisDb Is Nothing) Then
+			Exit Sub
+		End If
+		
+		'** create a proper network path name with OSPathNetConstruct
+		Call OSPathNetConstruct(0, thisDb.Server, thisDb.FilePath, pathName)
+		
+		'** open the database and get a handle with NSFDbOpen
+		result = NSFDbOpen(pathName, hDb)
+		If result <> 0 Then
+			lastError = "Cannot open database " & thisDb.FilePath & " on server " & thisDb.Server & _
+			". Error was " & CStr(result) & ": " & GetAPIError( result )
+			GoTo endOfFunction
+		End If
+		
+		'** get the NoteID of this view
+		viewNoteID = GetViewNoteID(thisView)
+		
+		'** get the ID table of all the selected docs in the view
+		result = NIFOpenCollection(hDB, hDB, viewNoteID, 0, 0, hCollection, 0, 0, 0, hIDTable)
+		If result <> 0 Then
+			lastError = "Cannot open collection for " & thisView.Name & " on " & _
+			thisDb.FilePath & " on server " & thisDb.Server & _
+			". Error was " & CStr(result) & ": " & GetAPIError( result )
+			GoTo closeDb
+		End If
+		
+		'** make sure we got some IDs returned to us (if not, just exit)
+		count = IDEntries(hIDTable)
+		If (count = 0) Then
+			GoTo freeIDTable
+		Else
+			'** redim the return array to the proper size, but don't let it get
+			'** too big
+			If (count > 32767) Then
+				ReDim idArray(32767) As String
+			Else
+				ReDim idArray(count - 1) As String
+			End If
+		End If
+		
+		'** get the NoteIDs in the table and put them in the array
+		Dim nid As String
+		firstFlag = True
+		count = 0
+		Do While IDScan(hIDTable, firstFlag, noteID) > 0
+			firstFlag = False
+			nid = ConvertNoteID(noteID)
+			
+			'** if the note ID is empty, it's really a selected category,
+			'** not a selected doc, so we can skip it
+			If (Len(nid) > 0) Then
+				idArray(count) = nid
+				count = count + 1
+				If (count > UBound(idArray)) Then
+					Exit Do
+				End If
+			End If
+		Loop
+		
+		'** clean up any empties
+		If (count - LBound(idArray) > 0) Then
+			ReDim Preserve idArray(LBound(idArray) To count - 1)
+		Else
+			ReDim idArray(0)
+		End If
+		
+		
+freeIDTable:
+		'** free the memory used when we grabbed the ID table
+		If (hCollection > 0) Then
+			Call NIFCloseCollection(hCollection)
+		End If
+		
+closeDb:
+		'** close the database with NSFDbClose
+		Call NSFDbClose(hDb)
+		
+endOfFunction:
+		Exit Sub
+		
+	End Sub
+	
+	
+	Public Function GetViewNoteID (view As NotesView) As Long
+		'** get the NoteID value (as a number, not a hex string) for the
+		'** given NotesView
+		On Error Resume Next
+		Dim db As NotesDatabase
+		Dim doc As NotesDocument
+		Set db = view.Parent
+		Set doc = db.GetDocumentByUNID(view.UniversalID)
+		GetViewNoteID = HexToLong(doc.NoteID)
+	End Function
+	
+	
+	Private Function HexToLong (hexVal As String) As Long
+		'** convert a hex string to a Long number value
+		On Error Resume Next
+		HexToLong = Val("&H" & Trim(hexVal) & "&")
+	End Function
+	
+	
+	Private Function ConvertNoteID (noteID As Long) As String
+		'** convert a Long noteID to a Hex value, and left-pad it with zeros
+		Dim noteIDString As String
+		noteIDString = Hex$(noteID)
+		noteIDString = String(8 - Len(noteIDString), "0") & noteIDString
+		
+		If (Left(noteIDString, 1) = "8") Then
+			'** selected a category, not a document
+			ConvertNoteID = ""
+		Else
+			ConvertNoteID = noteIDString
+		End If
+	End Function
+	
+	
+	Private Function GetAPIError (errorCode As Integer) As String
+		'** this function translates Notes API error codes into their
+		'** corresponding error strings
+		Dim errorString As String*256
+		Dim returnErrorString As String
+		Dim resultStringLength As Long
+		Dim errorCodeTranslated As Integer
+		
+		'** mask off the top 2 bits of the errorCode that was returned; this is
+		'** what the ERR macro in the API does
+		errorCodeTranslated = (errorCode And ERR_MASK)
+		
+		'** get the error code translation using the OSLoadString API function
+		resultStringLength = OSLoadString(0, errorCodeTranslated, errorString, Len(errorString) - 1)
+		
+		'** strip off the null-termination on the string before you return it
+		If (InStr(errorString, Chr(0)) > 0) Then
+			returnErrorString = Left$(errorString, InStr(errorString, Chr(0)) - 1)
+		Else
+			returnErrorString = errorString
+		End If
+		
+		GetAPIError = returnErrorString
+		
+	End Function
+	
+	
+	Public Function getLastError () As String
+		'** if any errors occurred in the RefreshList method,
+		'** getLastError will return a string indicating the nature 
+		'** of the error (or if there were no errors, a blank string 
+		'** will be returned)
+		getLastError = lastError
+	End Function
+	
+	
+	
+End Class
+
+

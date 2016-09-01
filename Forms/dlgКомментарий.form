@@ -1,90 +1,75 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<note xmlns="http://www.lotus.com/dxl" class="form">
-  <item name="$HTMLCode" sign="true">
-    <rawitemdata type="1">
-X/8QAAIADwAHAAAAAAAAAA==
-</rawitemdata>
-  </item>
-  <item name="$TITLE">
-    <textlist>
-      <text>dlgКомментарий</text>
-      <text>dlgComment</text>
-    </textlist>
-  </item>
-  <item name="$Info" sign="true">
-    <rawitemdata type="1">
-hhgBAIAAAAAAgAAAAQABAP///wAQAAAA
-</rawitemdata>
-  </item>
-  <item name="$Flags">
-    <text/>
-  </item>
-  <item name="$Fonts">
-    <rawitemdata type="1">
-i/8oAAEABSZUYWhvbWEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
-</rawitemdata>
-  </item>
-  <item name="CreateName" placeholder="true">
-    <rawitemdata type="0"/>
-  </item>
-  <item name="CretatedDate" placeholder="true">
-    <rawitemdata type="0"/>
-  </item>
-  <item name="CommentText" placeholder="true">
-    <rawitemdata type="0"/>
-  </item>
-  <item name="$Fields">
-    <textlist>
-      <text>CommentText</text>
-      <text>CretatedDate</text>
-      <text>CreateName</text>
-    </textlist>
-  </item>
-  <item name="$Body" sign="true">
-    <rawitemdata type="1">
-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
-AgD8EQAAAAAAAO0BswKuAGgAAgANAAAAAAAAAAEAEQAFwgXtBegF7AXgBe0F6AXlLgABADkABc0F
-5QXuBeEF9QXuBeQF6AXsBe4gBeIF4gXlBfEF8gXoIAXqBe4F7AXsBeUF7QXyBeAF8AXoBekhALAD
-rgAEALUDAwAHACAAGgAJNlM3UzlTMTZTMjJSVFRUVFRUVFRUVFRUVKv/QQACEqAFAAAAAAUAAAgK
-CQkJCQkJCQkJCQkKCQkJCQkJCQkJCQkKCQkJCQkJCQkJCQlPawoJCQkJCQkJCQkJAHIICQAAAAAA
-Yg4BAIIAAAAAAAAAAACqAt4GAACuAIX/CAABAAAK0BIBADAjIikAAAACAAABAQAAgQKDBAgAhf8I
-AAEAAArdBgAArf+p/ywAAwAYAAAAIAAgAAAAEgACAPwRAAAAAAAA7QEDAAcADAAFAAkwUzBFAKv/
-RQACEqAFAAAAAAUAAAgKCQkJCQkJCQkJCQkKCQkJCQkJCQkJCQkKCQkJCQkJCQkJCQlDYW5jZWwK
-CQkJCQkJCQkJCQByCAkAAAAAAGIOAQCCAAAAAAAAAAAAqgLeBgAArgCF/wgAAQAACtASAgAwIyIp
-AAAAAgAAAQEAAIECgwQIAIX/CAABAAAK0QYAAAAAgQKC/1oACQAAAAAAAAAAAPcimyn3IgAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIYBAAAAAJSEOQAAADkAAAAAAAAA
-AQAAAAQAAACDBAkAhf8IAAEAAArTCAkAAAAAAKUGAAAAAIECgwQCAIX/CAABAAAK
-</rawitemdata>
-  </item>
-</note>
+<?xml version='1.0' encoding='utf-8'?>
+<form name='dlgКомментарий' alias='dlgComment' xmlns='http://www.lotus.com/dxl'
+ version='9.0' maintenanceversion='1.6' replicaid='432580060036840F' publicaccess='false'
+ designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='166' unid='1B603B9A2A82184744257A7800321632' sequence='23'>
+<created><datetime>20120913T130704,82+04</datetime></created>
+<modified><datetime>20160823T182132,48+03</datetime></modified>
+<revised><datetime>20160823T182132,47+03</datetime></revised>
+<lastaccessed><datetime>20160823T182132,48+03</datetime></lastaccessed>
+<addedtofile><datetime>20160823T095948,07+03</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></updatedby>
+<wassignedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></wassignedby>
+<body><richtext>
+<pardef id='1' hide='notes web mobile'/>
+<par def='1'><run><font size='8pt' name='Tahoma' pitch='variable' truetype='true'
+ familyid='20' color='red'/></run><run><font size='8pt' color='red' name='Tahoma'
+ pitch='variable' truetype='true' familyid='20'/><field type='text' kind='computedwhencomposed'
+ name='CreateName'><code event='defaultvalue'><formula>@UserName</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='10' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='8pt'
+ name='Tahoma' pitch='variable' truetype='true' familyid='20' color='red'/></run><run
+><font size='8pt' color='red' name='Tahoma' pitch='variable' truetype='true'
+ familyid='20'/><field type='text' kind='computedwhencomposed' name='CretatedDate'><code
+ event='defaultvalue'><formula>@Text(@Created)</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='19' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<pardef id='2'/>
+<par def='2'/>
+<table widthtype='fixedleft' cellborderstyle='ridge' refwidth='6.3965in'><tablecolumn
+ width='5.1764in'/><tablecolumn width='1.2201in'/>
+<tablerow>
+<tablecell borderwidth='1px 3px 1px 1px' bgcolor='system'>
+<pardef id='4' leftmargin='0.0785in' rightmargin='97%' keepwithnext='true'
+ keeptogether='true'/>
+<par def='4'/>
+<pardef id='5' leftmargin='0.0785in' rightmargin='100%' keepwithnext='true'
+ keeptogether='true'/>
+<par def='5'><field usenotesstyle='false' height='3.3993in' width='5.0549in'
+ multiline='true' borderstyle='inset' type='text' allowmultivalues='true'
+ kind='editable' name='CommentText' listinputseparators='newline' listdisplayseparator='newline'/></par></tablecell>
+<tablecell borderwidth='1px 1px 1px 3px' bgcolor='system'>
+<pardef id='6' keepwithnext='true' keeptogether='true'/>
+<par def='6'/>
+<table leftmargin='0.0792in' widthtype='fixedleft' refwidth='1.0569in'><tablecolumn
+ width='1.0569in'/>
+<tablerow>
+<tablecell borderwidth='0px'>
+<pardef id='8' leftmargin='0.0396in' keepwithnext='true' keeptogether='true'/>
+<par def='8'><button width='1in' widthtype='fixed' wraptext='false' edge='rounded'
+ bgcolor='system'><code event='click'><formula>@If(@Trim(CommentText) != ""; @Do(@Command([RefreshParentNote]); @Command([FileCloseWindow]));
+													@Prompt([Ok];"Внимание.";"Необходимо ввести комментарий!"))</formula></code><font
+ size='8pt' name='Tahoma' pitch='variable' truetype='true' familyid='20'/>
+											
+											
+											Ok
+										</button></par></tablecell></tablerow>
+<tablerow>
+<tablecell borderwidth='0px'>
+<par def='8'><button width='1in' widthtype='fixed' wraptext='false' edge='rounded'
+ bgcolor='system'><code event='click'><formula>@Command([FileCloseWindow])</formula></code><font
+ size='8pt' name='Tahoma' pitch='variable' truetype='true' familyid='20'/>
+											
+											
+											Cancel
+										</button></par></tablecell></tablerow>
+<tablerow>
+<tablecell borderwidth='0px'>
+<par def='8'/></tablecell></tablerow></table></tablecell></tablerow></table>
+<par def='2'/></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>dlgComment</text></item></form>
+

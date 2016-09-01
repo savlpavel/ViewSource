@@ -1,20 +1,15 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<note xmlns="http://www.lotus.com/dxl" class="form">
-  <item name="$TITLE" sign="true">
-    <text>frMain</text>
-  </item>
-  <item name="$Comment" sign="true">
-    <text/>
-  </item>
-  <item name="$FrameSet" sign="true">
-    <rawitemdata type="1">
-7/8YAAIAAgAAAAAAAAAAAAAAAAAAAAAA8P86AAAAAAABAAAAAAAHAAcAAAAAAAUAAAAAAAUAAAAA
-AAEAAQAAAAAABQAAAAAAAAADAAEAAwABAPH/RgAAAAAAAEABAAMAAQABAAAAAAAJAAAACQABAAAA
-AAAAAE5vdGVzVmlld05vdGVzVmlldwEA////AAEAAAoBAAAAAAD2/yIAAAEAwAMAAgAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAA
-</rawitemdata>
-  </item>
-  <item name="$Flags">
-    <text>#34CQ</text>
-  </item>
-</note>
+<?xml version='1.0' encoding='utf-8'?>
+<frameset name='frMain' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.6'
+ replicaid='432580060036840F' publicaccess='false' designerversion='8.5.3'
+ spacing='0px' borderwidth='11px' bordercolor='none'>
+<noteinfo noteid='15e' unid='CB417C50911AB018C325734600424C68' sequence='27'>
+<created><datetime dst='true'>20070829T160409,36+04</datetime></created>
+<modified><datetime>20160901T155404,36+03</datetime></modified>
+<revised><datetime>20160901T155404,35+03</datetime></revised>
+<lastaccessed><datetime>20160901T155404,36+03</datetime></lastaccessed>
+<addedtofile><datetime>20160823T095947,95+03</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></updatedby>
+<wassignedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></wassignedby>
+<frame name='NotesView' targetframe='NotesView'><namedelementlink type='page'
+ name='pgwait'/></frame></frameset>
+

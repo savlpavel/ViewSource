@@ -1,17 +1,15 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<note xmlns="http://www.lotus.com/dxl" default="true" class="view">
-  <item name="$FormulaClass" sign="true">
-    <text>1</text>
-  </item>
-  <item name="$TITLE" sign="true">
-    <text/>
-  </item>
-  <item name="$Formula" summary="true" sign="true">
-    <formula compiled="true">
-FAAAAAgAZgADAAcACgAEAAlMMVM=
-</formula>
-  </item>
-  <item name="$Flags">
-    <text/>
-  </item>
-</note>
+<?xml version='1.0' encoding='utf-8'?>
+<view xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.6'
+ replicaid='432580060036840F' showinmenu='true' publicaccess='false' default='true'
+ noviewformat='true'>
+<noteinfo noteid='532' unid='28F3FFD85A4A10EBC32573460041C737' sequence='3'>
+<created><datetime dst='true'>20070829T155828,39+04</datetime></created>
+<modified><datetime>20160823T182132,55+03</datetime></modified>
+<revised><datetime>20160823T182132,54+03</datetime></revised>
+<lastaccessed><datetime>20160823T182132,55+03</datetime></lastaccessed>
+<addedtofile><datetime>20160823T095947,83+03</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></updatedby>
+<wassignedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></wassignedby><code
+ event='selection'><formula>SELECT @All</formula></code>
+<item name='$FormulaClass' sign='true'><text>1</text></item></view>
+

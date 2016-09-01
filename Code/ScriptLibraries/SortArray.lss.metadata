@@ -1,12 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<note xmlns="http://www.lotus.com/dxl" class="filter">
-  <item name="$TITLE" sign="true">
-    <text>SortArray</text>
-  </item>
-  <item name="$PublicAccess" sign="true">
-    <text>1</text>
-  </item>
-  <item name="$Flags">
-    <text>s34Q</text>
-  </item>
+<?xml version="1.0" encoding="UTF-8"?><note class="filter" maintenanceversion="1.6" replicaid="432580060036840F" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="16a" sequence="17" unid="66E1EB6472BDCC53C32573460041D5E0">
+<created><datetime dst="true">20070829T155905,92+04</datetime></created>
+<modified><datetime>20160823T182132,40+03</datetime></modified>
+<revised><datetime>20160823T182132,39+03</datetime></revised>
+<lastaccessed><datetime>20160823T182132,40+03</datetime></lastaccessed>
+<addedtofile><datetime>20160823T095948,13+03</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></updatedby>
+<wassignedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></wassignedby>
+<item name="$TITLE" sign="true"><text>SortArray</text></item>
+<item name="$PublicAccess" sign="true"><text>1</text></item>
+<item name="$Flags"><text>s34Q</text></item>
+
 </note>
