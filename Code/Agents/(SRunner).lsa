@@ -2,15 +2,15 @@
 <agent name='(SRunner)' alias='SRunner' xmlns='http://www.lotus.com/dxl' version='9.0'
  maintenanceversion='1.6' replicaid='432580060036840F' hide='v3' publicaccess='false'
  designerversion='8.5.3'>
-<noteinfo noteid='666' unid='16B50817E42C23ED4325802100278666' sequence='19'>
+<noteinfo noteid='666' unid='16B50817E42C23ED4325802100278666' sequence='21'>
 <created><datetime>20160901T101143,10+03</datetime></created>
-<modified><datetime>20160901T155027,99+03</datetime></modified>
-<revised><datetime>20160901T155027,98+03</datetime></revised>
-<lastaccessed><datetime>20160901T155027,99+03</datetime></lastaccessed>
+<modified><datetime>20160901T164619,03+03</datetime></modified>
+<revised><datetime>20160901T164619,02+03</datetime></revised>
+<lastaccessed><datetime>20160901T164619,03+03</datetime></lastaccessed>
 <addedtofile><datetime>20160901T101143,14+03</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></updatedby>
 <wassignedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></wassignedby>
-<designchange><datetime>20160901T155027,98+03</datetime></designchange>
+<designchange><datetime>20160901T164619,02+03</datetime></designchange>
 <trigger type='actionsmenu'/>
 <documentset type='runonce'/><code event='options'><lotusscript>%REM
 	Agent (SRunner)
@@ -19,6 +19,7 @@
 %END REM
 Option Public
 Option Declare
+Use "RunnerLib"
 
 </lotusscript></code><code event='declarations'><lotusscript>Private Const DESIGN = {}
 Private Const nLine={
@@ -32,15 +33,15 @@ Declare Sub KeyPress Lib "user32" Alias "keybd_event" _
 </lotusscript></code><code event='initialize'><lotusscript>Sub Initialize
 		
 	Dim ws As New NotesUIWorkspace
-		
+				
 	Call ws.Dialogbox("dlgScript", True, True, True, False, False, False, "Runner", , True, True)
 	
 End Sub</lotusscript></code>
-<rundata processeddocs='0' exitcode='0' agentdata='53197FF309E5C71B432580210046BBE7'>
-<agentmodified><datetime>20160901T155027,99+03</datetime></agentmodified>
-<agentrun><datetime>20160901T155555,98+03</datetime></agentrun>
-<runlog>Started running agent '(SRunner)|SRunner' on 01.09.2016 15:55:54
+<rundata processeddocs='0' exitcode='0' agentdata='FCD6ACC0E1D498CD43258021004E7E0C'>
+<agentmodified><datetime>20160901T164619,03+03</datetime></agentmodified>
+<agentrun><datetime>20160901T174557,63+03</datetime></agentrun>
+<runlog>Started running agent '(SRunner)|SRunner' on 01.09.2016 17:45:54
 Ran LotusScript code
-Done running agent '(SRunner)|SRunner' on 01.09.2016 15:55:55
+Done running agent '(SRunner)|SRunner' on 01.09.2016 17:45:57
 </runlog></rundata></agent>
 

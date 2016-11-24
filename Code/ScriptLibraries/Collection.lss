@@ -100,6 +100,8 @@ Private Sub AddDatabase(Entry As NotesDocument)
 	Const ModuleName = {Sub "DocumentCollection.AddDatabase"}
 	On Error GoTo handler
 	
+	If Entry is Nothing Then Exit sub
+	
 	Set me.dbList(Entry.Parentdatabase.Replicaid) = Entry.Parentdatabase
 	
 endh:
@@ -136,7 +138,7 @@ Sub InitCollection(param As Variant)
 			While Not tmpDoc Is Nothing
 				
 				Call me.AddDocument(tmpDoc)	
-				Set tmpDoc = param.GetnExtDocument(tmpDoc)
+				Set tmpDoc = param.GetNextDocument(tmpDoc)
 			Wend
 						
 		Case Else: Exit sub
@@ -151,6 +153,26 @@ handler:
 	errStr = DESIGN & {, } & ModuleName & {, line: } & Erl & {, Error: (} & Err() & {)} & nLine & Error$
 	Error Err, errStr
 End Sub
+'/*************************************************************************************
+' * Function getCount:A function to
+' * @param
+' * @return
+' * @author Pavel A Aleshkevich/DV2/RU
+' * @version Sep 1, 2016
+' *************************************************************************************/
+Public Function getCount() As Long
+	Const ModuleName = {Function ""}
+	On Error GoTo handler
+	
+	getCount = me.Count
+	
+endh:
+	Exit Function
+handler:
+	Dim errStr As String
+	errStr = DESIGN & {, } & ModuleName & {, line: } & Erl & {, Error: (} & Err() & {)} & nLine & Error$
+	Error Err, errStr
+End Function
 '/*************************************************************************************
 ' * Sub AddDocument
 ' * @param 

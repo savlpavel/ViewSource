@@ -10,7 +10,7 @@ Use "Collection"
 
 '++LotusScript Development Environment:2:5:(Forward):0:1
 Declare Class Runner
-Declare Class RunnerUI As Runner
+Declare Class RunnerUI
 Declare Sub Initialize
 Declare Function GetRunnerDB() As NotesDatabase
 
@@ -20,7 +20,8 @@ Private Const nLine={
 }
 
 Private Const SCRIPTDOC_FORMNAME = {ScriptDoc}
-Private Const SCRIPTDOC_SCRIPT_FIELDNAME = {Script.Text}
+Private Const SCRIPTDOC_SCRIPT_NAME_FIELDNAME = {Script.Name}
+Private Const SCRIPTDOC_SCRIPT_TEXT_FIELDNAME = {Script.Text}
 Private Const SCRIPTDOC_LIST_VIEWNAME = {ScriptByCreator}
 Private RunnerDB As NotesDatabase
 
@@ -66,24 +67,76 @@ handler:
 	End Sub	
 	
 	'/*************************************************************************************
+	' * Sub setScriptText
+	' * @param 
+	' * @author Pavel A Aleshkevich/DV2/RU
+	' * @version Sep 1, 2016
+	' *************************************************************************************/
+	Sub setScriptText(Script As String)
+	Const ModuleName = {Sub "Runner.setScriptText"}
+	On Error GoTo handler
+	
+		me.dScript = Script
+	
+endh:
+	Exit Sub
+handler:
+	Dim errStr As String
+	errStr = DESIGN & {, } & ModuleName & {, line: } & Erl & {, Error: (} & Err() & {)} & nLine & Error$
+	Error Err, errStr
+	End Sub
+	
+	'/*************************************************************************************
+	' * Sub SetScriptDoc
+	' * @param 
+	' * @author Pavel A Aleshkevich/DV2/RU
+	' * @version Sep 1, 2016
+	' *************************************************************************************/
+	Private Sub SetScriptDoc(pDoc As NotesDocument)
+	Const ModuleName = {Sub "Runner.SetScriptDoc"}
+	On Error GoTo handler
+	
+	Set me.ScriptDoc = pDoc
+	
+endh:
+	Exit Sub
+handler:
+	Dim errStr As String
+	errStr = DESIGN & {, } & ModuleName & {, line: } & Erl & {, Error: (} & Err() & {)} & nLine & Error$
+	Error Err, errStr
+	End Sub
+	
+	'/*************************************************************************************
 	' * Function Save:A function to
 	' * @param
 	' * @return
 	' * @author Pavel A Aleshkevich/DV2/RU
 	' * @version Sep 1, 2016
 	' *************************************************************************************/
-	Function Save() As Boolean
+	Function Save(sNAme As String) As Boolean
 	Const ModuleName = {Function "Runner.Save"}
 	On Error GoTo handler
 	
 	Dim fSave As Boolean
+	Dim rtItem As NotesRichTextItem
 	
-	If Not me.ScriptDoc Is Nothing Then
+	If me.ScriptDoc Is Nothing Then
 		Set me.scriptDoc = New NotesDocument(GetRunnerDB())
 		Call me.ScriptDoc.Replaceitemvalue("UNID", me.ScriptDoc.Universalid)
 		Call me.ScriptDoc.Replaceitemvalue("Form", SCRIPTDOC_FORMNAME)
-		Call me.ScriptDoc.Replaceitemvalue("Creator", Implode(Evaluate({@Username})))  
+		Call me.ScriptDoc.Replaceitemvalue("Creator", Implode(Evaluate({@Username})))
+		Set rtItem = me.ScriptDoc.Createrichtextitem(SCRIPTDOC_SCRIPT_TEXT_FIELDNAME)  
 	End If
+	
+	Call me.ScriptDoc.Replaceitemvalue(SCRIPTDOC_SCRIPT_NAME_FIELDNAME, sNAme)
+	If rtItem Is Nothing Then
+		Call me.ScriptDoc.Removeitem(SCRIPTDOC_SCRIPT_TEXT_FIELDNAME)
+		Set rtItem = me.ScriptDoc.Createrichtextitem(SCRIPTDOC_SCRIPT_TEXT_FIELDNAME)
+	End If
+	
+	Call rtItem.Appendtext(me.dScript)
+	
+	'Call me.ScriptDoc.Replaceitemvalue(SCRIPTDOC_SCRIPT_TEXT_FIELDNAME, me.dScript)
 	
 	fSave = me.ScriptDoc.Save(False, False)
 	
@@ -102,6 +155,26 @@ handler:
 	End Function
 	
 	'/*************************************************************************************
+	' * Function getCount:A function to
+	' * @param
+	' * @return
+	' * @author Pavel A Aleshkevich/DV2/RU
+	' * @version Sep 1, 2016
+	' *************************************************************************************/
+	Function getCount() As Long
+	Const ModuleName = {Function "Runner.getCount"}
+	On Error GoTo handler
+	
+	getCount = me.ScriptDocs.getCount()
+	
+endh:
+	Exit Function
+handler:
+	Dim errStr As String
+	errStr = DESIGN & {, } & ModuleName & {, line: } & Erl & {, Error: (} & Err() & {)} & nLine & Error$
+	Error Err, errStr
+	End Function
+	'/*************************************************************************************
 	' * Function GetScript:A function to
 	' * @param
 	' * @return
@@ -109,17 +182,81 @@ handler:
 	' * @version Sep 1, 2016
 	' *************************************************************************************/
 	Function GetScript() As variant
-	Const ModuleName = {Function ""}
+	Const ModuleName = {Function "Runner.GetScript"}
 	On Error GoTo handler
 	
 	Dim rtItem As NotesRichTextItem
 	
 	GetScript = ""
 	
-	If me.ScriptDoc Is Nothing Then Exit function 
+	If me.ScriptDoc Is Nothing Then Exit Function 
 	
-	Set rtItem = ScriptDoc.Getfirstitem(SCRIPTDOC_SCRIPT_FIELDNAME)
+	Set rtItem = me.ScriptDoc.Getfirstitem(SCRIPTDOC_SCRIPT_TEXT_FIELDNAME)
 	GetScript = rtItem.Text
+	
+endh:
+	Exit Function
+handler:
+	Dim errStr As String
+	errStr = DESIGN & {, } & ModuleName & {, line: } & Erl & {, Error: (} & Err() & {)} & nLine & Error$
+	Error Err, errStr
+	End Function
+	
+	'/*************************************************************************************
+	' * Sub Run
+	' * @param 
+	' * @author Pavel A Aleshkevich/DV2/RU
+	' * @version Sep 1, 2016
+	' *************************************************************************************/
+	Sub Run()
+		Const ModuleName = {Sub "Runner.Run"}
+		On Error GoTo handler
+		
+		Execute(me.dScript)
+				
+endh:
+		Exit Sub
+handler:
+		Dim errStr As String
+		errStr = DESIGN & {, } & ModuleName & {, line: } & Erl & {, Error: (} & Err() & {)} & nLine & Error$
+		Error Err, errStr
+	End Sub
+	
+	'/*************************************************************************************
+	' * Function GetFirst:A function to
+	' * @param
+	' * @return
+	' * @author Pavel A Aleshkevich/DV2/RU
+	' * @version Sep 1, 2016
+	' *************************************************************************************/
+	Function GetFirstScript() As NotesDocument
+	Const ModuleName = {Function "Runner.GetFirstScript"}
+	On Error GoTo handler
+	
+	Call me.SetScriptDoc(me.ScriptDocs.GetFirst())
+	Set GetFirstScript =  me.ScriptDoc
+	
+endh:
+	Exit Function
+handler:
+	Dim errStr As String
+	errStr = DESIGN & {, } & ModuleName & {, line: } & Erl & {, Error: (} & Err() & {)} & nLine & Error$
+	Error Err, errStr
+	End Function
+	
+	'/*************************************************************************************
+	' * Function GetNextScript:A function to
+	' * @param
+	' * @return
+	' * @author Pavel A Aleshkevich/DV2/RU
+	' * @version Sep 1, 2016
+	' *************************************************************************************/
+	Function GetNextScript() As NotesDocument
+	Const ModuleName = {Function "Runner.GetNextScript"}
+	On Error GoTo handler
+	
+	Call me.SetScriptDoc(me.ScriptDocs.GetNext())
+	Set GetNextScript = me.ScriptDoc
 	
 endh:
 	Exit Function
@@ -134,8 +271,9 @@ End Class
 ' * @author Pavel A Aleshkevich/DV2/RU
 ' * @version Sep 1, 2016
 ' *************************************************************************************/
-Class RunnerUI As Runner
+Class RunnerUI
 	Private dlgDoc As NotesUIDocument
+	Private LSRunner As Runner
 	
 	'/*************************************************************************************
 	' * Sub New
@@ -147,8 +285,13 @@ Class RunnerUI As Runner
 	Const ModuleName = {Sub "RunnerUI.New"}
 	On Error GoTo handler
 	
+	Set dlgDoc = param
+	Set LSRunner = New Runner()
 	
-		
+	Call me.LoadScript()
+		'currPos
+	Call me.dlgDoc.Fieldsettext("Count", me.LSRunner.getCount() & "" )
+	
 endh:
 	Exit Sub
 handler:
@@ -163,11 +306,114 @@ handler:
 	' * @author Pavel A Aleshkevich/DV2/RU
 	' * @version Sep 1, 2016
 	' *************************************************************************************/
-	Sub LoadScript()
+	Private Sub LoadScript()
 	Const ModuleName = {Sub "RunnerUI.LoadScript"}
 	On Error GoTo handler
 	
-	Call me.dlgDoc.Fieldsettext("Script.Text", me.GetScript())
+	Call me.dlgDoc.Fieldsettext(SCRIPTDOC_SCRIPT_TEXT_FIELDNAME, LSRunner.GetScript())
+	
+endh:
+	Exit Sub
+handler:
+	Dim errStr As String
+	errStr = DESIGN & {, } & ModuleName & {, line: } & Erl & {, Error: (} & Err() & {)} & nLine & Error$
+	Error Err, errStr
+	End Sub
+	
+	'/*************************************************************************************
+	' * Sub setScript
+	' * @param 
+	' * @author Pavel A Aleshkevich/DV2/RU
+	' * @version Sep 1, 2016
+	' *************************************************************************************/
+	Private Sub setScript()
+	Const ModuleName = {Sub "RunnerUI.setScript"}
+	On Error GoTo handler
+	
+	Call LSRunner.setScriptText(me.dlgDoc.Fieldgettext(SCRIPTDOC_SCRIPT_TEXT_FIELDNAME))
+	
+endh:
+	Exit Sub
+handler:
+	Dim errStr As String
+	errStr = DESIGN & {, } & ModuleName & {, line: } & Erl & {, Error: (} & Err() & {)} & nLine & Error$
+	Error Err, errStr
+	End Sub
+	'/*************************************************************************************
+	' * Sub LoadFirstScript
+	' * @param 
+	' * @author Pavel A Aleshkevich/DV2/RU
+	' * @version Sep 1, 2016
+	' *************************************************************************************/
+	Sub LoadFirstScript()
+	Const ModuleName = {Sub "RunnerUI.LoadFirstScript"}
+	On Error GoTo handler
+	
+	Call me.LSRunner.GetFirstScript()
+	Call me.LoadScript()
+	
+endh:
+	Exit Sub
+handler:
+	Dim errStr As String
+	errStr = DESIGN & {, } & ModuleName & {, line: } & Erl & {, Error: (} & Err() & {)} & nLine & Error$
+	Error Err, errStr
+	End Sub
+	
+	'/*************************************************************************************
+	' * Sub LoadNextScript
+	' * @param 
+	' * @author Pavel A Aleshkevich/DV2/RU
+	' * @version Sep 1, 2016
+	' *************************************************************************************/
+	Sub LoadNextScript()
+	Const ModuleName = {Sub "RunnerUI.LoadNextScript"}
+	On Error GoTo handler
+	
+	Call me.LSRunner.GetNextScript()
+	Call me.LoadScript()
+	
+endh:
+	Exit Sub
+handler:
+	Dim errStr As String
+	errStr = DESIGN & {, } & ModuleName & {, line: } & Erl & {, Error: (} & Err() & {)} & nLine & Error$
+	Error Err, errStr
+	End Sub
+	
+	'/*************************************************************************************
+	' * Sub run
+	' * @param 
+	' * @author Pavel A Aleshkevich/DV2/RU
+	' * @version Sep 1, 2016
+	' *************************************************************************************/
+	Sub Run()
+	Const ModuleName = {Sub "RunnerUI.Run"}
+	On Error GoTo handler
+	
+	Call me.setScript()
+	Call me.LSRunner.Run()
+	
+endh:
+	Exit Sub
+handler:
+	Dim errStr As String
+	errStr = DESIGN & {, } & ModuleName & {, line: } & Erl & {, Error: (} & Err() & {)} & nLine & Error$
+	Error Err, errStr
+	End Sub
+	
+	'/*************************************************************************************
+	' * Sub Save
+	' * @param 
+	' * @author Pavel A Aleshkevich/DV2/RU
+	' * @version Sep 1, 2016
+	' *************************************************************************************/
+	Sub Save()
+	Const ModuleName = {Sub "RunnerUI.Save"}
+	On Error GoTo handler
+	
+	Call me.setScript()
+	Call me.LSRunner.Save(me.dlgDoc.Fieldgettext(SCRIPTDOC_SCRIPT_NAME_FIELDNAME))
 	
 endh:
 	Exit Sub
@@ -209,3 +455,6 @@ handler:
 	errStr = DESIGN & {, } & ModuleName & {, line: } & Erl & {, Error: (} & Err() & {)} & nLine & Error$
 	Error Err, errStr
 End Function
+
+
+

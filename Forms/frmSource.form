@@ -1,15 +1,15 @@
 <?xml version='1.0' encoding='utf-8'?>
-<form name='frmSource' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.6'
+<form name='frmSource' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.7'
  replicaid='432580060036840F' nocompose='true' noquery='true' treatashtml='true'
  publicaccess='false' designerversion='8.5.3' renderpassthrough='true'>
-<noteinfo noteid='162' unid='FBABB6C89702076F44257A780035E98B' sequence='27'>
+<noteinfo noteid='162' unid='FBABB6C89702076F44257A780035E98B' sequence='29'>
 <created><datetime>20120913T134851,95+04</datetime></created>
-<modified><datetime>20160823T182132,51+03</datetime></modified>
-<revised><datetime>20160823T182132,50+03</datetime></revised>
-<lastaccessed><datetime>20160823T182132,51+03</datetime></lastaccessed>
+<modified><datetime>20160914T155947,97+03</datetime></modified>
+<revised><datetime>20160914T155947,95+03</datetime></revised>
+<lastaccessed><datetime>20160914T155947,97+03</datetime></lastaccessed>
 <addedtofile><datetime>20160823T095948,01+03</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></updatedby>
-<wassignedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></wassignedby><code
+<updatedby><name>CN=Pavel A Aleshkevich/O=DEV/C=RU</name></updatedby>
+<wassignedby><name>CN=Pavel A Aleshkevich/O=DEV/C=RU</name></wassignedby><code
  event='windowtitle'><formula>"Поля документа"</formula></code><code event='querymodechange'><lotusscript
 >Sub Querymodechange(Source As Notesuidocument, Continue As Variant) 
 	Continue = source.EditMode 
@@ -59,6 +59,31 @@ saveP:
 If save Then Call doc.Save(True,doc.IsResponse) 
 End Sub
 </lotusscript></code></action>
+<action title='Draft'><code event='options'><lotusscript>Option Declare
+
+</lotusscript></code><code event='click'><lotusscript>Sub Click(Source As Button)
+	Dim docui As NotesUIDocument 
+	Dim doc As NotesDocument 
+	Dim db As NotesDatabase 
+	Dim ws As New NotesUIWorkspace 
+	Dim ses As New NotesSession 
+	Dim ccDoc As NotesDocument 
+	Dim Fieldstr As String 
+	Dim FieldVal As Variant 
+	Dim tmp As	Variant 
+	Dim k As Variant 
+	Set docui = ws.CurrentDocument 
+	Set db =ses.GetDatabase(docui.Document.GetItemValue("dbServer")(0),docui.Document.GetItemValue("dbFile")(0),False) 
+	Set doc =db.GetDocumentByUNID(docui.Document.GetItemValue("vUNID")(0)) 
+	If Not doc Is Nothing Then 
+		Call doc.ReplaceItemValue("fldWFStatus","Подготовка заказа")
+		Call doc.ReplaceItemValue("fldWFStatusAlias","statusDraft")
+		Call doc.ReplaceItemValue("fldWFStatusUNID","95A1E7C25428EF9AC32572F400256CCE")
+		Call doc.ReplaceItemValue("fldWFProcess","Проработка")
+		
+		Call doc.Save(False,doc.IsResponse) 
+	End If 
+End Sub</lotusscript></code></action>
 <action title='ConvertToData'><code event='click'><lotusscript>Sub Click(Source As Button) 
 	Dim docui As NotesUIDocument 
 	Dim doc As NotesDocument 
@@ -405,13 +430,13 @@ Yg4BAIQAAAAAAAAAAAA=
 <pardef id='2'/>
 <par def='2'/>
 <table widthtype='fitwindow' rowdisplay='tabs' sizetabsequally='true' leftmargin='0.8271in'
- refwidth='12.7757in'><tablerowstyle><font size='9pt' style='bold' color='black'/></tablerowstyle><tablecolumn
+ refwidth='12.5361in'><tablerowstyle><font size='9pt' style='bold' color='black'/></tablerowstyle><tablecolumn
  width='100%'/>
 <tablerow tablabel='Поля'>
 <tablecell borderwidth='0px' bgcolor='#f0f0e8'>
 <pardef id='4' keepwithnext='true' keeptogether='true'/>
 <par def='4'/>
-<table widthtype='fitmargins' leftmargin='0' refwidth='12.7757in'><tablecolumn
+<table widthtype='fitmargins' leftmargin='0' refwidth='12.5361in'><tablecolumn
  width='100%'/>
 <tablerow>
 <tablecell borderwidth='0px' bgcolor='#f0f0e8'>
