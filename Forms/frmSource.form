@@ -2,22 +2,22 @@
 <form name='frmSource' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.7'
  replicaid='432580060036840F' nocompose='true' noquery='true' treatashtml='true'
  publicaccess='false' designerversion='8.5.3' renderpassthrough='true'>
-<noteinfo noteid='162' unid='FBABB6C89702076F44257A780035E98B' sequence='29'>
+<noteinfo noteid='162' unid='FBABB6C89702076F44257A780035E98B' sequence='32'>
 <created><datetime>20120913T134851,95+04</datetime></created>
-<modified><datetime>20160914T155947,97+03</datetime></modified>
-<revised><datetime>20160914T155947,95+03</datetime></revised>
-<lastaccessed><datetime>20160914T155947,97+03</datetime></lastaccessed>
+<modified><datetime>20161124T153009,89+03</datetime></modified>
+<revised><datetime>20161124T153009,88+03</datetime></revised>
+<lastaccessed><datetime>20161124T153009,89+03</datetime></lastaccessed>
 <addedtofile><datetime>20160823T095948,01+03</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Pavel A Aleshkevich/O=DEV/C=RU</name></updatedby>
-<wassignedby><name>CN=Pavel A Aleshkevich/O=DEV/C=RU</name></wassignedby><code
+<updatedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></updatedby>
+<wassignedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></wassignedby><code
  event='windowtitle'><formula>"Поля документа"</formula></code><code event='querymodechange'><lotusscript
 >Sub Querymodechange(Source As Notesuidocument, Continue As Variant) 
 	Continue = source.EditMode 
 End Sub
 </lotusscript></code>
 <actionbar bgcolor='#ece9d8' bordercolor='black'>
-<actionbuttonstyle bgcolor='#ece9d8'/><font color='system'/><border style='solid'
- width='0px 0px 1px'/>
+<actionbuttonstyle bgcolor='#ece9d8'/><font size='9pt' color='system'/><border
+ style='solid' width='0px 0px 1px'/>
 <action title='Edit'><code event='click'><lotusscript>Sub Click(Source As Button) 
 	Dim docui As NotesUIDocument 
 	Dim doc As NotesDocument 
@@ -83,7 +83,8 @@ End Sub
 		
 		Call doc.Save(False,doc.IsResponse) 
 	End If 
-End Sub</lotusscript></code></action>
+End Sub
+</lotusscript></code></action>
 <action title='ConvertToData'><code event='click'><lotusscript>Sub Click(Source As Button) 
 	Dim docui As NotesUIDocument 
 	Dim doc As NotesDocument 
@@ -423,7 +424,7 @@ End Sub
 <pardef id='1' hide='notes'/>
 <par def='1'><field type='text' kind='computedwhencomposed' name='SaveOptions'><code
  event='defaultvalue'><formula>"0"</formula></code></field><compositedata
- type='98' prevtype='65418' nexttype='222' afterparcount='7' containertype='65418'
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
  aftercontainercount='1' afterbegincount='3'>
 Yg4BAIQAAAAAAAAAAAA=
 </compositedata></par>
@@ -455,26 +456,26 @@ Yg4BAIQAAAAAAAEAAAA=
  width='9.0549in'/>
 <tablerow>
 <tablecell borderwidth='0px' bgcolor='#f0f0e8'>
-<pardef id='7' rightmargin='7.4958in' keepwithnext='true' keeptogether='true'/>
-<par def='7'/>
+<pardef id='8' rightmargin='7.4958in' keepwithnext='true' keeptogether='true'/>
+<par def='8'/>
 <table widthtype='fitmargins' leftmargin='0' refwidth='9.0549in'><tablecolumn
  width='6.0278%'/><tablecolumn width='40.7639%'/><tablecolumn width='2.8299%'/><tablecolumn
  width='12.9444%'/><tablecolumn width='37.4340%'/>
 <tablerow>
 <tablecell valign='center' borderwidth='0px'>
-<pardef id='9' leftmargin='0.0396in' rightmargin='100%' tabs='L3.9368in' keepwithnext='true'
- keeptogether='true'/>
-<par def='9'><run><font size='9pt' name='multilingual'/>UNID</run></par></tablecell>
+<pardef id='10' leftmargin='0.0396in' rightmargin='100%' tabs='L3.9368in'
+ keepwithnext='true' keeptogether='true'/>
+<par def='10'><run><font size='9pt' name='multilingual'/>UNID</run></par></tablecell>
 <tablecell borderwidth='0px'>
-<pardef id='10' keepwithnext='true' keeptogether='true'/>
-<par def='10'/>
+<pardef id='11' keepwithnext='true' keeptogether='true'/>
+<par def='11'/>
 <table widthtype='fitmargins' cellbordercolor='white' leftmargin='0' refwidth='3.6806in'><tablecolumn
  width='100%'/>
 <tablerow>
 <tablecell bgcolor='#e1e1d2'>
-<pardef id='12' leftmargin='0.0104in' rightmargin='2.5854in' firstlineleftmargin='0.1007in'
+<pardef id='13' leftmargin='0.0104in' rightmargin='2.5854in' firstlineleftmargin='0.1007in'
  keepwithnext='true' keeptogether='true'/>
-<par def='12'><run><font size='9pt' name='multilingual'/></run><run><font
+<par def='13'><run><font size='9pt' name='multilingual'/></run><run><font
  size='9pt' name='multilingual'/><field showdelimiters='false' type='text'
  kind='editable' name='vUNID'/></run><compositedata type='98' prevtype='65418'
  nexttype='222' afterparcount='8' containertype='65418' aftercontainercount='1'
@@ -506,36 +507,36 @@ Yg4BAIQAAAAAAAAAAAA=
 </compositedata></par></tablecell></tablerow></table></tablecell></tablerow>
 <tablerow>
 <tablecell valign='center' borderwidth='0px'>
-<par def='9'><run><font size='9pt' name='multilingual'/>Авторы</run></par></tablecell>
+<par def='10'><run><font size='9pt' name='multilingual'/>Авторы</run></par></tablecell>
 <tablecell rowspan='3' borderwidth='0px'>
-<par def='10'/>
+<par def='11'/>
 <table widthtype='fitmargins' cellbordercolor='white' leftmargin='0' refwidth='3.6806in'><tablecolumn
  width='100%'/>
 <tablerow>
 <tablecell bgcolor='#e1e1d2'>
-<pardef id='22' leftmargin='0.1007in' keepwithnext='true' keeptogether='true'/>
-<par def='22'><run><font size='9pt' name='multilingual'/></run><run><font
+<pardef id='27' leftmargin='0.1007in' keepwithnext='true' keeptogether='true'/>
+<par def='27'><run><font size='9pt' name='multilingual'/></run><run><font
  size='9pt' name='multilingual'/><field showdelimiters='false' lookupeachchar='false'
  lookupaddressonrefresh='false' type='names' allowmultivalues='true' kind='editable'
  name='vAuthors' listinputseparators='comma semicolon newline' listdisplayseparator='newline'/></run></par></tablecell></tablerow></table>
-<par def='10'/>
+<par def='11'/>
 <table widthtype='fitmargins' cellbordercolor='white' leftmargin='0' refwidth='3.6806in'><tablecolumn
  width='100%'/>
 <tablerow>
 <tablecell bgcolor='#e1e1d2'>
-<par def='12'><run><font size='9pt' name='multilingual'/></run><run><font
+<par def='13'><run><font size='9pt' name='multilingual'/></run><run><font
  size='9pt' name='multilingual'/><field showdelimiters='false' type='text'
  kind='editable' name='DBFile'/></run><compositedata type='98' prevtype='65418'
  nexttype='222' afterparcount='7' containertype='65418' aftercontainercount='1'
  afterbegincount='4'>
 Yg4BAIQAAAAAAAAAAAA=
 </compositedata></par></tablecell></tablerow></table>
-<par def='10'/>
+<par def='11'/>
 <table widthtype='fitmargins' cellbordercolor='white' leftmargin='0' refwidth='3.6806in'><tablecolumn
  width='100%'/>
 <tablerow>
 <tablecell bgcolor='#e1e1d2'>
-<par def='12'><run><font size='9pt' name='multilingual'/></run><run><font
+<par def='13'><run><font size='9pt' name='multilingual'/></run><run><font
  size='9pt' name='multilingual'/><field showdelimiters='false' type='text'
  kind='editable' name='dbServer'/></run><compositedata type='98' prevtype='65418'
  nexttype='222' afterparcount='7' containertype='65418' aftercontainercount='1'
@@ -545,16 +546,16 @@ Yg4BAIQAAAAAAAAAAAA=
 <tablecell borderwidth='0px'>
 <par def='14'/></tablecell>
 <tablecell valign='center' borderwidth='0px'>
-<pardef id='19' align='right' rightmargin='0.9979in' keepwithnext='true' keeptogether='true'/>
-<par def='19'><run><font size='9pt' name='multilingual'/>Создан</run></par></tablecell>
+<pardef id='20' align='right' rightmargin='0.9979in' keepwithnext='true' keeptogether='true'/>
+<par def='20'><run><font size='9pt' name='multilingual'/>Создан</run></par></tablecell>
 <tablecell borderwidth='0px'>
 <par def='16'/>
 <table widthtype='fitmargins' cellbordercolor='white' leftmargin='0' refwidth='3.3792in'><tablecolumn
  width='100%'/>
 <tablerow>
 <tablecell bgcolor='#e1e1d2'>
-<pardef id='20' firstlineleftmargin='0.1208in' keepwithnext='true' keeptogether='true'/>
-<par def='20'><run><font size='9pt' name='multilingual'/></run><run><font
+<pardef id='22' firstlineleftmargin='0.1208in' keepwithnext='true' keeptogether='true'/>
+<par def='22'><run><font size='9pt' name='multilingual'/></run><run><font
  size='9pt' name='multilingual'/><field showdelimiters='false' type='datetime'
  kind='editable' name='vdtCreated'><datetimeformat show='datetime' date='yearmonthday'
  fourdigityearfor21stcentury='true' time='hourminutesecond' zone='never' dateformat='weekdaydaymonthyear'
@@ -563,19 +564,19 @@ Yg4BAIQAAAAAAAAAAAA=
  timeseparator=':' timeformat24='true' preference='usersetting'/></field></run></par></tablecell></tablerow></table></tablecell></tablerow>
 <tablerow>
 <tablecell valign='center' borderwidth='0px'>
-<pardef id='21' leftmargin='0.0396in' keepwithnext='true' keeptogether='true'/>
-<par def='21'><run><font size='8pt' name='multilingual'/>БД</run></par></tablecell>
+<pardef id='23' leftmargin='0.0396in' keepwithnext='true' keeptogether='true'/>
+<par def='23'><run><font size='8pt' name='multilingual'/>БД</run></par></tablecell>
 <tablecell borderwidth='0px'>
 <par def='14'/></tablecell>
 <tablecell valign='center' borderwidth='0px'>
-<par def='19'><run><font size='9pt' name='multilingual'/>Изменен</run></par></tablecell>
+<par def='20'><run><font size='9pt' name='multilingual'/>Изменен</run></par></tablecell>
 <tablecell borderwidth='0px'>
 <par def='16'/>
 <table widthtype='fitmargins' cellbordercolor='white' leftmargin='0' refwidth='3.3792in'><tablecolumn
  width='100%'/>
 <tablerow>
 <tablecell bgcolor='#e1e1d2'>
-<par def='20'><run><font size='9pt' name='multilingual'/></run><run><font
+<par def='22'><run><font size='9pt' name='multilingual'/></run><run><font
  size='9pt' name='multilingual'/><field showdelimiters='false' type='datetime'
  kind='editable' name='vdtModified'><datetimeformat show='datetime' date='yearmonthday'
  fourdigityearfor21stcentury='true' time='hourminutesecond' zone='never' dateformat='weekdaydaymonthyear'
@@ -584,21 +585,21 @@ Yg4BAIQAAAAAAAAAAAA=
  timeseparator=':' timeformat24='true' preference='usersetting'/></field></run></par></tablecell></tablerow></table></tablecell></tablerow>
 <tablerow>
 <tablecell valign='center' borderwidth='0px'>
-<par def='21'><run><font size='8pt' name='multilingual'/>Сервер</run></par></tablecell>
+<par def='23'><run><font size='8pt' name='multilingual'/>Сервер</run></par></tablecell>
 <tablecell borderwidth='0px'>
 <par def='14'/></tablecell>
 <tablecell valign='center' borderwidth='0px'>
-<pardef id='23' align='right' rightmargin='0.9979in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'
+<pardef id='30' align='right' rightmargin='0.9979in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'
  keepwithnext='true' keeptogether='true'/>
-<par def='23'><run><font size='9pt' name='multilingual'/>Прочитан</run></par></tablecell>
+<par def='30'><run><font size='9pt' name='multilingual'/>Прочитан</run></par></tablecell>
 <tablecell borderwidth='0px'>
-<pardef id='24' rightmargin='2.4833in' keepwithnext='true' keeptogether='true'/>
-<par def='24'/>
+<pardef id='31' rightmargin='2.4833in' keepwithnext='true' keeptogether='true'/>
+<par def='31'/>
 <table widthtype='fitmargins' cellbordercolor='white' leftmargin='0' refwidth='3.3792in'><tablecolumn
  width='100%'/>
 <tablerow>
 <tablecell bgcolor='#e1e1d2'>
-<par def='20'><run><font size='9pt' name='multilingual'/></run><run><font
+<par def='22'><run><font size='9pt' name='multilingual'/></run><run><font
  size='9pt' name='multilingual'/><field showdelimiters='false' type='datetime'
  kind='editable' name='vdtLastAccess'><datetimeformat show='datetime' date='yearmonthday'
  fourdigityearfor21stcentury='true' time='hourminutesecond' zone='never' dateformat='weekdaydaymonthyear'
@@ -607,60 +608,60 @@ Yg4BAIQAAAAAAAAAAAA=
  timeseparator=':' timeformat24='true' preference='usersetting'/></field></run></par></tablecell></tablerow></table></tablecell></tablerow>
 <tablerow>
 <tablecell columnspan='2' borderwidth='0px'>
-<pardef id='26' keepwithnext='true' keeptogether='true'/>
-<par def='26'/></tablecell>
+<pardef id='34' keepwithnext='true' keeptogether='true'/>
+<par def='34'/></tablecell>
 <tablecell borderwidth='0px'>
 <par def='14'/></tablecell>
 <tablecell valign='center' borderwidth='0px'>
-<par def='23'><run><font size='9pt' name='multilingual'/>Размер</run></par></tablecell>
+<par def='30'><run><font size='9pt' name='multilingual'/>Размер</run></par></tablecell>
 <tablecell borderwidth='0px'>
 <par def='16'/>
 <table widthtype='fitmargins' cellbordercolor='white' leftmargin='0' refwidth='3.3792in'><tablecolumn
  width='100%'/>
 <tablerow>
 <tablecell bgcolor='#e1e1d2'>
-<par def='20'><run><font size='9pt' name='multilingual'/></run><run><font
+<par def='22'><run><font size='9pt' name='multilingual'/></run><run><font
  size='9pt' name='multilingual'/><field showdelimiters='false' type='text'
  kind='editable' name='vSIZE'/></run><compositedata type='98' prevtype='65418'
  nexttype='222' afterparcount='7' containertype='65418' aftercontainercount='1'
  afterbegincount='4'>
 Yg4BAIQAAAAAAAAAAAA=
 </compositedata></par></tablecell></tablerow></table></tablecell></tablerow></table>
-<pardef id='27' leftmargin='0' keepwithnext='true' keeptogether='true'/>
+<pardef id='36' leftmargin='0' keepwithnext='true' keeptogether='true'/>
 <section onread='expand' onpreview='expand' onprint='expand' expanded='true'><sectiontitle
- pardef='27' color='#c6c6aa' borderstyle='tabdiag'><font size='9pt' name='multilingual'/><text
+ pardef='36' color='#c6c6aa' borderstyle='tabdiag'><font size='9pt' name='multilingual'/><text
 >Права автора</text></sectiontitle>
-<pardef id='28' leftmargin='0.2556in' keepwithnext='true' keeptogether='true'/>
-<par def='28'/>
+<pardef id='37' leftmargin='0.2556in' keepwithnext='true' keeptogether='true'/>
+<par def='37'/>
 <table leftmargin='0' widthtype='fixedleft' refwidth='8.3375in'><tablecolumn
  width='8.3375in'/>
 <tablerow>
 <tablecell borderwidth='0px'>
-<pardef id='30' keepwithnext='true' keeptogether='true'/>
-<par def='30'><run><font size='8pt' name='multilingual'/></run><run><font
+<pardef id='39' keepwithnext='true' keeptogether='true'/>
+<par def='39'><run><font size='8pt' name='multilingual'/></run><run><font
  size='8pt' name='multilingual'/><field type='richtext' kind='editable' name='listAuthors'/></run><compositedata
  type='98' prevtype='65418' nexttype='222' afterparcount='7' containertype='65418'
  aftercontainercount='1' afterbegincount='3'>
 Yg4BAIQAAAAAAAEAAAA=
 </compositedata></par></tablecell></tablerow></table>
-<par def='28'/></section>
+<par def='37'/></section>
 <section onread='expand' onpreview='expand' onprint='expand' expanded='true'><sectiontitle
- pardef='27' color='#bdbd9b' borderstyle='tabdiag'><font size='9pt' name='multilingual'/><text
+ pardef='36' color='#bdbd9b' borderstyle='tabdiag'><font size='9pt' name='multilingual'/><text
 >Права читателя</text></sectiontitle>
-<par def='28'/>
+<par def='37'/>
 <table widthtype='fitmargins' leftmargin='0' refwidth='9.0549in'><tablecolumn
  width='100%'/>
 <tablerow>
 <tablecell borderwidth='0px'>
-<pardef id='31' keepwithnext='true' keeptogether='true'/>
-<par def='31'><run><font size='8pt' name='multilingual'/></run><run><font
+<pardef id='41' keepwithnext='true' keeptogether='true'/>
+<par def='41'><run><font size='8pt' name='multilingual'/></run><run><font
  size='8pt' name='multilingual'/><field type='richtext' kind='editable' name='listReaders'/></run><compositedata
  type='98' prevtype='65418' nexttype='222' afterparcount='7' containertype='65418'
  aftercontainercount='1' afterbegincount='3'>
 Yg4BAIQAAAAAAAEAAAA=
 </compositedata></par></tablecell></tablerow></table>
-<par def='28'/></section>
-<par def='31'/></tablecell></tablerow></table></tablecell></tablerow></table>
+<par def='37'/></section>
+<par def='41'/></tablecell></tablerow></table></tablecell></tablerow></table>
 <par def='1'/></richtext></body>
 <item name='$FrameInfo'><textlist><text>frMain</text><text>NotesView</text></textlist></item>
 <item name='$$ScriptName' summary='false' sign='true'><text>frmSource</text></item></form>

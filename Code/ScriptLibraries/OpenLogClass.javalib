@@ -1,8 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scriptlibrary xmlns="http://www.lotus.com/dxl" name="OpenLogClass" hide="v3 v4strict">
-  <code event="library">
-    <javaproject class="OpenLogItem.class">
-      <java name="OpenLogItem.java">import lotus.domino.*;
+<?xml version='1.0' encoding='utf-8'?>
+<scriptlibrary name='OpenLogClass' xmlns='http://www.lotus.com/dxl' version='9.0'
+ maintenanceversion='1.7' replicaid='432580060036840F' hide='v3 v4strict'>
+<noteinfo noteid='772' unid='7181F0005A187808432580270051E11C' sequence='2'>
+<created><datetime>20160907T175420,44+03</datetime></created>
+<modified><datetime>20161124T154653,31+03</datetime></modified>
+<revised><datetime>20161124T154653,30+03</datetime></revised>
+<lastaccessed><datetime>20161124T154653,31+03</datetime></lastaccessed>
+<addedtofile><datetime>20160907T175421,57+03</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></updatedby>
+<wassignedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></wassignedby><code
+ event='library'><javaproject class='OpenLogItem.class' codepath='c:\lotus\notes5\data'><java
+ name='OpenLogItem.java'>import lotus.domino.*;
 import java.util.*;
 import java.io.*;
 
@@ -823,8 +831,7 @@ public class OpenLogItem {
 	
 }
 
-</java>
-      <java name="SynchronizedOpenLogItem.java">
+</java><java name='SynchronizedOpenLogItem.java'>
 import lotus.domino.*;
 import java.util.*;
 import java.io.*;
@@ -902,7 +909,5 @@ public class SynchronizedOpenLogItem extends OpenLogItem {
 	}
 	
 }
-</java>
-    </javaproject>
-  </code>
-</scriptlibrary>
+</java></javaproject></code></scriptlibrary>
+

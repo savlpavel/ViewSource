@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <form name='dlgКомментарий' alias='dlgComment' xmlns='http://www.lotus.com/dxl'
- version='9.0' maintenanceversion='1.6' replicaid='432580060036840F' publicaccess='false'
+ version='9.0' maintenanceversion='1.7' replicaid='432580060036840F' publicaccess='false'
  designerversion='8.5.3' renderpassthrough='true'>
-<noteinfo noteid='166' unid='1B603B9A2A82184744257A7800321632' sequence='23'>
+<noteinfo noteid='166' unid='1B603B9A2A82184744257A7800321632' sequence='26'>
 <created><datetime>20120913T130704,82+04</datetime></created>
-<modified><datetime>20160823T182132,48+03</datetime></modified>
-<revised><datetime>20160823T182132,47+03</datetime></revised>
-<lastaccessed><datetime>20160823T182132,48+03</datetime></lastaccessed>
+<modified><datetime>20161124T153009,85+03</datetime></modified>
+<revised><datetime>20161124T153009,84+03</datetime></revised>
+<lastaccessed><datetime>20161124T153009,85+03</datetime></lastaccessed>
 <addedtofile><datetime>20160823T095948,07+03</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></updatedby>
 <wassignedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></wassignedby>

@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <view name='(ScriptByCreator)' alias='ScriptByCreator' xmlns='http://www.lotus.com/dxl'
- version='9.0' maintenanceversion='1.6' replicaid='432580060036840F' showinmenu='false'
+ version='9.0' maintenanceversion='1.7' replicaid='432580060036840F' showinmenu='false'
  noreplace='true' publicaccess='false' designerversion='8.5.3' unreadmarks='none'
  onopengoto='lastopened' onrefresh='displayindicator' headers='beveled' opencollapsed='false'
  showresponsehierarchy='true' showmargin='true' shrinkrows='false' extendlastcolumn='false'
@@ -9,11 +9,11 @@
  boldunreadrows='false' evaluateactions='false' allownewdocuments='false'
  allowcustomizations='true' hidemarginborder='false' marginwidth='0px' marginbgcolor='white'
  uniquekeys='false'>
-<noteinfo noteid='672' unid='5D389C47D4159A944325802100414722' sequence='8'>
+<noteinfo noteid='672' unid='5D389C47D4159A944325802100414722' sequence='11'>
 <created><datetime>20160901T145300,50+03</datetime></created>
-<modified><datetime>20160901T155346,62+03</datetime></modified>
-<revised><datetime>20160901T155346,61+03</datetime></revised>
-<lastaccessed><datetime>20160901T155346,62+03</datetime></lastaccessed>
+<modified><datetime>20161124T153009,95+03</datetime></modified>
+<revised><datetime>20161124T153009,94+03</datetime></revised>
+<lastaccessed><datetime>20161124T153009,95+03</datetime></lastaccessed>
 <addedtofile><datetime>20160901T145300,53+03</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></updatedby>
 <wassignedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></wassignedby><code
