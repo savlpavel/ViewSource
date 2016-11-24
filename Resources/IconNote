@@ -1,13 +1,13 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note default='true' class='icon' xmlns='http://www.lotus.com/dxl' version='9.0'
  maintenanceversion='1.6' replicaid='432580060036840F'>
-<noteinfo noteid='11a' unid='51DA8C100442CEEE432580060036841B' sequence='24'>
+<noteinfo noteid='11a' unid='51DA8C100442CEEE432580060036841B' sequence='49'>
 <created><datetime>20160805T125527,63+03</datetime></created>
-<modified><datetime>20160812T164725,60+03</datetime></modified>
-<revised><datetime>20160812T164725,59+03</datetime></revised>
-<lastaccessed><datetime>20160812T164725,60+03</datetime></lastaccessed>
+<modified><datetime>20160907T153951,60+03</datetime></modified>
+<revised><datetime>20160907T153951,59+03</datetime></revised>
+<lastaccessed><datetime>20160907T153951,60+03</datetime></lastaccessed>
 <addedtofile><datetime>20160805T125527,67+03</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></updatedby>
+<updatedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name><name>CN=Pavel A Aleshkevich/O=DEV/C=RU</name></updatedby>
 <wassignedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></wassignedby>
 <item name='IconBitmap' summary='true'>
 <rawitemdata type='6'>
@@ -28,6 +28,6 @@ AAAAAAAAAAIAAgAgAEAAAQABAA==
 <item name='$DefaultFrameset'><text>frMain</text></item>
 <item name='$DefaultWebFrameset'><text>frMain</text></item>
 <item name='$TITLE'><text>ViewSource</text></item>
-<item name='$Flags'><text>J7FS</text></item>
-<item name='$FlagsNoRefresh'><text>rv</text></item></note>
+<item name='$FlagsNoRefresh'><text>rv</text></item>
+<item name='$Flags'><text>J7FSz</text></item></note>
 

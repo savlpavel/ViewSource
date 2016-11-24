@@ -1,0 +1,328 @@
+'++LotusScript Development Environment:2:5:(Options):0:74
+%REM
+	Library Collection
+	Created Aug 31, 2016 by Pavel A Aleshkevich/DV2/RU
+	Description: Comments for Library
+%END REM
+Option Public
+Option Declare
+
+'++LotusScript Development Environment:2:5:(Forward):0:1
+Declare Class DocumentCollection
+
+'++LotusScript Development Environment:2:5:(Declarations):0:10
+Private Const DESIGN = {lib ("Collcetion")}
+Private Const nLine={
+}
+
+'/*************************************************************************************
+' * A Class to represent
+' * @author Pavel A Aleshkevich/DV2/RU
+' * @version Aug 31, 2016
+' *************************************************************************************/
+Class DocumentCollection
+	Private dbList List As Variant
+	Private dcList list As Variant
+	Private UNIDs List As String
+	Private CurrentPosition As Long
+	Private Count As Long
+	
+
+	'/*************************************************************************************
+	' * Sub New
+	' * @param 
+	' * @author Pavel A Aleshkevich/DV2/RU
+	' * @version Aug 31, 2016
+	' *************************************************************************************/
+	Sub New()
+	Const ModuleName = {Sub "DocumentCollection.New"}
+	On Error GoTo handler
+	
+	me.Count = 0
+	
+endh:
+	Exit Sub
+handler:
+	Dim errStr As String
+	errStr = DESIGN & {, } & ModuleName & {, line: } & Erl & {, Error: (} & Err() & {)} & nLine & Error$
+	Error Err, errStr
+	End Sub
+
+'/*************************************************************************************
+' * Function checkDb:A function to
+' * @param
+' * @return
+' * @author Pavel A Aleshkevich/DV2/RU
+' * @version Sep 1, 2016
+' *************************************************************************************/
+Private Function checkDb(Entry As NotesDocument) As Boolean
+	Const ModuleName = {Function "DocumentCollection.checkDb"}
+	On Error GoTo handler
+	
+	If IsElement(me.dbList(Entry.Parentdatabase.Replicaid)) Then checkDb = True
+	
+endh:
+	Exit Function
+handler:
+	Dim errStr As String
+	errStr = DESIGN & {, } & ModuleName & {, line: } & Erl & {, Error: (} & Err() & {)} & nLine & Error$
+	Error Err, errStr
+End Function
+
+'/*************************************************************************************
+' * Function checkDoc:A function to
+' * @param
+' * @return
+' * @author Pavel A Aleshkevich/DV2/RU
+' * @version Sep 1, 2016
+' *************************************************************************************/
+Function checkDoc(Entry As NotesDocument) As Boolean
+	Const ModuleName = {Function "DocumentCollection.checkDoc"}
+	On Error GoTo handler
+	
+	If IsElement(me.UNIDs(Entry.Universalid)) Then checkDoc = True
+		
+endh:
+	Exit Function
+handler:
+	Dim errStr As String
+	errStr = DESIGN & {, } & ModuleName & {, line: } & Erl & {, Error: (} & Err() & {)} & nLine & Error$
+	Error Err, errStr
+End Function
+
+'/*************************************************************************************
+' * Sub AddDatabase
+' * @param 
+' * @author Pavel A Aleshkevich/DV2/RU
+' * @version Sep 1, 2016
+' *************************************************************************************/
+Private Sub AddDatabase(Entry As NotesDocument)
+	Const ModuleName = {Sub "DocumentCollection.AddDatabase"}
+	On Error GoTo handler
+	
+	If Entry is Nothing Then Exit sub
+	
+	Set me.dbList(Entry.Parentdatabase.Replicaid) = Entry.Parentdatabase
+	
+endh:
+	Exit Sub
+handler:
+	Dim errStr As String
+	errStr = DESIGN & {, } & ModuleName & {, line: } & Erl & {, Error: (} & Err() & {)} & nLine & Error$
+	Error Err, errStr
+End Sub
+
+'/*************************************************************************************
+' * Sub InitCollection
+' * @param 
+' * @author Pavel A Aleshkevich/DV2/RU
+' * @version Sep 1, 2016
+' *************************************************************************************/
+Sub InitCollection(param As Variant)
+	Const ModuleName = {Sub "DocumentCollection.InitCollection"}
+	On Error GoTo handler
+	
+	Dim tmpDoc As NotesDocument
+	
+	Select Case TypeName(param)
+		Case "NOTESDOCUMENT":
+			
+			Set tmpDoc = param
+			Call me.AddDatabase(tmpDoc)
+			Call me.AddDocument(tmpDoc)
+			
+		Case "NOTESDOCUMENTCOLLECTION":
+			
+			Set tmpDoc = param.GetFirstDocument()
+			Call me.AddDatabase(tmpDoc)
+			While Not tmpDoc Is Nothing
+				
+				Call me.AddDocument(tmpDoc)	
+				Set tmpDoc = param.GetNextDocument(tmpDoc)
+			Wend
+						
+		Case Else: Exit sub
+	End Select
+	
+	me.CurrentPosition = 1
+	
+endh:
+	Exit Sub
+handler:
+	Dim errStr As String
+	errStr = DESIGN & {, } & ModuleName & {, line: } & Erl & {, Error: (} & Err() & {)} & nLine & Error$
+	Error Err, errStr
+End Sub
+'/*************************************************************************************
+' * Function getCount:A function to
+' * @param
+' * @return
+' * @author Pavel A Aleshkevich/DV2/RU
+' * @version Sep 1, 2016
+' *************************************************************************************/
+Public Function getCount() As Long
+	Const ModuleName = {Function ""}
+	On Error GoTo handler
+	
+	getCount = me.Count
+	
+endh:
+	Exit Function
+handler:
+	Dim errStr As String
+	errStr = DESIGN & {, } & ModuleName & {, line: } & Erl & {, Error: (} & Err() & {)} & nLine & Error$
+	Error Err, errStr
+End Function
+'/*************************************************************************************
+' * Sub AddDocument
+' * @param 
+' * @author Pavel A Aleshkevich/DV2/RU
+' * @version Sep 1, 2016
+' *************************************************************************************/
+Sub AddDocument(Entry As NotesDocument)
+	Const ModuleName = {Sub "DocumentCollection.AddDocument"}
+	On Error GoTo handler
+	
+	If Not me.checkDoc(Entry) Then
+		If Not me.checkDb(Entry) Then
+			Call me.AddDatabase(Entry)
+		End If
+		me.Count = me.Count + 1
+		Set dcList(me.Count) = Entry
+		UNIDs(Entry.Universalid) = "*"	
+	End If 
+		
+endh:
+	Exit Sub
+handler:
+	Dim errStr As String
+	errStr = DESIGN & {, } & ModuleName & {, line: } & Erl & {, Error: (} & Err() & {)} & nLine & Error$
+	Error Err, errStr
+End Sub
+
+'/*************************************************************************************
+' * Function GetFist:A function to
+' * @param
+' * @return
+' * @author Pavel A Aleshkevich/DV2/RU
+' * @version Sep 1, 2016
+' *************************************************************************************/
+Function GetFirst() As NotesDocument
+	Const ModuleName = {Function "DocumentCollection.GetFirst"}
+	On Error GoTo handler
+	
+	Set GetFirst = Nothing
+	If me.Count = 0 Then Exit Function
+			
+	me.CurrentPosition = 1
+	Set GetFirst = me.dcList(me.CurrentPosition)
+	
+endh:
+	Exit Function
+handler:
+	Dim errStr As String
+	errStr = DESIGN & {, } & ModuleName & {, line: } & Erl & {, Error: (} & Err() & {)} & nLine & Error$
+	Error Err, errStr
+End Function
+
+'/*************************************************************************************
+' * Function GetNext:A function to
+' * @param
+' * @return
+' * @author Pavel A Aleshkevich/DV2/RU
+' * @version Sep 1, 2016
+' *************************************************************************************/
+Function GetNext() As NotesDocument
+	Const ModuleName = {Function "DocumentCollection.GetNext"}
+	On Error GoTo handler
+	
+	Set GetNext = Nothing
+	
+	If me.Count = 0 Then Exit Function
+	If me.Count = me.CurrentPosition Then Exit Function
+	
+	me.CurrentPosition = me.CurrentPosition + 1
+	
+	Set GetNext = me.dcList(me.CurrentPosition)
+	
+endh:
+	Exit Function
+handler:
+	Dim errStr As String
+	errStr = DESIGN & {, } & ModuleName & {, line: } & Erl & {, Error: (} & Err() & {)} & nLine & Error$
+	Error Err, errStr
+End Function
+'/*************************************************************************************
+' * Function GetPrev:A function to
+' * @param
+' * @return
+' * @author Pavel A Aleshkevich/DV2/RU
+' * @version Sep 1, 2016
+' *************************************************************************************/
+Function GetPrev() As NotesDocument
+	Const ModuleName = {Function "DocumentCollection.GetPrev"}
+	On Error GoTo handler
+	
+	Set GetPrev = Nothing
+	
+	If me.Count = 0 Then Exit Function
+	If me.CurrentPosition = 1 Then exit Function
+			
+	me.CurrentPosition = me.CurrentPosition - 1
+	
+	Set GetPrev = me.dcList(me.CurrentPosition)
+	
+endh:
+	Exit Function
+handler:
+	Dim errStr As String
+	errStr = DESIGN & {, } & ModuleName & {, line: } & Erl & {, Error: (} & Err() & {)} & nLine & Error$
+	Error Err, errStr
+End Function
+'/*************************************************************************************
+' * Function GetLast:A function to
+' * @param
+' * @return
+' * @author Pavel A Aleshkevich/DV2/RU
+' * @version Sep 1, 2016
+' *************************************************************************************/
+Function GetLast() As NotesDocument
+	Const ModuleName = {Function "DocumentCollection.GetLast"}
+	On Error GoTo handler
+	
+	Set GetLast = Nothing
+	
+	If me.Count = 0 Then Exit Function
+	
+	me.CurrentPosition = me.Count
+	
+	Set GetLast = me.dcList(me.CurrentPosition) 
+	
+endh:
+	Exit Function
+handler:
+	Dim errStr As String
+	errStr = DESIGN & {, } & ModuleName & {, line: } & Erl & {, Error: (} & Err() & {)} & nLine & Error$
+	Error Err, errStr
+End Function
+'/*************************************************************************************
+' * Function GetDocumentList:A function to
+' * @param
+' * @return
+' * @author Pavel A Aleshkevich/DV2/RU
+' * @version Sep 1, 2016
+' *************************************************************************************/
+Function GetDocumentList() As Variant
+	Const ModuleName = {Function "DocumentCollection.GetDocumentList"}
+	On Error GoTo handler
+	
+	GetDocumentList = me.dcList
+	
+endh:
+	Exit Function
+handler:
+	Dim errStr As String
+	errStr = DESIGN & {, } & ModuleName & {, line: } & Erl & {, Error: (} & Err() & {)} & nLine & Error$
+	Error Err, errStr
+End Function
+End Class

@@ -1,139 +1,13 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-<?xml version="1.0" encoding="UTF-8"?>
-<note xmlns="http://www.lotus.com/dxl" class="form">
-  <item name="$HTMLCode" sign="true">
-    <rawitemdata type="1">
-=======
-<?xml version='1.0' encoding='utf-8'?>
-<note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.5'
- replicaid='C32573460041C723'>
-<noteinfo noteid='382' unid='1B603B9A2A82184744257A7800321632' sequence='13'>
-<created><datetime>20120913T130704,82+04</datetime></created>
-<modified><datetime>20160427T175606,13+03</datetime></modified>
-<revised><datetime>20160427T175606,12+03</datetime></revised>
-<lastaccessed><datetime>20160427T175606,12+03</datetime></lastaccessed>
-<addedtofile><datetime>20120913T130706,01+04</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Pavel A. Aleshkevich/O=OTTO/C=RU</name></updatedby>
-<wassignedby><name>CN=Pavel A. Aleshkevich/O=OTTO/C=RU</name></wassignedby>
-<item name='$HTMLCode' sign='true'>
-<rawitemdata type='1'>
->>>>>>> 691b7014147ff37561408e86be0d335f8901144a
-X/8QAAIADwAHAAAAAAAAAA==
-</rawitemdata>
-  </item>
-  <item name="$TITLE">
-    <textlist>
-      <text>dlgКомментарий</text>
-      <text>dlgComment</text>
-    </textlist>
-  </item>
-  <item name="$Info" sign="true">
-    <rawitemdata type="1">
-hhgBAIAAAAAAgAAAAQABAP///wAQAAAA
-</rawitemdata>
-  </item>
-  <item name="$Flags">
-    <text/>
-  </item>
-  <item name="$Fonts">
-    <rawitemdata type="1">
-i/8oAAEABSZUYWhvbWEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
-<<<<<<< HEAD
-</rawitemdata>
-  </item>
-  <item name="CreateName" placeholder="true">
-    <rawitemdata type="0"/>
-  </item>
-  <item name="CretatedDate" placeholder="true">
-    <rawitemdata type="0"/>
-  </item>
-  <item name="CommentText" placeholder="true">
-    <rawitemdata type="0"/>
-  </item>
-  <item name="$Fields">
-    <textlist>
-      <text>CommentText</text>
-      <text>CretatedDate</text>
-      <text>CreateName</text>
-    </textlist>
-  </item>
-  <item name="$Body" sign="true">
-    <rawitemdata type="1">
-=======
-</rawitemdata></item>
-<item name='CreateName' placeholder='true'>
-<rawitemdata type='0'>
-</rawitemdata></item>
-<item name='CretatedDate' placeholder='true'>
-<rawitemdata type='0'>
-</rawitemdata></item>
-<item name='CommentText' placeholder='true'>
-<rawitemdata type='0'>
-</rawitemdata></item>
-<item name='$Fields'><textlist><text>CommentText</text><text>CretatedDate</text><text
->CreateName</text></textlist></item>
-<item name='$$ScriptName' summary='false' sign='true'><text>dlgComment</text></item>
-<item name='$Body' sign='true'>
-<rawitemdata type='1'>
->>>>>>> 691b7014147ff37561408e86be0d335f8901144a
-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
-AgD8EQAAAAAAAO0BswKuAGgAAgANAAAAAAAAAAEAEQAFwgXtBegF7AXgBe0F6AXlLgABADkABc0F
-5QXuBeEF9QXuBeQF6AXsBe4gBeIF4gXlBfEF8gXoIAXqBe4F7AXsBeUF7QXyBeAF8AXoBekhALAD
-rgAEALUDAwAHACAAGgAJNlM3UzlTMTZTMjJSVFRUVFRUVFRUVFRUVKv/QQACEqAFAAAAAAUAAAgK
-CQkJCQkJCQkJCQkKCQkJCQkJCQkJCQkKCQkJCQkJCQkJCQlPawoJCQkJCQkJCQkJAHIICQAAAAAA
-Yg4BAIIAAAAAAAAAAACqAt4GAACuAIX/CAABAAAK0BIBADAjIikAAAACAAABAQAAgQKDBAgAhf8I
-AAEAAArdBgAArf+p/ywAAwAYAAAAIAAgAAAAEgACAPwRAAAAAAAA7QEDAAcADAAFAAkwUzBFAKv/
-RQACEqAFAAAAAAUAAAgKCQkJCQkJCQkJCQkKCQkJCQkJCQkJCQkKCQkJCQkJCQkJCQlDYW5jZWwK
-CQkJCQkJCQkJCQByCAkAAAAAAGIOAQCCAAAAAAAAAAAAqgLeBgAArgCF/wgAAQAACtASAgAwIyIp
-AAAAAgAAAQEAAIECgwQIAIX/CAABAAAK0QYAAAAAgQKC/1oACQAAAAAAAAAAAPcimyn3IgAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIYBAAAAAJSEOQAAADkAAAAAAAAA
-AQAAAAQAAACDBAkAhf8IAAEAAArTCAkAAAAAAKUGAAAAAIECgwQCAIX/CAABAAAK
-</rawitemdata>
-  </item>
-</note>
-=======
 <?xml version='1.0' encoding='utf-8'?>
 <form name='dlgКомментарий' alias='dlgComment' xmlns='http://www.lotus.com/dxl'
  version='9.0' maintenanceversion='1.6' replicaid='432580060036840F' publicaccess='false'
- renderpassthrough='true'>
-<noteinfo noteid='166' unid='1B603B9A2A82184744257A7800321632' sequence='14'>
+ designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='166' unid='1B603B9A2A82184744257A7800321632' sequence='23'>
 <created><datetime>20120913T130704,82+04</datetime></created>
-<modified><datetime>20160812T164802,22+03</datetime></modified>
-<revised><datetime>20160812T164802,21+03</datetime></revised>
-<lastaccessed><datetime>20160812T164802,22+03</datetime></lastaccessed>
-<addedtofile><datetime>20160805T125703,30+03</datetime></addedtofile></noteinfo>
+<modified><datetime>20160823T182132,48+03</datetime></modified>
+<revised><datetime>20160823T182132,47+03</datetime></revised>
+<lastaccessed><datetime>20160823T182132,48+03</datetime></lastaccessed>
+<addedtofile><datetime>20160823T095948,07+03</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></updatedby>
 <wassignedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></wassignedby>
 <body><richtext>
@@ -199,4 +73,3 @@ Yg4BAIQAAAAAAAAAAAA=
 <par def='2'/></richtext></body>
 <item name='$$ScriptName' summary='false' sign='true'><text>dlgComment</text></item></form>
 
->>>>>>> return

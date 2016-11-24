@@ -1,0 +1,1162 @@
+'++LotusScript Development Environment:2:5:(Options):0:74
+Option Public
+Option Explicit
+Option Compare NoCase
+
+'++LotusScript Development Environment:2:5:(Forward):0:1
+Declare Sub Initialize
+Declare Function ConvertFileRTF (fileName As String, body As NotesRichTextItem) As Integer
+Declare Function ConvertStringRTF (ls As String, body As NotesRichTextItem) As Integer
+Declare Sub ConvertLineRTF (ByVal ls As String, body As NotesRichTextItem)
+Declare Sub ResetGlobals ()
+Declare Function GetLineTerminator (theString As String) As String
+Declare Sub ResetLsStyleRTF ()
+Declare Function SuperTrim (thisString As String) As String
+
+'++LotusScript Development Environment:2:5:(Declarations):0:10
+
+
+%REM
+ls2rtf is a script library that contains functions to convert raw LotusScript code
+(in the form of a string or a file) to formatted Notes RichText.
+
+The two main functions you'll use are ConvertFileRTF and ConvertStringRTF (the other 
+functions are mainly internal helper functions). These will convert a file or a string 
+of LotusScript and append the converted script to the RichTextField that you specify, 
+using the internal default styles, which should approximate the
+look of code within the Notes/Domino Designer IDE. If you want to use your own
+custom styles, you can modify the global style variables (rtStyleScript, rtStyleComments, 
+etc.)
+
+Here's an example of use:
+
+	Use "ls2rtf"
+	
+	Sub Click(Source As Button)
+		Dim ws As New NotesUIWorkspace
+		Dim uidoc As NotesUIDocument
+		Dim doc As NotesDocument
+		Dim rtItem As NotesRichTextItem
+		Dim fileName As Variant
+		
+		fileName = ws.OpenFileDialog(False, "File List", "", "c:")
+		If (fileName(0) = "") Then
+			Exit Sub
+		Else
+			Set uidoc = ws.CurrentDocument
+			Set doc = uidoc.Document
+			'Set rtItem = New NotesRichTextItem(doc, "body")
+			' - OR -
+			Set rtItem = doc.GetFirstItem("body")
+			
+			'** use a different color for quoted strings, just for fun
+			rtStyleQuote.NotesColor = COLOR_DARK_CYAN
+			Call ConvertFileRTF(fileName(0), rtItem)
+			Call doc.Save(True, True)
+		End If
+	End Sub
+
+This code may be freely used in any way you want to use it; however, if you
+end up using it (especially publicly), please mention where it came from.
+
+version 1.0d
+Julian Robichaux -- http://www.nsftools.com
+
+%END REM
+
+
+
+'** DECLARATIONS
+
+'** these are "persistent state" variables that are used to remember
+'** whether we're in the middle of a multi-line comment or quote
+Dim inCommentBlock As Integer
+Dim inQuoteBlock As Integer
+Dim quoteEndChar As String
+
+'** these are lists of words that are recognized as LotusScript keywords
+'** (populated in the Initialize block)
+Dim datatypes List As String
+Dim operators List As String
+Dim keywords List As String
+Dim statements List As String
+Dim functions List As String
+Dim constants List As String
+Dim classes List As String
+
+'** these are characters that end a word in a line of text
+'** (populated in the Initialize block)
+Dim wordEndChars As String
+
+'** these are global RichTextStyles that are used for formatting. They are
+'** set to default values on Initialization, they can be overridden at any time,
+'** and they can be reset by calling the ResetLsStyleRTF function.
+Dim rtStyleScript As NotesRichTextStyle
+Dim rtStyleComment As NotesRichTextStyle
+Dim rtStyleQuote As NotesRichTextStyle
+Dim rtStyleDatatype As NotesRichTextStyle
+Dim rtStyleOperator As NotesRichTextStyle
+Dim rtStyleKeyword As NotesRichTextStyle
+Dim rtStyleStatement As NotesRichTextStyle
+Dim rtStyleFunction As NotesRichTextStyle
+Dim rtStyleConstant As NotesRichTextStyle
+Dim rtStyleClass As NotesRichTextStyle
+
+'** constants that we use for consistency throughout the script
+Const OPEN_COMMENT_BLOCK = "%REM"
+Const CLOSE_COMMENT_BLOCK = "%END REM"
+Const CLOSE_COMMENT_BLOCK2 = "%ENDREM"
+
+'++LotusScript Development Environment:2:2:Initialize:1:10
+Sub Initialize
+	Call ResetGlobals
+	Call ResetLsStyleRTF()
+	
+	'** these are all the characters that will end a word
+	wordEndChars = " .,+-*/\^<>=()%!#@$&:" & Chr(9)
+	
+	'** populate the lists of LotusScript keywords (R4 and R5...I added
+	'** the list of ND6 keywords at the end)
+	datatypes("%") = ""
+	datatypes("&") = ""
+	datatypes("!") = ""
+	datatypes("#") = ""
+	datatypes("@") = ""
+	datatypes("$") = ""
+	
+	operators("+") = ""
+	operators("-") = ""
+	operators("*") = ""
+	operators("/") = ""
+	operators("\") = ""
+	operators("=") = ""
+	operators("<") = ""
+	operators(">") = ""
+	operators("(") = ""
+	operators(")") = ""
+	operators("&") = ""
+	operators(".") = ""
+	operators(",") = ""
+	operators("_") = ""
+	operators(":") = ""
+	operators("#") = ""
+	operators("And") = ""
+	operators("Eqv") = ""
+	operators("Imp") = ""
+	operators("Is") = ""
+	operators("IsA") = ""
+	operators("Like") = ""
+	operators("Mod") = ""
+	operators("Not") = ""
+	operators("Or") = ""
+	operators("Xor") = ""
+	
+	keywords("Access") = ""
+	keywords("Alias") = ""
+	keywords("Append") = ""
+	keywords("Array") = ""
+	keywords("As") = ""
+	keywords("Base") = ""
+	keywords("Binary") = ""
+	keywords("Bind") = ""
+	keywords("ByVal") = ""
+	keywords("ByRef") = ""
+	keywords("Compare") = ""
+	keywords("Currency") = ""
+	keywords("Declare") = ""
+	keywords("Event") = ""
+	keywords("Explicit") = ""
+	keywords("Currency") = ""
+	keywords("From") = ""
+	keywords("GoSub") = ""
+	keywords("GoTo") = ""
+	keywords("Initialize") = ""
+	keywords("Input") = ""
+	keywords("Integer") = ""
+	keywords("Len") = ""
+	keywords("Lib") = ""
+	keywords("List") = ""
+	keywords("LMBCS") = ""
+	keywords("LoadMsgFile") = ""
+	keywords("Lock") = ""
+	keywords("Long") = ""
+	keywords("LSServer") = ""
+	keywords("Me") = ""
+	keywords("MsgDescription") = ""
+	keywords("MsgText") = ""
+	keywords("New") = ""
+	keywords("NoCase") = ""
+	keywords("NoPitch") = ""
+	keywords("Option") = ""
+	keywords("Output") = ""
+	keywords("Pitch") = ""
+	keywords("Preserve") = ""
+	keywords("Private") = ""
+	keywords("Public") = ""
+	keywords("Published") = ""
+	keywords("Random") = ""
+	keywords("Read") = ""
+	keywords("Remove") = ""
+	keywords("Shared") = ""
+	keywords("Single") = ""
+	keywords("Static") = ""
+	keywords("String") = ""
+	keywords("Terminate") = ""
+	keywords("Unicode") = ""
+	keywords("Variant") = ""
+	keywords("Write") = ""
+	
+	statements("Case") = ""
+	statements("Class") = ""
+	statements("Const") = ""
+	statements("Dim") = ""
+	statements("Do") = ""
+	statements("Else") = ""
+	statements("%Else") = ""
+	statements("ElseIf") = ""
+	statements("%ElseIf") = ""
+	statements("End") = ""
+	statements("%End") = ""
+	statements("%ENDREM") = ""
+	statements("Exit") = ""
+	statements("For") = ""
+	statements("ForAll") = ""
+	statements("Function") = ""
+	statements("Get") = ""
+	statements("If") = ""
+	statements("%If") = ""
+	statements("Include") = ""
+	statements("%Include") = ""
+	statements("Let") = ""
+	statements("Loop") = ""
+	statements("Next") = ""
+	statements("On") = ""
+	statements("Property") = ""
+	statements("ReDim") = ""
+	statements("REM") = ""
+	statements("%REM") = ""
+	statements("Resume") = ""
+	statements("Return") = ""
+	statements("Select") = ""
+	statements("Set") = ""
+	statements("Step") = ""
+	statements("Stop") = ""
+	statements("Sub") = ""
+	statements("Then") = ""
+	statements("To") = ""
+	statements("Type") = ""
+	statements("Use") = ""
+	statements("UseLSX") = ""
+	statements("Wend") = ""
+	statements("While") = ""
+	statements("With") = ""
+	
+	functions("Abs") = ""
+	functions("ACos") = ""
+	functions("ActivateApp") = ""
+	functions("ArrayAppend") = ""
+	functions("ArrayGetIndex") = ""
+	functions("ArrayReplace") = ""
+	functions("Asc") = ""
+	functions("ASin") = ""
+	functions("ATn") = ""
+	functions("ATn2") = ""
+	functions("Beep") = ""
+	functions("Bin") = ""
+	functions("Bin$") = ""
+	functions("Call") = ""
+	functions("CCur") = ""
+	functions("CDat") = ""
+	functions("CDbl") = ""
+	functions("ChDir") = ""
+	functions("ChDrive") = ""
+	functions("Chr") = ""
+	functions("Chr$") = ""
+	functions("CInt") = ""
+	functions("CLng") = ""
+	functions("Close") = ""
+	functions("CodeLock") = ""
+	functions("CodeLockCheck") = ""
+	functions("CodeUnlock") = ""
+	functions("Command") = ""
+	functions("Command$") = ""
+	functions("Cos") = ""
+	functions("CreateLock") = ""
+	functions("CreateObject") = ""
+	functions("CSng") = ""
+	functions("CStr") = ""
+	functions("CurDir") = ""
+	functions("CurDir$") = ""
+	functions("CurDrive") = ""
+	functions("CurDrive$") = ""
+	functions("CVar") = ""
+	functions("DataType") = ""
+	functions("Date") = ""
+	functions("Date$") = ""
+	functions("DateNumber") = ""
+	functions("DateSerial") = ""
+	functions("DateValue") = ""
+	functions("Day") = ""
+	functions("Deftype") = ""
+	functions("DefCur") = ""
+	functions("DefDbl") = ""
+	functions("DefInt") = ""
+	functions("DefLng") = ""
+	functions("DefSng") = ""
+	functions("DefStr") = ""
+	functions("DefVar") = ""
+	functions("Delete") = ""
+	functions("DestroyLock") = ""
+	functions("Dir") = ""
+	functions("Dir$") = ""
+	functions("Doevents") = ""
+	functions("Environ") = ""
+	functions("Environ$") = ""
+	functions("EOF") = ""
+	functions("Erase") = ""
+	functions("Erl") = ""
+	functions("Err") = ""
+	functions("Error") = ""
+	functions("Error$") = ""
+	functions("Evaluate") = ""
+	functions("Execute") = ""
+	functions("Exp") = ""
+	functions("FileAttr") = ""
+	functions("FileCopy") = ""
+	functions("FileDateTime") = ""
+	functions("FileLen") = ""
+	functions("Fix") = ""
+	functions("Format") = ""
+	functions("Format$") = ""
+	functions("Fraction") = ""
+	functions("FreeFile") = ""
+	functions("FullTrim") = ""
+	functions("GetFileAttr") = ""
+	functions("GetObject") = ""
+	functions("GetThreadInfo") = ""
+	functions("Hex") = ""
+	functions("Hour") = ""
+	functions("IMESetMode") = ""
+	functions("IMEStatus") = ""
+	functions("Input") = ""
+	functions("Input$") = ""
+	functions("InputB") = ""
+	functions("InputB$") = ""
+	functions("InputBP") = ""
+	functions("InputBP$") = ""
+	functions("InputBox") = ""
+	functions("InputBox$") = ""
+	functions("InStr") = ""
+	functions("InStrB") = ""
+	functions("InStrBP") = ""
+	functions("InStrC") = ""
+	functions("Int") = ""
+	functions("IsArray") = ""
+	functions("IsDate") = ""
+	functions("IsDefined") = ""
+	functions("IsElement") = ""
+	functions("IsEmpty") = ""
+	functions("IsList") = ""
+	functions("IsNull") = ""
+	functions("IsNumeric") = ""
+	functions("IsObject") = ""
+	functions("IsScalar") = ""
+	functions("IsUnknown") = ""
+	functions("Kill") = ""
+	functions("LBound") = ""
+	functions("LCase") = ""
+	functions("LCase$") = ""
+	functions("Left") = ""
+	functions("Left$") = ""
+	functions("LeftB") = ""
+	functions("LeftB$") = ""
+	functions("LeftBP") = ""
+	functions("LeftBP$") = ""
+	functions("LeftC") = ""
+	functions("Len") = ""
+	functions("LenB") = ""
+	functions("LenBP") = ""
+	functions("LenC") = ""
+	functions("Line") = ""		'** as in Line Input
+	functions("ListTag") = ""
+	functions("LOC") = ""
+	functions("Lock") = ""
+	functions("LOF") = ""
+	functions("Log") = ""
+	functions("LSet") = ""
+	functions("LTrim") = ""
+	functions("LTrim$") = ""
+	functions("MessageBox") = ""
+	functions("Mid") = ""
+	functions("Mid$") = ""
+	functions("MidB") = ""
+	functions("MidB$") = ""
+	functions("MidBP") = ""
+	functions("MidBP$") = ""
+	functions("MidC") = ""
+	functions("Minute") = ""
+	functions("MkDir") = ""
+	functions("Month") = ""
+	functions("MsgBox") = ""
+	functions("Name") = ""
+	functions("Now") = ""
+	functions("Oct") = ""
+	functions("Oct$") = ""
+	functions("Open") = ""
+	functions("Print") = ""
+	functions("Put") = ""
+	functions("Randomize") = ""
+	functions("Reset") = ""
+	functions("Right") = ""
+	functions("Right$") = ""
+	functions("RightB") = ""
+	functions("RightB$") = ""
+	functions("RightBP") = ""
+	functions("RightBP$") = ""
+	functions("RightC") = ""
+	functions("RmDir") = ""
+	functions("Rnd") = ""
+	functions("Round") = ""
+	functions("RSet") = ""
+	functions("RTrim") = ""
+	functions("RTrim$") = ""
+	functions("Run") = ""
+	functions("Second") = ""
+	functions("Seek") = ""
+	functions("SendKeys") = ""
+	functions("SetFileAttr") = ""
+	functions("Sgn") = ""
+	functions("Shell") = ""
+	functions("Sin") = ""
+	functions("Sleep") = ""
+	functions("Space") = ""
+	functions("Space$") = ""
+	functions("Spc") = ""
+	functions("Sqr") = ""
+	functions("Str") = ""
+	functions("Str$") = ""
+	functions("StrComp") = ""
+	functions("StrCompare") = ""
+	functions("StrConv") = ""
+	functions("StrLeft") = ""
+	functions("StrLeftBack") = ""
+	functions("StrRight") = ""
+	functions("StrRightBack") = ""
+	functions("String") = ""
+	functions("String$") = ""
+	functions("Tab") = ""
+	functions("Tan") = ""
+	functions("Time") = ""
+	functions("Time$") = ""
+	functions("TimeNumber") = ""
+	functions("TimeSerial") = ""
+	functions("TimeValue") = ""
+	functions("Timer") = ""
+	functions("Today") = ""
+	functions("Trim") = ""
+	functions("Trim$") = ""
+	functions("TypeName") = ""
+	functions("UBound") = ""
+	functions("UCase") = ""
+	functions("UCase$") = ""
+	functions("UChr") = ""
+	functions("UChr$") = ""
+	functions("Uni") = ""
+	functions("Unlock") = ""
+	functions("UString") = ""
+	functions("UString$") = ""
+	functions("Val") = ""
+	functions("Weekday") = ""
+	functions("Width") = ""
+	functions("Write") = ""
+	functions("Year") = ""
+	functions("Yield") = ""
+	
+	'## Internal Constants ##
+	constants("Empty") = ""
+	constants("False") = ""
+	constants("Nothing") = ""
+	constants("Null") = ""
+	constants("Pi") = ""
+	constants("True") = ""
+	'## %If Constants ##
+	constants("WIN16") = ""
+	constants("WIN32") = ""
+	constants("WINNT") = ""
+	constants("WIN95") = ""
+	constants("WIN40") = ""
+	constants("WINDOWS") = ""
+	constants("HPUX") = ""
+	constants("SOLARIS") = ""
+	constants("UNIX") = ""
+	constants("OS2") = ""
+	constants("MAC") = ""
+	constants("OLE") = ""
+	constants("MAC68K") = ""
+	constants("MACPPC") = ""
+	'## Function Constants ##
+	constants("ACLLEVEL_AUTHOR") = ""
+	constants("ACLLEVEL_DEPOSITOR") = ""
+	constants("ACLLEVEL_DESIGNER") = ""
+	constants("ACLLEVEL_EDITOR") = ""
+	constants("ACLLEVEL_MANAGER") = ""
+	constants("ACLLEVEL_NOACCESS") = ""
+	constants("ACLLEVEL_READER") = ""
+	constants("ACLTYPE_MIXED_GROUP") = ""
+	constants("ACLTYPE_PERSON") = ""
+	constants("ACLTYPE_PERSON_GROUP") = ""
+	constants("ACLTYPE_SERVER") = ""
+	constants("ACLTYPE_SERVER_GROUP") = ""
+	constants("ACLTYPE_UNSPECIFIED") = ""
+	constants("ACTIONCD") = ""
+	constants("ALIGN_CENTER") = ""
+	constants("ALIGN_FULL") = ""
+	constants("ALIGN_LEFT") = ""
+	constants("ALIGN_NOWRAP") = ""
+	constants("ALIGN_RIGHT") = ""
+	constants("ASSISTANTINFO") = ""
+	constants("ATTACHMENT") = ""
+	constants("AUTHORS") = ""
+	constants("COLOR_BLACK") = ""
+	constants("COLOR_BLUE") = ""
+	constants("COLOR_CYAN") = ""
+	constants("COLOR_DARK_BLUE") = ""
+	constants("COLOR_DARK_CYAN") = ""
+	constants("COLOR_DARK_GREEN") = ""
+	constants("COLOR_DARK_MAGENTA") = ""
+	constants("COLOR_DARK_RED") = ""
+	constants("COLOR_DARK_YELLOW") = ""
+	constants("COLOR_GRAY") = ""
+	constants("COLOR_GREEN") = ""
+	constants("COLOR_LIGHT_GRAY") = ""
+	constants("COLOR_MAGENTA") = ""
+	constants("COLOR_RED") = ""
+	constants("COLOR_WHITE") = ""
+	constants("COLOR_YELLOW") = ""
+	constants("DATABASE") = ""
+	constants("DATETIMES") = ""
+	constants("DB_REPLICATION_PRIORITY_HIGH") = ""
+	constants("DB_REPLICATION_PRIORITY_LOW") = ""
+	constants("DB_REPLICATION_PRIORITY_MED") = ""
+	constants("DB_REPLICATION_PRIORITY_NOTSET") = ""
+	constants("EFFECTS_EMBOSS") = ""
+	constants("EFFECTS_EXTRUDE") = ""
+	constants("EFFECTS_NONE") = ""
+	constants("EFFECTS_SHADOW") = ""
+	constants("EFFECTS_SUBSCRIPT") = ""
+	constants("EFFECTS_SUPERSCRIPT") = ""
+	constants("EMBED_ATTACHMENT") = ""
+	constants("EMBED_OBJECT") = ""
+	constants("EMBED_OBJECTLINK") = ""
+	constants("EMBEDDEDOBJECT") = ""
+	constants("ERRORITEM") = ""
+	constants("EV_ALARM") = ""
+	constants("EV_COMM") = ""
+	constants("EV_MAIL") = ""
+	constants("EV_MISC") = ""
+	constants("EV_REPLICA") = ""
+	constants("EV_RESOURCE") = ""
+	constants("EV_SECURITY") = ""
+	constants("EV_SERVER") = ""
+	constants("EV_UNKNOWN") = ""
+	constants("EV_UPDATE") = ""
+	constants("FONT_COURIER") = ""
+	constants("FONT_HELV") = ""
+	constants("FONT_ROMAN") = ""
+	constants("FORMULA") = ""
+	constants("FT_DATABASE") = ""
+	constants("FT_DATE_ASC") = ""
+	constants("FT_DATE_DES") = ""
+	constants("FT_FILESYSTEM") = ""
+	constants("FT_FUZZY") = ""
+	constants("FT_SCORES") = ""
+	constants("FT_STEMS") = ""
+	constants("FT_THESAURUS") = ""
+	constants("HTML") = ""
+	constants("ICON") = ""
+	constants("ID_CERTIFIER") = ""
+	constants("ID_FLAT") = ""
+	constants("ID_HIERARCHICAL") = ""
+	constants("LSOBJECT") = ""
+	constants("MIME_PART") = ""
+	constants("NAMES") = ""
+	constants("NOTESLINKS") = ""
+	constants("NOTEREFS") = ""
+	constants("NOTES_DESKTOP_CLIENT") = ""
+	constants("NOTES_FULL_CLIENT") = ""
+	constants("NOTES_LIMITED_CLIENT") = ""
+	constants("NUMBERS") = ""
+	constants("OTHEROBJECT") = ""
+	constants("OUTLINE_CLASS_DATABASE") = ""
+	constants("OUTLINE_CLASS_DOCUMENT") = ""
+	constants("OUTLINE_CLASS_FOLDER") = ""
+	constants("OUTLINE_CLASS_FORM") = ""
+	constants("OUTLINE_CLASS_FRAMESET") = ""
+	constants("OUTLINE_CLASS_NAVIGATOR") = ""
+	constants("OUTLINE_CLASS_PAGE") = ""
+	constants("OUTLINE_CLASS_UNKNOWN") = ""
+	constants("OUTLINE_CLASS_VIEW") = ""
+	constants("OUTLINE_OTHER_FOLDERS_TYPE") = ""
+	constants("OUTLINE_OTHER_UNKNOWN_TYPE") = ""
+	constants("OUTLINE_OTHER_VIEWS_TYPE") = ""
+	constants("OUTLINE_TYPE_ACTION") = ""
+	constants("OUTLINE_TYPE_NAMEDELEMENT") = ""
+	constants("OUTLINE_TYPE_NOTELINK") = ""
+	constants("OUTLINE_TYPE_URL") = ""
+	constants("PAGINATE_BEFORE") = ""
+	constants("PAGINATE_DEFAULT") = ""
+	constants("PAGINATE_KEEP_TOGETHER") = ""
+	constants("PAGINATE_KEEP_WITH_NEXT") = ""
+	constants("PICKLIST_CUSTOM") = ""
+	constants("PICKLIST_NAMES") = ""
+	constants("PICKLIST_RESOURCES") = ""
+	constants("PICKLIST_ROOMS") = ""
+	constants("PROMPT_OK") = ""
+	constants("PROMPT_OKCANCELCOMBO") = ""
+	constants("PROMPT_OKCANCELEDIT") = ""
+	constants("PROMPT_OKCANCELEDITCOMBO") = ""
+	constants("PROMPT_OKCANCELLIST") = ""
+	constants("PROMPT_OKCANCELLISTMULT") = ""
+	constants("PROMPT_PASSWORD") = ""
+	constants("PROMPT_YESNO") = ""
+	constants("PROMPT_YESNOCANCEL") = ""
+	constants("QUERYCD") = ""
+	constants("READERS") = ""
+	constants("REPLICA_CANDIDATE") = ""
+	constants("RICHTEXT") = ""
+	constants("RULER_ONE_CENTIMETER") = ""
+	constants("RULER_ONE_INCH") = ""
+	constants("SEV_FAILURE") = ""
+	constants("SEV_FATAL") = ""
+	constants("SEV_NORMAL") = ""
+	constants("SEV_WARNING1") = ""
+	constants("SEV_WARNING2") = ""
+	constants("SIGNATURE") = ""
+	constants("SPACING_DOUBLE") = ""
+	constants("SPACING_ONE_POINT_50") = ""
+	constants("SPACING_SINGLE") = ""
+	constants("STYLE_NO_CHANGE") = ""
+	constants("TAB_CENTER") = ""
+	constants("TAB_DECIMAL") = ""
+	constants("TAB_LEFT") = ""
+	constants("TAB_RIGHT") = ""
+	constants("TARGET_ALL_DOCS") = ""
+	constants("TARGET_ALL_DOCS_IN_VIEW") = ""
+	constants("TARGET_NEW_DOCS") = ""
+	constants("TARGET_NEW_OR_MODIFIED_DOCS") = ""
+	constants("TARGET_NONE") = ""
+	constants("TARGET_RUN_ONCE") = ""
+	constants("TARGET_SELECTED_DOCS") = ""
+	constants("TARGET_UNREAD_DOCS_IN_VIEW") = ""
+	constants("TEMPLATE") = ""
+	constants("TEMPLATE_CANDIDATE") = ""
+	constants("TEXT") = ""
+	constants("TRIGGER_AFTER_MAIL_DELIVERY") = ""
+	constants("TRIGGER_BEFORE_MAIL_DELIVERY") = ""
+	constants("TRIGGER_DOC_PASTED") = ""
+	constants("TRIGGER_DOC_UPDATE") = ""
+	constants("TRIGGER_MANUAL") = ""
+	constants("TRIGGER_NONE") = ""
+	constants("TRIGGER_SCHEDULED") = ""
+	constants("UNAVAILABLE") = ""
+	constants("UNKNOWN") = ""
+	constants("USERDATA") = ""
+	constants("USERID") = ""
+	constants("VC_ALIGN_CENTER") = ""
+	constants("VC_ALIGN_LEFT") = ""
+	constants("VC_ALIGN_RIGHT") = ""
+	constants("VC_ATTR_PARENS") = ""
+	constants("VC_ATTR_PUNCTUATED") = ""
+	constants("VC_ATTR_PERCENT") = ""
+	constants("VC_FMT_ALWAYS") = ""
+	constants("VC_FMT_CURRENCY") = ""
+	constants("VC_FMT_DATE") = ""
+	constants("VC_FMT_DATETIME") = ""
+	constants("VC_FMT_FIXED") = ""
+	constants("VC_FMT_GENERAL") = ""
+	constants("VC_FMT_HM") = ""
+	constants("VC_FMT_HMS") = ""
+	constants("VC_FMT_MD") = ""
+	constants("VC_FMT_NEVER") = ""
+	constants("VC_FMT_SCIENTIFIC") = ""
+	constants("VC_FMT_SOMETIMES") = ""
+	constants("VC_FMT_TIME") = ""
+	constants("VC_FMT_TODAYTIME") = ""
+	constants("VC_FMT_YM") = ""
+	constants("VC_FMT_YMD") = ""
+	constants("VC_FMT_Y4M") = ""
+	constants("VC_FONT_BOLD") = ""
+	constants("VC_FONT_ITALIC") = ""
+	constants("VC_FONT_STRIKEOUT") = ""
+	constants("VC_FONT_UNDERLINE") = ""
+	constants("VC_SEP_COMMA") = ""
+	constants("VC_SEP_NEWLINE") = ""
+	constants("VC_SEP_SEMICOLON") = ""
+	constants("VC_SEP_SPACE") = ""
+	constants("VIEWMAPDATA") = ""
+	constants("VIEWMAPLAYOUT") = ""
+	constants("VW_SPACING_DOUBLE") = ""
+	constants("VW_SPACING_ONE_POINT_25") = ""
+	constants("VW_SPACING_ONE_POINT_50") = ""
+	constants("VW_SPACING_ONE_POINT_75") = ""
+	constants("VW_SPACING_SINGLE") = ""
+	
+	classes("Button") = ""
+	classes("Field") = ""
+	classes("Navigator") = ""
+	classes("NotesACL") = ""
+	classes("NotesACLEntry") = ""
+	classes("NotesAgent") = ""
+	classes("NotesDatabase") = ""
+	classes("NotesDateRange") = ""
+	classes("NotesDateTime") = ""
+	classes("NotesDbDirectory") = ""
+	classes("NotesDocument") = ""
+	classes("NotesDocumentCollection") = ""
+	classes("NotesEmbeddedObject") = ""
+	classes("NotesForm") = ""
+	classes("NotesInternational") = ""
+	classes("NotesItem") = ""
+	classes("NotesLog") = ""
+	classes("NotesMIMEEntity") = ""
+	classes("NotesName") = ""
+	classes("NotesNewsletter") = ""
+	classes("NotesOutline") = ""
+	classes("NotesOutlineEntry") = ""
+	classes("NotesRegistration") = ""
+	classes("NotesReplication") = ""
+	classes("NotesRichTextItem") = ""
+	classes("NotesRichTextParagraphStyle") = ""
+	classes("NotesRichTextStyle") = ""
+	classes("NotesRichTextTab") = ""
+	classes("NotesSession") = ""
+	classes("NotesTimer") = ""
+	classes("NotesUIDatabase") = ""
+	classes("NotesUIDocument") = ""
+	classes("NotesUIView") = ""
+	classes("NotesUIWorkspace") = ""
+	classes("NotesView") = ""
+	classes("NotesViewColumn") = ""
+	classes("NotesViewEntry") = ""
+	classes("NotesViewEntryCollection") = ""
+	classes("NotesViewNavigator") = ""
+	classes("ODBCConnection") = ""
+	classes("ODBCQuery") = ""
+	classes("ODBCResultSet") = ""
+	
+	'** new in Notes\Domino 6
+	keywords("Boolean") = ""
+	keywords("Byte") = ""
+	keywords("Charset") = ""
+	
+	functions("CBool") = ""
+	functions("CByte") = ""
+	functions("Implode") = ""
+	functions("Join") = ""
+	functions("Replace") = ""
+	functions("Split") = ""
+	functions("StrToken") = ""
+	
+	classes("JavaClass") = ""
+	classes("JavaError") = ""
+	classes("JavaMethod") = ""
+	classes("JavaMethodCollection") = ""
+	classes("JavaObject") = ""
+	classes("JavaProperty") = ""
+	classes("JavaPropertyCollection") = ""
+	classes("JavaSession") = ""
+	classes("NotesAdministrationProcesss") = ""
+	classes("NotesColorObject") = ""
+	classes("NotesDOMAttributeNode") = ""
+	classes("NotesDOMCDATASectionNode") = ""
+	classes("NotesDOMCharacterDataNode") = ""
+	classes("NotesDOMCommentNode") = ""
+	classes("NotesDOMDocumentFragmentNode") = ""
+	classes("NotesDOMDocumentNode") = ""
+	classes("NotesDOMDocumentTypeNode") = ""
+	classes("NotesDOMElementNode") = ""
+	classes("NotesDOMEntityNode") = ""
+	classes("NotesDOMEntityReferenceNode") = ""
+	classes("NotesDOMNamedNodeMap") = ""
+	classes("NotesDOMNode") = ""
+	classes("NotesDOMNodeList") = ""
+	classes("NotesDOMNotationNode") = ""
+	classes("NotesDOMParser") = ""
+	classes("NotesDOMProcessingInstructionNode") = ""
+	classes("NotesDOMTextNode") = ""
+	classes("NotesDOMXMLDeclNode") = ""
+	classes("NotesDXLExporter") = ""
+	classes("NotesDXLImporter") = ""
+	classes("NotesMIMEHeader") = ""
+	classes("NotesNoteCollection") = ""
+	classes("NotesReplicationEntry") = ""
+	classes("NotesRichTextDocLink") = ""
+	classes("NotesRichTextNavigator") = ""
+	classes("NotesRichTextRange") = ""
+	classes("NotesRichTextSelection") = ""
+	classes("NotesRichTextTable") = ""
+	classes("NotesSAXAttributeList") = ""
+	classes("NotesSAXException") = ""
+	classes("NotesSAXParser") = ""
+	classes("NotesStream") = ""
+	classes("NotesUIScheduler") = ""
+	classes("NotesXMLProcessor") = ""
+	classes("NotesXSLTransformer") = ""
+	
+End Sub
+
+'++LotusScript Development Environment:2:1:ConvertFileRTF:1:8
+Function ConvertFileRTF (fileName As String, body As NotesRichTextItem) As Integer
+	'** This is the function that does all the work of converting a LotusScript
+	'** file (usually designated with an LSS extension) to Notes RTF. You 
+	'** specify the input file name as well as the RichText field that the formatted
+	'** output should go to
+	Dim inFile As Integer
+	Dim rawLS As String
+	
+	On Error GoTo displayError
+	
+	'** try to get the input file
+	inFile = FreeFile()
+	Open fileName For Input As inFile
+	
+	'** reset our globals and constants
+	Call ResetGlobals()
+	Call body.AppendStyle(rtStyleScript)
+	
+	'** line-by-line, convert the input file
+	While Not EOF(inFile%)
+		Line Input #inFile, rawLS
+		Call ConvertLineRTF(rawLS, body)
+		Call body.AddNewLine(1)
+	Wend
+	
+	'** close the file, and we're done
+	Close inFile
+	ConvertFileRTF = True
+	Exit Function
+	
+displayError:
+	MessageBox "Error " & Err & " Converting LS File: " & Error
+	ConvertFileRTF = False
+	Exit Function
+	
+End Function
+
+'++LotusScript Development Environment:2:1:ConvertStringRTF:1:8
+Function ConvertStringRTF (ls As String, body As NotesRichTextItem) As Integer
+	'** This is the function that does all the work of converting a LotusScript
+	'** string to Notes RTF. You specify the string to be converted and the Notes
+	'** RichText field that the formatted String should go to
+	Dim lineTerm As String
+	Dim tempString As String
+	Dim lastPos As Integer
+	Dim pos As Integer
+	
+	On Error GoTo displayError
+	
+	Call ResetGlobals()
+	Call body.AppendStyle(rtStyleScript)
+	
+	lineTerm = GetLineTerminator(ls)
+	
+	lastPos = 1
+	pos = InStr(lastPos, ls, lineTerm)
+	While(pos > 0)
+		tempString = Mid$(ls, lastPos, pos - lastPos)
+		Call ConvertLineRTF(tempString, body)
+		Call body.AddNewLine(1)
+		lastPos = pos + Len(lineTerm)
+		pos = InStr(lastPos, ls, lineTerm)
+	Wend
+	
+	tempString = Mid$(ls, lastPos)
+	Call ConvertLineRTF(tempString, body)
+	ConvertStringRTF = True
+	Exit Function
+	
+displayError:
+	MessageBox "Error " & Err & " Converting LS String: " & Error
+	ConvertStringRTF = False
+	Exit Function
+	
+End Function
+
+'++LotusScript Development Environment:2:2:ConvertLineRTF:1:8
+Sub ConvertLineRTF (ByVal ls As String, body As NotesRichTextItem)
+	'** This is the workhorse function that does all the conversion.
+	'** It's set up to convert line-by-line, which should simplify the
+	'** process of formatting large chunks of LotusScript. Pass in
+	'** a line of raw Script (minus the line terminator), and the RTF
+	'** formatted version will be sent to the specified RTF field
+	Dim i As Integer
+	Dim thisChar As String
+	Dim thisWord As String
+	Dim fooString As String
+	
+	'** if this is a blank line, there's nothing to do
+	If (Trim(ls) = "") Then
+		Call body.AppendText(ls)
+		Exit Sub
+	End If
+	
+	'** see if this starts a %REM block
+	If (Left$(ls, Len(OPEN_COMMENT_BLOCK)) = OPEN_COMMENT_BLOCK) Then
+		Call body.AppendStyle(rtStyleComment)
+		Call body.AppendText(ls)
+		inCommentBlock = True
+		Exit Sub
+	End If
+	
+	'** if we're already in a %REM block, all we have to do is check to see
+	'* if it's over yet
+	If (inCommentBlock) Then
+		If ((Left$(SuperTrim(ls), Len(CLOSE_COMMENT_BLOCK)) = CLOSE_COMMENT_BLOCK) Or _
+		(Left$(SuperTrim(ls), Len(CLOSE_COMMENT_BLOCK2)) = CLOSE_COMMENT_BLOCK2)) Then
+			Call body.AppendText(ls)
+			Call body.AppendStyle(rtStyleScript)
+			inCommentBlock = False
+		Else
+			Call body.AppendText(ls)
+		End If
+		Exit Sub
+	End If
+	
+	'** if we got this far, go through the line one character at a time (sorry
+	'** about that) and process it
+	For i = 1 To Len(ls)
+		thisChar = Mid$(ls, i, 1)
+		
+		'** if this is a letter or a number, we can just keep going
+		If (InStr("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", thisChar) > 0) Then
+			thisWord = thisWord & thisChar
+			
+		'** if we're inside a quote, all we really have to look for is the quoteEndChar
+		ElseIf inQuoteBlock Then
+			If (thisChar = quoteEndChar) And (Mid$(ls, i, 1) <> quoteEndChar & quoteEndChar) Then
+				'** whatever we're expecting as the terminator for the current quoted line
+				'** doubled characters don't count
+				inQuoteBlock = False
+				quoteEndChar = ""
+				Call body.AppendText(thisWord & thisChar)
+				Call body.AppendStyle(rtStyleScript)
+				thisWord = ""
+			Else
+				'** no quoteEndChar, so keep going
+				thisWord = thisWord & thisChar
+			End If
+			
+		Else
+			'** if we found a wordEndChar, we need to check the word we've built
+			'** to see if it's a keyword
+			If (InStr(wordEndChars, thisChar) > 0) Then
+				If (LCase(thisWord) = "rem") Then
+					Call body.AppendStyle(rtStyleComment)
+					Call body.AppendText(thisWord & Mid$(ls, i))
+					Call body.AppendStyle(rtStyleScript)
+					thisWord = ""
+					Exit For
+				ElseIf IsElement(operators(thisWord)) Then
+					Call body.AppendStyle(rtStyleOperator)
+					Call body.AppendText(thisWord)
+					Call body.AppendStyle(rtStyleScript)
+				ElseIf IsElement(keywords(thisWord)) Then
+					Call body.AppendStyle(rtStyleKeyword)
+					Call body.AppendText(thisWord)
+					Call body.AppendStyle(rtStyleScript)
+				ElseIf IsElement(statements(thisWord)) Then
+					Call body.AppendStyle(rtStyleStatement)
+					Call body.AppendText(thisWord)
+					Call body.AppendStyle(rtStyleScript)
+				ElseIf IsElement(functions(thisWord & thisChar)) Then
+					Call body.AppendStyle(rtStyleFunction)
+					Call body.AppendText(thisWord & thisChar)
+					Call body.AppendStyle(rtStyleScript)
+					thisChar = ""
+				ElseIf IsElement(functions(thisWord)) Then
+					Call body.AppendStyle(rtStyleFunction)
+					Call body.AppendText(thisWord)
+					Call body.AppendStyle(rtStyleScript)
+				ElseIf IsElement(constants(thisWord)) Then
+					Call body.AppendStyle(rtStyleConstant)
+					Call body.AppendText(thisWord)
+					Call body.AppendStyle(rtStyleScript)
+				ElseIf IsElement(classes(thisWord)) Then
+					Call body.AppendStyle(rtStyleClass)
+					Call body.AppendText(thisWord)
+					Call body.AppendStyle(rtStyleScript)
+					
+				'** if we have a word that ends with a datatype character, mark it
+				ElseIf IsElement(datatypes(thisChar)) And (thisWord <> "") Then
+					Call body.AppendStyle(rtStyleDatatype)
+					Call body.AppendText(thisWord & thisChar)
+					Call body.AppendStyle(rtStyleScript)
+					thisChar = ""
+					
+				'** otherwise, we didn't find anything interesting, so we can just write the word
+				Else
+					Call body.AppendText(thisWord)
+				End If
+				
+				'** check the single character we've got against the known LotusScript operators
+				If (thisChar = "%") And (thisWord = "") Then
+					'** skip this case, because "%" can start a keyword
+					thisWord = thisChar
+				Else
+					If IsElement(operators(thisChar)) Then
+						Call body.AppendStyle(rtStyleOperator)
+						Call body.AppendText(thisChar)
+						Call body.AppendStyle(rtStyleScript)
+					Else
+						Call body.AppendText(thisChar)
+					End If
+					thisWord = ""
+				End If
+				
+			'** quotation mark, pipe, or open brace starts a quoted segment
+			ElseIf (InStr("""|{", thisChar) > 0) Then
+				inQuoteBlock = True
+				Call body.AppendText(thisWord)
+				Call body.AppendStyle(rtStyleQuote)
+				Call body.AppendText(thisChar)
+				thisWord = ""
+				If (thisChar = "{") Then
+					quoteEndChar = "}"
+				Else
+					quoteEndChar = thisChar
+				End If
+				
+			'** single quote starts a single-line comment
+			ElseIf (thisChar = "'") Then
+				Call body.AppendStyle(rtStyleComment)
+				Call body.AppendText(Mid$(ls, i))
+				Call body.AppendStyle(rtStyleScript)
+				Exit For
+				
+			'** if nothing matches, just add the character to the word
+			'** we're building and continue on
+			Else 
+				thisWord = thisWord & thisChar
+			End If
+		End If
+		
+	Next
+	
+	'** don't forget the last word
+	If IsElement(operators(thisWord)) Then
+		Call body.AppendStyle(rtStyleOperator)
+		Call body.AppendText(thisWord)
+		Call body.AppendStyle(rtStyleScript)
+	ElseIf IsElement(keywords(thisWord)) Then
+		Call body.AppendStyle(rtStyleKeyword)
+		Call body.AppendText(thisWord)
+		Call body.AppendStyle(rtStyleScript)
+	ElseIf IsElement(statements(thisWord)) Then
+		Call body.AppendStyle(rtStyleStatement)
+		Call body.AppendText(thisWord)
+		Call body.AppendStyle(rtStyleScript)
+	ElseIf IsElement(functions(thisWord)) Then
+		Call body.AppendStyle(rtStyleFunction)
+		Call body.AppendText(thisWord)
+		Call body.AppendStyle(rtStyleScript)
+	ElseIf IsElement(constants(thisWord)) Then
+		Call body.AppendStyle(rtStyleConstant)
+		Call body.AppendText(thisWord)
+		Call body.AppendStyle(rtStyleScript)
+	ElseIf IsElement(classes(thisWord)) Then
+		Call body.AppendStyle(rtStyleClass)
+		Call body.AppendText(thisWord)
+		Call body.AppendStyle(rtStyleScript)
+	Else
+		Call body.AppendText(thisWord)
+	End If
+	
+End Sub
+
+'++LotusScript Development Environment:2:2:ResetGlobals:1:8
+Sub ResetGlobals ()
+	'** reset the global state variables before starting a new conversion
+	inCommentBlock = False
+	inQuoteBlock = False
+	quoteEndChar = ""
+End Sub
+
+'++LotusScript Development Environment:2:1:GetLineTerminator:1:8
+Function GetLineTerminator (theString As String) As String
+	'** figure out the line terminator character in this string
+	
+	If (InStr(theString, Chr(13) & Chr(10)) > 0) Then
+		GetLineTerminator = Chr(13) & Chr(10)
+	ElseIf (InStr(theString, Chr(13)) > 0) Then
+		GetLineTerminator = Chr(13)
+	ElseIf (InStr(theString, Chr(10)) > 0) Then
+		GetLineTerminator = Chr(10)
+	ElseIf (InStr(theString, Chr(0)) > 0) Then
+		GetLineTerminator = Chr(0)
+	Else
+		'** default to Chr(10)
+		GetLineTerminator = Chr(10)
+	End If
+	
+End Function
+
+'++LotusScript Development Environment:2:2:ResetLsStyleRTF:1:8
+Sub ResetLsStyleRTF ()
+	'** set the default styles
+	Dim session As New NotesSession
+	
+	Set rtStyleScript = session.CreateRichTextStyle
+	rtStyleScript.NotesFont = FONT_HELV
+	rtStyleScript.FontSize = 9
+	rtStyleScript.NotesColor = COLOR_BLACK
+	
+	Set rtStyleComment = session.CreateRichTextStyle
+	rtStyleComment.NotesColor = COLOR_DARK_GREEN
+	Set rtStyleQuote = session.CreateRichTextStyle
+	rtStyleQuote.NotesColor = COLOR_BLACK
+	Set rtStyleDatatype = session.CreateRichTextStyle
+	rtStyleDatatype.NotesColor = COLOR_BLACK
+	Set rtStyleOperator = session.CreateRichTextStyle
+	rtStyleOperator.NotesColor = COLOR_BLUE
+	Set rtStyleKeyword = session.CreateRichTextStyle
+	rtStyleKeyword.NotesColor = COLOR_BLUE
+	Set rtStyleStatement = session.CreateRichTextStyle
+	rtStyleStatement.NotesColor = COLOR_BLUE
+	Set rtStyleFunction = session.CreateRichTextStyle
+	rtStyleFunction.NotesColor = COLOR_BLUE
+	Set rtStyleClass = session.CreateRichTextStyle
+	rtStyleClass.NotesColor = COLOR_BLACK
+	Set rtStyleConstant = session.CreateRichTextStyle
+	rtStyleConstant.NotesColor = COLOR_MAGENTA
+End Sub
+
+'++LotusScript Development Environment:2:1:SuperTrim:1:8
+Function SuperTrim (thisString As String) As String
+	'** remove all the leading and trailing whitespace from a string,
+	'** convert any internal whitespace (space, tab, line terminator)
+	'** to a space character, and change multiple whitespaces 
+	'** inside the string to a single space
+	Dim newString As String
+	Dim char As String
+	Dim i As Integer
+	Dim whitespace As String
+	Dim lastCharWasSpace As Integer
+	
+	whitespace = " " & Chr(9) & Chr(0) & Chr(10) & Chr(13)
+	lastCharWasSpace = False
+	
+	For i = 1 To Len(thisString)
+		char = Mid$(thisString, i, 1)
+		If (InStr(whitespace, char) > 0) Then
+			If Not (lastCharWasSpace) Then
+				newString = newString & " "
+			End If
+			lastCharWasSpace = True
+		Else
+			newString = newString & char
+			lastCharWasSpace = False
+		End If
+	Next
+	
+	SuperTrim = Trim$(newString)
+End Function
