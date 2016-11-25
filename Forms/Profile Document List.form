@@ -1,0 +1,532 @@
+<?xml version='1.0' encoding='utf-8'?>
+<form name='Profile Document List' alias='ProfileDocManager' xmlns='http://www.lotus.com/dxl'
+ version='9.0' maintenanceversion='1.7' replicaid='432580060036840F' noquery='true'
+ otherdialog='true' publicaccess='false' designerversion='8' bgcolor='#e0f1ff'
+ renderpassthrough='true'>
+<noteinfo noteid='1196' unid='8AD2F0DBF45CA93F43258076003A8AD9' sequence='2'>
+<created><datetime>20161125T133926,33+03</datetime></created>
+<modified><datetime>20161125T134040,27+03</datetime></modified>
+<revised><datetime>20161125T134040,26+03</datetime></revised>
+<lastaccessed><datetime>20161125T134040,27+03</datetime></lastaccessed>
+<addedtofile><datetime>20161125T133926,66+03</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Andre Guirard/OU=Cambridge/O=IBM</name><name>CN=Pavel Aleshkevich/O=tst/C=RU</name></updatedby>
+<wassignedby><name>CN=Pavel Aleshkevich/O=tst/C=RU</name></wassignedby>
+<globals><code event='options'><lotusscript>Option Public
+Option Declare
+%INCLUDE "lsconst"
+</lotusscript></code><code event='declarations'><lotusscript>Dim Gchoices ' choices as they would appear in the selection box, with noteID as keyword synonym
+Dim GdbTarget As NotesDatabase
+
+Const WINDOWTITLE = "Profile Manager"
+
+Private Const TIME_CLOCK_START = 4. / (24. * 60. * 60.) ' 4 seconds (or 1%, whichever is more)
+Private Const ONE_MINUTE = 1. / (24. * 60.)
+
+Class ProgressBar
+	' display an indication of how long a task is likely to take.
+	start_time As Variant
+	run_timer As Integer
+	pos As Long
+	comment As String
+	Public Limit As Long
+	showpct As Integer
+'Declare Property Set Position
+'Declare Property Set Percentage
+'Declare Property Get Position
+'Declare Property Get Percentage
+	
+	Sub Redisplay(Byval refresh As Boolean)
+		Dim pct, tnow, time_estimate As Double, time_desc$
+		pct = (pos * 100) \ Limit
+		If pct &gt; 100 Then
+			pct = 100
+		Elseif pct &lt; 0 Then
+			pct = 0
+		End If
+		If pct &lt;&gt; showpct Or refresh Then
+			showpct = pct
+			If run_timer And pct &lt; 100 Then
+				Dim time_dif As Double
+				time_dif = Cdbl(Now) - start_time
+				If time_dif &gt; TIME_CLOCK_START And pos &gt; 0 Then
+					time_estimate = (time_dif * (Limit - pos)) / (pos * ONE_MINUTE)
+					If time_estimate &lt; 1 Then
+						time_desc = ", &lt; 1 min. left"
+					Else
+						time_desc = ", " &amp; Format(Round(time_estimate, 0), "0") &amp; " min. left"
+					End If
+				End If
+			End If
+			If Len(comment) Then time_desc = time_desc &amp; ": " &amp; comment
+			Print String$(pct, "|") &amp; String$(100-pct, "¦") &amp; "  " &amp; pct &amp; "%" &amp; time_desc
+		End If
+	End Sub
+	
+	Sub new(init_limit As Long, timed As Integer)
+		If timed Then
+			start_time = Cdbl(Now)
+			run_timer = True
+		End If
+		Limit = init_limit
+		Redisplay True
+	End Sub
+	
+	Sub AdvanceWithComment(Byval incr As Long, Byval refresh As Boolean, comment$)
+		pos = pos + incr
+		If Not refresh Then
+			If (comment &lt;&gt; Me.comment) Then refresh = True
+		End If
+		Me.comment = comment
+		Redisplay(refresh)
+	End Sub
+	
+	Sub Advance(Byval incr As Long, Byval force_refresh As Boolean)
+		pos = pos + incr
+		Redisplay(force_refresh)
+	End Sub
+	
+	
+	Public Property Get Position
+		Position = pos
+	End Property
+	
+	Public Property Get Percentage
+		Percentage = showpct
+	End Property
+	
+	Public Property Set Position
+		pos = Position
+		Redisplay False
+	End Property
+	
+	Public Property Set Percentage
+		pos = (Limit * 100) / Position
+		Redisplay False
+	End Property
+	
+	Sub Finish
+		showpct = 100
+		Print
+		Beep
+	End Sub
+	
+	Sub Delete
+		If showpct &lt; 100 Then Print "Process aborted, " &amp; (100-showpct) &amp; "% remaining."
+	End Sub
+End Class
+</lotusscript></code><code event='calculateChoices'><lotusscript>Function calculateChoices(db As NotesDatabase) As Long
+	' assigns Gchoices = list of profiles in the specified database,
+	' and returns number of choices in the list.
+	Dim session As New NotesSession
+	Dim coll As NotesDocumentCollection
+	
+	' first try to get profile documents in the 8.0 way, which is much faster.
+	On Error Goto v7
+	Set coll = db.GetProfileDocCollection()
+	On Error Goto oops
+	calculateChoices = coll.Count
+	Goto common
+v7:	' if the 8.0 technique doesn't work (because we were supposed to supply an argument), use the old way.
+	On Error Goto oops
+	Dim ncoll As NotesNoteCollection
+	Set ncoll = db.CreateNoteCollection(False)	' there's an easier way in 8.0 but this is backward compatible.
+	ncoll.SelectProfiles = True
+	Print "Getting list of profile documents (may take a while)"
+	ncoll.BuildCollection
+	calculateChoices = ncoll.Count
+	Resume common
+	
+common:
+	On Error Goto oops
+	If calculateChoices = 0 Then
+		Gchoices = "" ' indicates no profiles
+	Else ' build a list of the profiles.
+		Dim pb As New ProgressBar(calculateChoices, True)
+		Dim strID$
+		Redim profileNames(0 To calculateChoices-1) As String
+		Redim profileIDs(0 To calculateChoices-1) As String
+		Dim docProfile As NotesDocument
+		Dim ind As Integer
+		ind = 0
+		
+		If ncoll Is Nothing Then
+			Set docProfile = coll.GetFirstDocument
+		Else
+			strID = ncoll.GetFirstNoteId()
+			Set docProfile = db.GetDocumentByID(strID)
+		End If
+		' iterate thru list of profiles.
+		Do Until docProfile Is Nothing
+			' create string to be a selection in the list field.
+			profilenames(ind) = stringFill(docProfile.NameOfProfile, 29) + " " _
+			+ stringFill(nameabbr(docProfile.Key), 29) + " " + Format(docProfile.LastModified, "c")
+			pb.Advance 1, False
+			profileIDs(ind) = docProfile.NoteID
+			ind = ind + 1
+			' get next profile doc from whatever collection we have.
+			If ncoll Is Nothing Then
+				Set docProfile = coll.GetNextDocument(docProfile)
+			Else
+				Delete docProfile
+				strID = ncoll.GetNextNoteId(strID)
+				If strID = "" Then Exit Do
+				Set docProfile = db.GetDocumentByID(strID)
+			End If
+		Loop
+		
+		''' sort the names
+		Dim jnd%, strTmp1$, strTmp2$
+		For ind = 0 To Ubound(profileNames)-1
+			For jnd = ind+1 To Ubound(profileNames)
+				If profileNames(ind) &gt; profileNames(jnd) Then
+					strTmp1 = profileNames(ind)
+					strTmp2 = profileIDs(ind)
+					profileNames(ind) = profileNames(jnd)
+					profileIDs(ind) = profileIDs(jnd)
+					profileNames(jnd) = strTmp1
+					profileIDs(jnd) = strTmp2
+				End If
+			Next
+		Next
+		
+		Dim pos%
+		For ind = 0 To Ubound(profileNames)-1
+			' make the descriptions unique, if they aren't already, by appending sequential number.
+			pos = ind+1
+			While profileNames(ind) = profileNames(pos)
+				pos = pos + 1
+			Wend
+			If pos &gt; ind+1 Then
+				For jnd = ind To pos-1
+					profileNames(jnd) = profileNames(jnd) &amp; " [" &amp; (jnd-ind+1) &amp; "]"
+				Next
+				ind = pos
+			End If
+		Next
+		
+		' build keyword list by adding noteID as keyword synonym.
+		For ind = 0 To Ubound(profileNames)
+			profileNames(ind) = profileNames(ind) &amp; {|} &amp; profileIDs(ind)
+		Next
+		Gchoices = profilenames
+	End If
+	Exit Function
+oops:
+	Error Err, Error &amp; " //" &amp; Getthreadinfo(1) &amp; ":" &amp; Erl
+End Function
+</lotusscript></code><code event='RemoveChoice'><lotusscript>Function RemoveChoice(Byval strID$) As Integer
+	' Given a noteID, remove the profile document with that noteID from the
+	' keyword choice list (the copy in a variable). This is done when the document
+	' was deleted by the user or we discovered it was missing.
+	' Return value is number of remaining choices.
+	Dim pos%, i%
+	
+	For pos = 0 To Ubound(Gchoices)
+		If strID = Strrightback(Gchoices(pos), {|}) Then Exit For
+	Next
+	
+	If pos &lt;= Ubound(Gchoices) Then
+		If Ubound(Gchoices) = 0 Then
+			Gchoices = ""
+			RemoveChoice = 0
+			Exit Function
+		Else
+			For i = pos To Ubound(Gchoices)-1
+				Gchoices(i) = Gchoices(i+1)
+			Next
+			Redim Preserve Gchoices(0 To Ubound(Gchoices)-1)
+		End If
+	End If
+	If Isarray(Gchoices) Then
+		RemoveChoice = Ubound(Gchoices) + 1
+	End If
+End Function
+
+
+</lotusscript></code><code event='NameAbbr'><lotusscript>Function NameAbbr(x As String) As String
+	' Return the abbreviated version of a canonical name
+	Dim nn As New notesname(x)
+	NameAbbr = nn.Abbreviated
+End Function
+</lotusscript></code><code event='stringFill'><lotusscript>Function stringFill(strDat$, Byval llen%) As String
+	' Make a string exactly a stated number of characters long by removing
+	' excess from the end and inserting "...", or by padding with spaces to
+	' the specified length.
+	strDat = Replace(strDat, "|", "") ' we're cheating here a little. We want these
+						' gone because this is to be used as a keyword value, but
+						' this routine is the wrong place to do it. However, it's
+						' after midnight and I'm ready to go to bed.
+	If Len(strDat) &gt; llen Then ' too long, do ellipsis
+		stringFill = Left(strDat, llen-3) + "..."
+	Else
+		stringFill = strDat &amp; String$(llen-Len(strDat), " ")
+	End If
+End Function
+</lotusscript></code><code event='RefreshChoices'><lotusscript>Sub RefreshChoices(uidoc As NotesUIDocument)
+	' The Gchoices array has been modified; update the display to
+	' reflect this.
+	Dim doc As NotesDocument
+	Set doc = uidoc.Document
+	If Not Isarray(Gchoices) Then
+		Msgbox "No more profile documents!", MB_ICONINFORMATION, WINDOWTITLE
+		uidoc.Close
+	End If
+	doc.ReplaceItemValue "Choices", Gchoices
+	doc.ReplaceItemValue "Selection", ""
+	uidoc.Refresh
+End Sub</lotusscript></code></globals><code event='windowtitle'><formula>"Profile Manager"</formula></code><code
+ event='queryopen'><lotusscript>Sub Queryopen(Source As Notesuidocument, Mode As Integer, Isnewdoc As Variant, Continue As Variant)
+	' Before opening the form, prepare a list of all the profile docs in the current db.
+	On Error Goto trap
+	
+	Dim session As New NotesSession
+	Set GdbTarget = session.CurrentDatabase
+	
+	If calculateChoices(GdbTarget) = 0 Then
+		Msgbox "There are no profile documents in '" &amp; GdbTarget.Title &amp; {.}, 0, WINDOWTITLE
+		Continue = False
+	End If
+	Exit Sub
+	
+trap:
+	Msgbox {Error in 'ProfileDocManager' form:
+
+   } &amp; Error &amp; {//Queryopen:} &amp; Erl , 16, WINDOWTITLE &amp; " - error"
+	Continue = False
+	Exit Sub
+End Sub
+</lotusscript></code><code event='postopen'><lotusscript>Sub Postopen(Source As Notesuidocument)
+	' we couldn't do this in Queryopen because the back-end document didn't yet exist.
+	' Update the list of profile docs stored in a field, and refresh to make them appear
+	' as choices in the Selection field.
+	Source.Document.ReplaceItemValue "Choices", Gchoices
+	Source.Refresh
+End Sub</lotusscript></code>
+<actionbar bgcolor='silver' bordercolor='black'>
+<actionbuttonstyle bgcolor='silver'/><font color='system'/><border style='solid'
+ width='0px 0px 1px'/>
+<action title='Select All' icon='10'><code event='click'><formula>FIELD Selection := @Right(Choices; "|");
+@Command([RefreshHideFormulas])</formula></code></action>
+<action title='Clear' icon='11'><code event='click'><formula>FIELD Selection := "";
+@Command([RefreshHideFormulas])</formula></code></action>
+<action title='Edit Profile' icon='89'><code event='options'><lotusscript
+>Option Declare
+
+</lotusscript></code><code event='click'><lotusscript>Sub Click(Source As Button)
+	Dim docPro As NotesDocument
+	Dim wksp As New NotesUIWorkspace
+	Dim uidoc As NotesUIDocument
+	Dim docCur As NotesDocument
+	Set uidoc = wksp.CurrentDocument
+	Set docCur = uidoc.Document
+	Dim selID$, key$, profilename$
+	Dim response%
+	
+	' note button is hidden if there's not exactly one doc selected.
+	selID = docCur.GetItemValue("Selection")(0)
+	Set docPro = GdbTarget.GetDocumentByID(selID)
+	If docPro Is Nothing Then
+		Msgbox "Oops! That profile document is gone."
+		RemoveChoice selID
+		RefreshChoices uidoc
+	Else
+		profilename = docPro.NameOfProfile
+		key = docPro.Key
+		Dim aForm As NotesForm
+		Set aForm = GdbTarget.GetForm(profilename)
+		If aForm Is Nothing Then
+			Msgbox "Sorry! There's no '" &amp; profilename &amp; _
+			"' form to edit this profile.", MB_ICONSTOP, WINDOWTITLE
+			Exit Sub
+		End If
+		
+		If aForm.IsSubForm Then
+			' only way to use a subform for editing is in a dialog.
+			Dim result%
+			result = wksp.DialogBox(profilename, False, False, False, False, False, False, "Profile " &amp; profilename &amp; " / " &amp; key, docPro)
+			If result Then
+				If Not docPro.Save(False, False, True) Then
+					Msgbox "Save failed, probable save conflict.", MB_ICONINFORMATION, WINDOWTITLE
+				End If
+			End If
+			Exit Sub
+		End If
+		
+		' get the profile document with this name and key, to confirm it's the right one.
+		' This is to make sure that EditProfile will work.
+		Dim bProEdit As Boolean
+		bProEdit = True
+		Dim docConfirm As NotesDocument
+		Set docConfirm = GdbTarget.GetProfileDocument(docPro.NameOfProfile, docPro.Key)
+		If docConfirm Is Nothing Then
+			bProEdit = False
+		Elseif docPro.NoteID &lt;&gt; docConfirm.NoteID Then
+			bProEdit = False
+		End If
+		
+		If bProEdit Then
+			wksp.EditProfile profilename, key
+		Else
+			Dim oldForm$
+			Dim proUiDoc As NotesUIDocument
+			Msgbox "Can't locate profile by key; will open for normal editing.", MB_ICONINFORMATION, WINDOWTITLE
+			oldForm = docPro.GetItemValue("Form")(0)
+			If oldForm &lt;&gt; profilename Then
+				docPro.ReplaceItemValue "Form", profilename ' to make it open with correct form
+			End If
+			Set proUiDoc = wksp.EditDocument(True, docPro)
+			If oldForm &lt;&gt; profilename And oldForm &lt;&gt; "" Then
+				Set docPro = proUIDoc.Document
+				docPro.ReplaceItemValue "Form", oldForm
+			End If
+		End If
+	End If
+End Sub</lotusscript></code><code event='hidewhen'><formula>@Elements(Selection) != 1</formula></code></action>
+<action title='Delete Selected' icon='116'><code event='options'><lotusscript
+>Option Declare
+
+</lotusscript></code><code event='click'><lotusscript>Sub Click(Source As Button)
+	Const NL = {
+}
+	Dim docPro As NotesDocument
+	Dim wksp As New NotesUIWorkspace
+	Dim uidoc As NotesUIDocument
+	Dim docCur As NotesDocument
+	Set uidoc = wksp.CurrentDocument
+	Set docCur = uidoc.Document
+	Dim selID, response%
+	selID = docCur.GetItemValue("Selection")
+	
+	response = Msgbox({Do you want to PERMANENTLY DELETE} &amp; NL &amp; NL _
+	&amp; {           --&gt; } &amp; (Ubound(selID) + 1) &amp; { &lt;--} &amp; NL &amp; NL _
+	&amp; {profile documents?}, MB_YESNO+MB_ICONEXCLAMATION+MB_DEFBUTTON2, WINDOWTITLE)
+	
+	If response = IDYES Then
+		Forall id In selID
+			Set docPro = GdbTarget.GetDocumentByID(id)
+			If docPro Is Nothing Then
+				RemoveChoice id ' already gone -- cool, then it's no longer in the list.
+			Elseif docPro.RemovePermanently(True) Then
+				RemoveChoice id
+			End If
+		End Forall
+		RefreshChoices uidoc
+	End If
+End Sub</lotusscript></code><code event='hidewhen'><formula>!(Selection != "")</formula></code></action>
+<action title='Refresh' icon='145'><code event='options'><lotusscript>Option Declare
+
+</lotusscript></code><code event='click'><lotusscript>Sub Click(Source As Button)
+	' reload list of profile docs (to make sure nobody changed them while you weren't looking)
+	Dim docPro As NotesDocument
+	Dim wksp As New NotesUIWorkspace
+	Dim uidoc As NotesUIDocument
+	Dim docCur As NotesDocument
+	Set uidoc = wksp.CurrentDocument
+	Set docCur = uidoc.Document
+	Dim selID
+	selID = docCur.GetItemValue("Selection")
+	
+	If calculateChoices(GdbTarget) Then
+		docCur.ReplaceItemValue "Choices", Gchoices
+		uidoc.Refresh
+	Else
+		Msgbox "No more profile documents!", MB_ICONINFORMATION, WINDOWTITLE
+	End If
+End Sub</lotusscript></code></action></actionbar>
+<body><richtext>
+<pardef id='1'/>
+<par def='1'><run><font size='14pt' color='maroon'/>Profile Document Management</run></par>
+<par def='1'>Profiles in <run><font size='12pt' style='bold'/><field type='text'
+ kind='computedfordisplay' name='dbTitle_d'><code event='defaultvalue'><formula
+>@DbTitle</formula></code></field></run><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='6' containertype='65418' aftercontainercount='1'
+ afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata> (<run><font color='maroon'/><field type='text'
+ kind='computedfordisplay' name='db_d_1'><code event='defaultvalue'><formula
+>@DbName[2]</formula></code></field></run><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='12' containertype='65418' aftercontainercount='1'
+ afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata> <run><font style='bold'/>on </run><run
+><font color='maroon'/><field type='text' kind='computedfordisplay' name='db_d_2'><code
+ event='defaultvalue'><formula>@Name([CN]; @Replace(@DbName[1]; ""; "Local"))</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='19' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata>)</par>
+<par def='1'/>
+<par def='1'><run><font size='9pt' name='monospace'/>   </run><actionhotspot
+><code event='click'><formula>FIELD Choices := @Sort(Choices);
+@Command([ViewRefreshFields])</formula></code><run highlight='yellow'><font
+ size='9pt' name='monospace'/>_________Profile name________</run></actionhotspot><run
+><font size='9pt' name='monospace'/> </run><actionhotspot><code event='click'><formula
+>_sorted := @Sort(Choices; [CustomSort]; @Middle($A; 30; 29) + @Left($A; 29) &gt; @Middle($B; 30; 29) + @Left($B; 29) );
+FIELD Choices := _sorted;
+@Command([ViewRefreshFields])</formula></code><run highlight='yellow'><font
+ size='9pt' name='monospace'/>___________Key_______________</run></actionhotspot><run
+><font size='9pt' name='monospace'/> </run><actionhotspot><code event='click'><formula
+>_sorted := @Sort(Choices; [CustomSort]; @ToTime(@Word(@Middle($A; 60; "|"); "["; 1)) &lt; @ToTime(@Word(@Middle($B; 60; "|"); "["; 1)) );
+FIELD Choices := _sorted;
+@Command([ViewRefreshFields])</formula></code><run highlight='yellow'><font
+ size='9pt' name='monospace'/>______Modified_______</run><run highlight='yellow'><font
+ size='9pt' name='monospace'/>_</run></actionhotspot><run highlight='yellow'><font
+ size='9pt' name='monospace'/></run></par>
+<pardef id='2' hide='notes web mobile'/>
+<par def='2'><run><font size='9pt' name='monospace'/>   12345678901234567890123456789012345678901234567890123456789012345678901234567890123</run></par>
+<par def='2'><run><font size='9pt' name='monospace'/>   PersonalProfile               Angus Mealie/Acctg/Yoyodyne   10/12/2007 04:55:09 pm</run></par>
+<par def='1'><run><font size='9pt' name='monospace'/><field usenotesstyle='false'
+ height='4in' width='6.5625in' multiline='true' borderstyle='none' lookupeachchar='false'
+ lookupaddressonrefresh='false' type='keyword' allowmultivalues='true' kind='editable'
+ name='Selection' listinputseparators='comma' listdisplayseparator='comma'><keywords
+ helperbutton='false' recalconchange='true' recalcchoices='true' columns='1'
+ ui='listbox'><formula>Choices</formula></keywords><code event='options'><lotusscript
+>Option Declare
+
+</lotusscript></code><code event='onchange'><lotusscript>Sub Onchange(Source As Field)
+'	Dim wksp As New NotesUIWorkspace
+'	Dim uidoc As NotesUIDocument
+'	Set uidoc = wksp.CurrentDocument
+'	uidoc.RefreshHideFormulas
+End Sub</lotusscript></code></field></run></par>
+<par def='2'><run><font size='8pt' color='red'/>hidden: </run><run><font size='8pt'
+ color='red'/><field type='text' kind='computedwhencomposed' name='SaveOptions'><code
+ event='defaultvalue'><formula>"0"</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='9' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='8pt'
+ color='red'/></run></par></richtext></body>
+<item name='$Selection_O' sign='true'>
+<rawitemdata type='14'>
+AQAAAkxTT0IDABQIZW4AAAQACQAoAAQAAAAkAowBAAAAAAQAwADMAAAAAAAoAAAAHAA8AMgANAFY
+AAAAAAAAAAIAAAAYAGwBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAGABsAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAEAAADMAMwAAAAAAMwAzAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAEABQBMb3R1cyBQcm9kdWN0AAAAVjAuMAAAAAAAAAAAAAAAAAAA
+AAAEAAAAKAAAAAAAAAAkAgAAjAEAAAAAAAAAAAAAAQAAAAAAAAABAAAAAAAAAAEAAAAAAAAAAAAA
+AAUAAABXMzJJJQMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAwCQAQAAAAAYAQsAJAAkAFMARQBMAEUAQwBUAEkATwBOAAAAcAADAE4ARQBXAAAAhAAGAEQA
+RQBMAEUAVABFAAAAAAD//woASQBOAEkAVABJAEEATABJAFoARQAAAAAA//8JAFQARQBSAE0ASQBO
+AEEAVABFAAAAjAAGAE8AQgBKAEUAQwBUAAAAAAAEAQAAAAAAAP//GgAoAEcATABPAEIAQQBMAFMA
+KQBQAFIATwBGAEkATABFAEQATwBDAE0AQQBOAEEARwBFAFIAAAAAAHQBGgAoAEcAbABvAGIAYQBs
+AHMAKQBQAHIAbwBmAGkAbABlAEQAbwBjAE0AYQBuAGEAZwBlAHIAAAAAAFABBgBTAE8AVQBSAEMA
+RQAAAAAAYAEKAEIASQBOAEQARQBWAEUATgBUAFMAAAAAAP//CwBPAEIASgBFAEMAVABOAEEATQBF
+AF8AAAD//wUARgBJAEUATABEAAAA//8GACUATABTAEkARABFAAAAAAD//wgATwBOAEMASABBAE4A
+RwBFAAAAAAAFACgCAAAAAGik3XAYAAAAAACQAIiCxgg4x2ICBAAAAAgAAABsAWwBHAEAAAAAAAAC
+AAAAsABcAQAAAAAAAAAAAAAAAAAAAACwALAAAAAAAAAAAAAAAAAAAAAAAAAAAABcAVwBAAAAAAAA
+AAABAAAAAgAAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAwABAFwBAAA4AQYIAAAAABoAAABkAf//AAAAABAAAAAAAAAA
+VAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAADFhMp7S5pEL9dAN0BEYa3AAAAAAAAAAAAAAAAAAAAAGQAAAAAAAAAAAAAAAAA
+AAACAMAAAAAUAgAAAABcBAEA//8AAAMAIAAAAAAACAEJAgAAzAAIAAAAAAAAAHgBAAAAAAAAAQAA
+AAQCBAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAIEAgAAAAAAAAAA
+AQAAAAAAAAAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAMAAQAAAAAACAEJAgAAzAATAAAAeAEAAOwAAAAAAAAABAAsAAAA
+AADSzAAdAAAaDABbXAFJsADKzACmGg0AR1wBy+wAAABsARoOAB0aFgAdAgAAABEAGAAAAAAA//8B
+AAMABAAAAAcAHAEJAHgBEAAKAAAA
+</rawitemdata></item>
+<item name='$$ScriptName' summary='false' sign='true'><text>ProfileDocManager</text></item></form>
+

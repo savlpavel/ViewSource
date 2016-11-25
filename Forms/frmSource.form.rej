@@ -1,0 +1,28 @@
+diff a/Forms/frmSource.form b/Forms/frmSource.form	(rejected hunks)
+@@ -50,12 +50,26 @@
+ <modified><datetime>20160809T100721,98+03</datetime></modified>
+ <revised><datetime>20160809T100721,97+03</datetime></revised>
+ <lastaccessed><datetime>20160809T100721,98+03</datetime></lastaccessed>
++=======
++<?xml version='1.0' encoding='utf-8'?>
++<form name='frmSource' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.6'
++ replicaid='432580060036840F' nocompose='true' noquery='true' treatashtml='true'
++ publicaccess='false' renderpassthrough='true'>
++<noteinfo noteid='162' unid='FBABB6C89702076F44257A780035E98B' sequence='18'>
++<created><datetime>20120913T134851,95+04</datetime></created>
++<modified><datetime>20160812T164802,26+03</datetime></modified>
++<revised><datetime>20160812T164802,25+03</datetime></revised>
++<lastaccessed><datetime>20160812T164802,26+03</datetime></lastaccessed>
++>>>>>>> return
+ <addedtofile><datetime>20160805T125703,26+03</datetime></addedtofile></noteinfo>
+ <updatedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></updatedby>
+ <wassignedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></wassignedby><code
+  event='windowtitle'><formula>"Поля документа"</formula></code><code event='querymodechange'><lotusscript
+ >Sub Querymodechange(Source As Notesuidocument, Continue As Variant) 
++<<<<<<< HEAD
+ >>>>>>> 691b7014147ff37561408e86be0d335f8901144a
++=======
++>>>>>>> return
+ 	Continue = source.EditMode 
+ End Sub
+ </lotusscript></code>

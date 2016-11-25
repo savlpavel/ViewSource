@@ -1,19 +1,19 @@
 <?xml version='1.0' encoding='utf-8'?>
 <form name='(ScriptDoc)' alias='ScriptDoc' xmlns='http://www.lotus.com/dxl'
- version='9.0' maintenanceversion='1.6' replicaid='432580060036840F' nocompose='true'
+ version='9.0' maintenanceversion='1.7' replicaid='432580060036840F' nocompose='true'
  noquery='true' publicaccess='false' designerversion='8.5.3' renderpassthrough='true'>
-<noteinfo noteid='5d2' unid='E9EC8601A156C42B432580200037AA3E' sequence='16'>
+<noteinfo noteid='5d2' unid='E9EC8601A156C42B432580200037AA3E' sequence='19'>
 <created><datetime>20160831T130800,62+03</datetime></created>
-<modified><datetime>20160831T134125,31+03</datetime></modified>
-<revised><datetime>20160831T134125,30+03</datetime></revised>
-<lastaccessed><datetime>20160831T134125,31+03</datetime></lastaccessed>
+<modified><datetime>20161124T153009,83+03</datetime></modified>
+<revised><datetime>20161124T153009,82+03</datetime></revised>
+<lastaccessed><datetime>20161124T153009,83+03</datetime></lastaccessed>
 <addedtofile><datetime>20160831T130800,74+03</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></updatedby>
 <wassignedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></wassignedby><code
  event='windowtitle'><formula>@If(!@IsNewDoc;Script.Name;"New")</formula></code>
 <actionbar bgcolor='#f0f0f0' bordercolor='black'>
-<actionbuttonstyle bgcolor='#f0f0f0'/><font color='system'/><border style='solid'
- width='0px 0px 1px'/>
+<actionbuttonstyle bgcolor='#f0f0f0'/><font size='9pt' color='system'/><border
+ style='solid' width='0px 0px 1px'/>
 <sharedactionref id='1'>
 <action title='Close' icon='112'><code event='click'><formula>@Command([FileCloseWindow])</formula></code></action></sharedactionref>
 <sharedactionref id='2'>
@@ -46,7 +46,8 @@
 		Call doc.Save(True, True)
 	End If
 	
-End Sub</lotusscript></code><code event='label'><formula>"Color"</formula></code></action></actionbar>
+End Sub
+</lotusscript></code><code event='label'><formula>"Color"</formula></code></action></actionbar>
 <body><richtext>
 <pardef id='1'/>
 <par def='1'><run><font size='8pt' name='Tahoma' pitch='variable' truetype='true'
