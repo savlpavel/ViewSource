@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='utf-8'?>
+<form name='HTMLTest' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.7'
+ replicaid='432580060036840F' publicaccess='false' designerversion='8.5.3'
+ renderpassthrough='true'>
+<noteinfo noteid='16de' unid='6AFF404A427A0D004325809900371687' sequence='6'>
+<created><datetime>20161230T130142,47+03</datetime></created>
+<modified><datetime>20161230T130536,58+03</datetime></modified>
+<revised><datetime>20161230T130536,53+03</datetime></revised>
+<lastaccessed><datetime>20161230T130536,58+03</datetime></lastaccessed>
+<addedtofile><datetime>20161230T130142,57+03</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Pavel Aleshkevich/O=tst/C=RU</name></updatedby>
+<wassignedby><name>CN=Pavel Aleshkevich/O=tst/C=RU</name></wassignedby>
+<body><richtext>
+<pardef id='1'/>
+<par def='1'/>
+<par def='1'/>
+<par def='1'><run html='true'>CT: </run><run html='true'><computedtext><code
+ event='value'><formula>"&lt;table class=\"calendar\" border=\"1\"&gt;
+	   &lt;thead&gt;
+	    &lt;tr&gt;&lt;th&gt;ПН&lt;/th&gt;&lt;th&gt;ВТ&lt;/th&gt;&lt;th&gt;СР&lt;/th&gt;&lt;th&gt;ЧТ&lt;/th&gt;&lt;th&gt;ПТ&lt;/th&gt;&lt;th&gt;СБ&lt;/
+th&gt;&lt;th&gt;ВС&lt;/th&gt;&lt;/tr&gt;
+	   &lt;/thead&gt;
+	   &lt;tbody id=\"cal_body\"&gt;
+&lt;tr&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;"</formula></code></computedtext></run></par>
+<par def='1'/>
+<par def='1'><run html='true'>CFD: </run><run html='true'><field type='text'
+ kind='computedfordisplay' name='Computed4display'><code event='defaultvalue'><formula
+>"&lt;table class=\"calendar\" border=\"2\"&gt;
+	   &lt;thead&gt;
+	    &lt;tr&gt;&lt;th&gt;ПН&lt;/th&gt;&lt;th&gt;ВТ&lt;/th&gt;&lt;th&gt;СР&lt;/th&gt;&lt;th&gt;ЧТ&lt;/th&gt;&lt;th&gt;ПТ&lt;/th&gt;&lt;th&gt;СБ&lt;/
+th&gt;&lt;th&gt;ВС&lt;/th&gt;&lt;/tr&gt;
+	   &lt;/thead&gt;
+	   &lt;tbody id=\"cal_body\"&gt;
+&lt;tr&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;"</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'/>
+<par def='1'><run html='true'>C: </run><run html='true'><field type='text'
+ kind='computed' name='Computed'><code event='defaultvalue'><formula>"&lt;table class=\"calendar\" border=\"3\"&gt;
+	   &lt;thead&gt;
+	    &lt;tr&gt;&lt;th&gt;ПН&lt;/th&gt;&lt;th&gt;ВТ&lt;/th&gt;&lt;th&gt;СР&lt;/th&gt;&lt;th&gt;ЧТ&lt;/th&gt;&lt;th&gt;ПТ&lt;/th&gt;&lt;th&gt;СБ&lt;/
+th&gt;&lt;th&gt;ВС&lt;/th&gt;&lt;/tr&gt;
+	   &lt;/thead&gt;
+	   &lt;tbody id=\"cal_body\"&gt;
+&lt;tr&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;"</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'/>
+<par def='1'><run html='true'>E: </run><run html='true'><field type='text'
+ kind='editable' name='Editable'/></run><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='7' containertype='65418' aftercontainercount='1'
+ afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>HTMLTest</text></item></form>
+
