@@ -2,12 +2,12 @@
 <form name='HTMLTest' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.7'
  replicaid='432580060036840F' publicaccess='false' designerversion='8.5.3'
  renderpassthrough='true'>
-<noteinfo noteid='16de' unid='6AFF404A427A0D004325809900371687' sequence='6'>
+<noteinfo noteid='16de' unid='6AFF404A427A0D004325809900371687' sequence='17'>
 <created><datetime>20161230T130142,47+03</datetime></created>
-<modified><datetime>20161230T130536,58+03</datetime></modified>
-<revised><datetime>20161230T130536,53+03</datetime></revised>
-<lastaccessed><datetime>20161230T130536,58+03</datetime></lastaccessed>
-<addedtofile><datetime>20161230T130142,57+03</datetime></addedtofile></noteinfo>
+<modified><datetime>20161230T133501,04+03</datetime></modified>
+<revised><datetime>20161230T133501,03+03</datetime></revised>
+<lastaccessed><datetime>20161230T133501,04+03</datetime></lastaccessed>
+<addedtofile><datetime>20161230T132840,13+03</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Pavel Aleshkevich/O=tst/C=RU</name></updatedby>
 <wassignedby><name>CN=Pavel Aleshkevich/O=tst/C=RU</name></wassignedby>
 <body><richtext>
