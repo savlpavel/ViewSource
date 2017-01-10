@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="filter" maintenanceversion="1.6" replicaid="432580060036840F" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="65a" sequence="15" unid="0769A2094E980FA143258020004FDA26">
+<?xml version="1.0" encoding="UTF-8"?><note class="filter" maintenanceversion="1.7" replicaid="432580060036840F" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="65a" sequence="217" unid="0769A2094E980FA143258020004FDA26">
 <created><datetime>20160831T173211,90+03</datetime></created>
-<modified><datetime>20160831T174505,05+03</datetime></modified>
-<revised><datetime>20160831T174505,04+03</datetime></revised>
-<lastaccessed><datetime>20160831T174505,05+03</datetime></lastaccessed>
-<addedtofile><datetime>20160831T173211,91+03</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></updatedby>
+<modified><datetime>20170110T174629,33+03</datetime></modified>
+<revised><datetime>20170110T174629,32+03</datetime></revised>
+<lastaccessed><datetime>20170110T174629,33+03</datetime></lastaccessed>
+<addedtofile><datetime>20161125T143336,95+03</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Pavel Aleshkevich/O=tst/C=RU</name><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></updatedby>
 <wassignedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></wassignedby>
 <item name="$TITLE" sign="true"><text>RunnerLib</text></item>
 <item name="$Flags"><text>s34Q</text></item>

@@ -7,6 +7,7 @@
 Option Public
 Option Declare
 Use "Collection"
+Use "SelectedDocsLib"
 
 '++LotusScript Development Environment:2:5:(Forward):0:1
 Declare Class Runner
@@ -24,6 +25,8 @@ Private Const SCRIPTDOC_SCRIPT_NAME_FIELDNAME = {Script.Name}
 Private Const SCRIPTDOC_SCRIPT_TEXT_FIELDNAME = {Script.Text}
 Private Const SCRIPTDOC_LIST_VIEWNAME = {ScriptByCreator}
 Private RunnerDB As NotesDatabase
+
+Public sdList As SelectedDocsList
 
 Public param As Variant
 
@@ -281,11 +284,11 @@ Class RunnerUI
 	' * @author Pavel A Aleshkevich/DV2/RU
 	' * @version Sep 1, 2016
 	' *************************************************************************************/
-	Sub New(param As NotesUIDocument)
+	Sub New(UIParam As NotesUIDocument)
 	Const ModuleName = {Sub "RunnerUI.New"}
 	On Error GoTo handler
 	
-	Set dlgDoc = param
+	Set dlgDoc = UIParam
 	Set LSRunner = New Runner()
 	
 	Call me.LoadScript()
@@ -455,6 +458,9 @@ handler:
 	errStr = DESIGN & {, } & ModuleName & {, line: } & Erl & {, Error: (} & Err() & {)} & nLine & Error$
 	Error Err, errStr
 End Function
+
+
+
 
 
 

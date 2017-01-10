@@ -2,15 +2,15 @@
 <agent name='(SRunner)' alias='SRunner' xmlns='http://www.lotus.com/dxl' version='9.0'
  maintenanceversion='1.7' replicaid='432580060036840F' hide='v3' publicaccess='false'
  designerversion='8.5.3'>
-<noteinfo noteid='666' unid='16B50817E42C23ED4325802100278666' sequence='24'>
+<noteinfo noteid='666' unid='16B50817E42C23ED4325802100278666' sequence='69'>
 <created><datetime>20160901T101143,10+03</datetime></created>
-<modified><datetime>20161124T153009,77+03</datetime></modified>
-<revised><datetime>20161124T153009,76+03</datetime></revised>
-<lastaccessed><datetime>20161124T153009,77+03</datetime></lastaccessed>
-<addedtofile><datetime>20160901T101143,14+03</datetime></addedtofile></noteinfo>
+<modified><datetime>20170110T180816,29+03</datetime></modified>
+<revised><datetime>20170110T180816,28+03</datetime></revised>
+<lastaccessed><datetime>20170110T180816,29+03</datetime></lastaccessed>
+<addedtofile><datetime>20161125T143338,61+03</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></updatedby>
 <wassignedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></wassignedby>
-<designchange><datetime>20161124T153009,73+03</datetime></designchange>
+<designchange><datetime>20170110T180816,28+03</datetime></designchange>
 <trigger type='actionsmenu'/>
 <documentset type='runonce'/><code event='options'><lotusscript>%REM
 	Agent (SRunner)
@@ -33,8 +33,63 @@ Declare Sub KeyPress Lib "user32" Alias "keybd_event" _
 </lotusscript></code><code event='initialize'><lotusscript>Sub Initialize
 		
 	Dim ws As New NotesUIWorkspace
-				
-	Call ws.Dialogbox("dlgScript", True, True, True, False, False, False, "Runner", , True, True)
+	Dim session As New NotesSession
 	
-End Sub</lotusscript></code></agent>
+	Dim dbCurrent As NotesDatabase
+	Dim dbSource As NotesDatabase
+	Dim vwSource As NotesView
+	Dim dlgDoc As NotesDocument
+		
+	Dim dbName As String 
+	Dim ServerName As String
+	Dim dbView As String 
+	Dim DocGUID As String 
+	
+	Const SOURCE_FORM_NAME = "dlgScript" 
+	Const  ENV_SERVER = "SN_ViewSource"
+	Const  ENV_DB = "DBN_ViewSource"
+	Const  ENV_VW = "VW_ViewSource"
+	Const  ENV_DOC = "DUI_ViewSource"
+
+	Set dbCurrent = session.CurrentDatabase
+
+	ServerName = session.GetEnvironmentString(ENV_SERVER)
+	dbName = session.GetEnvironmentString(ENV_DB)
+	dbView = session.Getenvironmentstring(ENV_VW)
+
+	Set dbSource = session.GetDatabase(ServerName, dbName)
+	If dbSource Is Nothing Then Error 5001, {Не найдена база-источник.}
+	If Not dbSource.Isopen Then Error 5002, {База-источник недоступна.}
+		
+	Set vwSource = dbSource.Getview(dbView)
+	
+	If vwSource Is Nothing Then Error 5003, {Не найдено представление: } &amp; dbView
+	
+	Set sdList = New SelectedDocsList(vwSource)
+	
+	If sdList.Count() &lt; 1 Then
+		MsgBox {Ничего не выбрано.}, 16 
+		Exit sub
+	End If
+	
+	Set dlgDoc = New NotesDocument(dbCurrent)
+	
+	If sdList.Count() = 1 Then
+		Set param = sdList.GetFirstDocument()
+		Call dlgDoc.Replaceitemvalue("IsDocument", "1")
+	Else
+		Set param = sdList
+	End If
+	
+	Call ws.Dialogbox(SOURCE_FORM_NAME, True, True, True, False, False, False, "Runner", dlgDoc, True, True)
+	
+	Dim dScr As String
+	
+	dScr = dlgDoc.Getitemvalue("Script.Text")(0)
+	
+	Execute(dScr)
+	
+End Sub</lotusscript></code>
+<rundata processeddocs='0' exitcode='0'>
+<agentmodified><datetime>20170110T180816,07+03</datetime></agentmodified></rundata></agent>
 
