@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <scriptlibrary name='OpenLogClass' xmlns='http://www.lotus.com/dxl' version='9.0'
  maintenanceversion='1.7' replicaid='432580060036840F' hide='v3 v4strict'>
-<noteinfo noteid='772' unid='7181F0005A187808432580270051E11C' sequence='25'>
+<noteinfo noteid='772' unid='7181F0005A187808432580270051E11C' sequence='26'>
 <created><datetime>20160907T175420,44+03</datetime></created>
-<modified><datetime>20170123T142649,91+03</datetime></modified>
-<revised><datetime>20170123T142649,90+03</datetime></revised>
-<lastaccessed><datetime>20170123T142649,91+03</datetime></lastaccessed>
+<modified><datetime>20170123T143356,03+03</datetime></modified>
+<revised><datetime>20170123T143356,02+03</datetime></revised>
+<lastaccessed><datetime>20170123T143356,03+03</datetime></lastaccessed>
 <addedtofile><datetime>20170123T142649,86+03</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></updatedby>
 <wassignedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></wassignedby><code

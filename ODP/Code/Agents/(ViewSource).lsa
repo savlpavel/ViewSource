@@ -2,15 +2,15 @@
 <agent name='(ViewSource)' alias='ViewSource' xmlns='http://www.lotus.com/dxl'
  version='9.0' maintenanceversion='1.7' replicaid='432580060036840F' hide='v3'
  publicaccess='false' designerversion='8.5.3'>
-<noteinfo noteid='172' unid='9974E9D34F84C3BBC32573460041DB34' sequence='97'>
+<noteinfo noteid='172' unid='9974E9D34F84C3BBC32573460041DB34' sequence='98'>
 <created><datetime dst='true'>20070829T155919,56+04</datetime></created>
-<modified><datetime>20170123T142650,21+03</datetime></modified>
-<revised><datetime>20170123T142650,20+03</datetime></revised>
-<lastaccessed><datetime>20170123T142650,21+03</datetime></lastaccessed>
+<modified><datetime>20170123T143344,06+03</datetime></modified>
+<revised><datetime>20170123T143344,05+03</datetime></revised>
+<lastaccessed><datetime>20170123T143344,06+03</datetime></lastaccessed>
 <addedtofile><datetime>20170123T142650,18+03</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></updatedby>
 <wassignedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></wassignedby>
-<designchange><datetime>20170123T142650,15+03</datetime></designchange>
+<designchange><datetime>20170123T143344,01+03</datetime></designchange>
 <trigger type='agentlist'/>
 <documentset type='runonce'/><code event='options'><lotusscript>Option Declare
 Option Public
