@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<helpusingdocument xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.7'
+ replicaid='432580060036840F' publicaccess='false' designerversion='8.5.3'
+ default='true' renderpassthrough='true'>
+<noteinfo noteid='6ce' unid='111073FF9268F58343258026002CBAF8' sequence='17'>
+<created><datetime>20160906T110834,48+03</datetime></created>
+<modified><datetime>20170123T142647,94+03</datetime></modified>
+<revised><datetime>20170123T142647,93+03</datetime></revised>
+<lastaccessed><datetime>20170123T142647,94+03</datetime></lastaccessed>
+<addedtofile><datetime>20170123T142647,92+03</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></updatedby>
+<wassignedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></wassignedby>
+<body><richtext>
+<pardef id='1'/>
+<par def='1'><run><font name='Tahoma' pitch='variable' truetype='true' familyid='20'/></run></par>
+<par def='1'><run><font name='Tahoma' pitch='variable' truetype='true' familyid='20'/>Button for ViewSource:</run></par>
+<par def='1'><run><font name='Tahoma' pitch='variable' truetype='true' familyid='20'/></run></par>
+<pardef id='2' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='2'><run><font name='Tahoma' pitch='variable' truetype='true' familyid='20'/>database := "viewsource.nsf";</run></par>
+<par def='2'><run><font name='Tahoma' pitch='variable' truetype='true' familyid='20'/>@SetEnvironment("SN_ViewSource";@Subset(@DbName;1));</run></par>
+<par def='2'><run><font name='Tahoma' pitch='variable' truetype='true' familyid='20'/>@SetEnvironment("DBN_ViewSource";@Subset(@DbName;-1));</run></par>
+<par def='2'><run><font name='Tahoma' pitch='variable' truetype='true' familyid='20'/>@SetEnvironment("DUI_ViewSource";@Text(@DocumentUniqueID));</run></par>
+<par def='2'><run><font name='Tahoma' pitch='variable' truetype='true' familyid='20'/>@PostedCommand([FileOpenDatabase]; "" : database);</run></par>
+<par def='2'><run><font name='Tahoma' pitch='variable' truetype='true' familyid='20'/>@PostedCommand( [RunAgent]; "ViewSource")</run></par>
+<par def='2'><run><font name='Tahoma' pitch='variable' truetype='true' familyid='20'/></run></par>
+<par def='2'><run><font name='Tahoma' pitch='variable' truetype='true' familyid='20'/>Button for Scripter:</run></par>
+<par def='2'><run><font name='Tahoma' pitch='variable' truetype='true' familyid='20'/></run></par>
+<par def='2'><run><font name='Tahoma' pitch='variable' truetype='true' familyid='20'/>database := "viewsource.nsf";</run></par>
+<par def='2'><run><font name='Tahoma' pitch='variable' truetype='true' familyid='20'/>@SetEnvironment("SN_ViewSource";@Subset(@DbName;1));</run></par>
+<par def='2'><run><font name='Tahoma' pitch='variable' truetype='true' familyid='20'/>@SetEnvironment("DBN_ViewSource";@Subset(@DbName;-1));</run></par>
+<par def='2'><run><font name='Tahoma' pitch='variable' truetype='true' familyid='20'/>@SetEnvironment("</run><run
+><font name='Tahoma' pitch='variable' truetype='true' familyid='20'/>VW_ViewSourc</run><run
+><font name='Tahoma' pitch='variable' truetype='true' familyid='20'/>e</run><run
+><font name='Tahoma' pitch='variable' truetype='true' familyid='20'/>";</run><run
+><font name='Tahoma' pitch='variable' truetype='true' familyid='20'/>@Text(</run><run
+><font name='Tahoma' pitch='variable' truetype='true' familyid='20'/>@Subset(@ViewTitle;1)</run><run
+><font name='Tahoma' pitch='variable' truetype='true' familyid='20'/>);</run></par>
+<par def='2'><run><font name='Tahoma' pitch='variable' truetype='true' familyid='20'/>@SetEnvironment("DUI_ViewSource";@Text(@DocumentUniqueID));</run></par>
+<par def='2'><run><font name='Tahoma' pitch='variable' truetype='true' familyid='20'/>@PostedCommand([FileOpenDatabase]; "" : database);</run></par>
+<par def='2'><run><font name='Tahoma' pitch='variable' truetype='true' familyid='20'/>@PostedCommand( [RunAgent]; "SRunner")</run></par></richtext></body></helpusingdocument>
+

@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<databasescript xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.7'
+ replicaid='432580060036840F' designerversion='8.5.3'>
+<noteinfo noteid='692' unid='C720A76055BDF902432580210045707F' sequence='25'>
+<created><datetime>20160901T153827,83+03</datetime></created>
+<modified><datetime>20170123T142648,00+03</datetime></modified>
+<revised><datetime>20170123T142647,99+03</datetime></revised>
+<lastaccessed><datetime>20170123T142648,00+03</datetime></lastaccessed>
+<addedtofile><datetime>20170123T142647,98+03</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></updatedby>
+<wassignedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></wassignedby></databasescript>
+

@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<frameset xmlns="http://www.lotus.com/dxl" name="frMain" publicaccess="false" spacing="0px" borderwidth="11px" bordercolor="none">
-  <frame name="NotesView" targetframe="NotesView">
-    <namedelementlink type="page" name="pgwait"/>
-  </frame>
-</frameset>

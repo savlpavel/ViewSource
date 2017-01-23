@@ -1,0 +1,202 @@
+<?xml version='1.0' encoding='utf-8'?>
+<agent name='(ViewSource)' alias='ViewSource' xmlns='http://www.lotus.com/dxl'
+ version='9.0' maintenanceversion='1.7' replicaid='432580060036840F' hide='v3'
+ publicaccess='false' designerversion='8.5.3'>
+<noteinfo noteid='172' unid='9974E9D34F84C3BBC32573460041DB34' sequence='97'>
+<created><datetime dst='true'>20070829T155919,56+04</datetime></created>
+<modified><datetime>20170123T142650,21+03</datetime></modified>
+<revised><datetime>20170123T142650,20+03</datetime></revised>
+<lastaccessed><datetime>20170123T142650,21+03</datetime></lastaccessed>
+<addedtofile><datetime>20170123T142650,18+03</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></updatedby>
+<wassignedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></wassignedby>
+<designchange><datetime>20170123T142650,15+03</datetime></designchange>
+<trigger type='agentlist'/>
+<documentset type='runonce'/><code event='options'><lotusscript>Option Declare
+Option Public
+Use "SortArray"
+Use "SelectedDocsLib"
+
+</lotusscript></code><code event='declarations'><lotusscript>Private Const DESIGN = {Agent "ViewSource"}
+Private Const nLine = {
+} 
+
+Declare Function NEMGetCurrentSubprogramWindow Lib "nnotesws.dll" () As Long
+
+Declare Function NEMStopSubprogramWindow Lib "nnotesws.dll" (Byval wHandle As Long) As Integer
+
+Declare Sub KeyPress Lib "user32" Alias "keybd_event"(Byval bVk As Any, Byval S As Integer, Byval F As Integer, Byval E As Integer)
+
+</lotusscript></code><code event='initialize'><lotusscript>Sub Initialize
+	
+	Const SOURCE_FORM_NAME = "frmSource" 
+	Const  ENV_SERVER = "SN_ViewSource"
+	Const  ENV_DB = "DBN_ViewSource"
+	Const  ENV_VW = "VW_ViewSource"
+	Const  ENV_DOC = "DUI_ViewSource"
+	
+	Dim dbName As String 
+	Dim ServerName As String
+	Dim dbView As String 
+	Dim DocGUID As String 
+	Dim varItemVal As Variant 
+	Dim strItemVal As Variant 
+	Dim fld As NotesItem
+	Dim j As Integer
+	
+	Dim bodySource As NotesMimeEntity
+	Dim stream As NotesStream
+	Dim session As New NotesSession 
+	Dim strCSS As String 	
+	Dim ws As NotesUIWorkspace
+	Dim uidoc As NotesUIDocument
+	Dim docSource As NotesDocument	
+	Dim doc As NotesDocument	
+	Dim dbSource As NotesDatabase
+	Dim dbCurrent As NotesDatabase
+
+	Set ws = New NotesUIWorkspace		
+	Set dbSource = session.CurrentDatabase
+	Set docSource=  dbSource.createdocument 
+
+	Dim strSourceHTML	 As String
+	Dim strReadersHTML	 As String
+	Dim strAuthorsHTML	 As String
+	Dim strItemValue As String 
+	Dim ArrayFields  As Variant
+	
+	docSource.form=SOURCE_FORM_NAME
+	
+	ServerName = session.GetEnvironmentString(ENV_SERVER )
+	dbName = session.GetEnvironmentString(ENV_DB)
+	dbView = session.Getenvironmentstring(ENV_VW)
+	DocGUID = session.GetEnvironmentString(ENV_DOC)
+	
+	
+	Set dbCurrent = session.GetDatabase(ServerName,dbName)
+
+	Set doc = dbCurrent.GetDocumentByUNID(DocGUID)
+	If doc Is Nothing Then Messagebox "Ошибка доступа к документу": Exit Sub
+	Set stream = session.CreateStream
+	session.ConvertMIME = False
+	Set bodySource = docSource.CreateMIMEEntity("BodySource")
+	
+	strCSS = "&lt;style type='text/css'&gt;BODY { font-family: Courier; font-size: 6px} TABLE  { width: 98%;	border: 1px solid #FFFFFF;  font-family: Courier; font-size: 6px;	} TH{	background: #E1E1D2;}	TD  {	border: 1px solid #FFFFFF;}&lt;/style&gt;"
+	strSourceHTML = "&lt;table&gt;&lt;tr&gt;&lt;th&gt;Поле&lt;/th&gt;&lt;th&gt;Тип&lt;/th&gt;&lt;th&gt;Значение&lt;/th&gt;&lt;th&gt;Last modified&lt;/th&gt;&lt;/tr&gt;"
+	
+	Redim ArrayFields ( Ubound(doc.Items))
+	j=0
+	Forall x In doc.Items
+		ArrayFields(j) = x.name 
+		j=j+1
+	End Forall	
+	
+	ArrayFields = quicksort(ArrayFields)
+
+	docSource.DBFile = doc.Parentdatabase.Filepath 	
+	docSource.dbServer = doc.Parentdatabase.Server 	
+	docSource.vUNID = doc.UniversalID 	
+	docSource.vNID = doc.NoteID 
+	docSource.vAuthors = doc.Authors
+	docSource.vdtCreated= doc.Created 
+	docSource.vdtModified = doc.LastModified 
+	docSource.vdtLastAccess= doc.LastAccessed 
+	docSource.vSIZE= Round(doc.Size/1024,2) &amp; "KB (" &amp;  doc.Size &amp; " bytes)"
+	Forall i In ArrayFields
+		Set fld = doc.GetFirstItem(i)
+		strSourceHTML		= strSourceHTML &amp; "&lt;tr&gt;&lt;td&gt;" &amp; 	i &amp; "&lt;/td&gt;&lt;td&gt;" &amp; GetFieldType(fld.Type)  &amp; "&lt;/td&gt;&lt;td&gt;" 		
+		strItemValue  = ""
+		varItemVal =   doc.GetItemValue(i)
+		If Not Isempty(varItemVal) Then
+			Forall v In varItemVal
+				strItemValue = strItemValue  + Cstr(v) &amp; "&lt;br&gt;"
+			End Forall
+		End If
+		'собирает авторов
+		If fld.IsAuthors Then strAuthorsHTML = strAuthorsHTML &amp; "&lt;tr&gt;&lt;td&gt;" &amp; i &amp; "&lt;/td&gt;&lt;td&gt;" &amp; strItemValue &amp; "&lt;/td&gt;&lt;/tr&gt;"
+		'собирает редеров
+		If fld.IsReaders Then strReadersHTML = strReadersHTML &amp; "&lt;tr&gt;&lt;td&gt;" &amp; i &amp; "&lt;/td&gt;&lt;td&gt;" &amp; strItemValue &amp; "&lt;/td&gt;&lt;/tr&gt;"
+		strSourceHTML  = strSourceHTML &amp; strItemValue &amp; "&lt;/td&gt;"
+		
+		strSourceHTML = strSourceHTML &amp; "&lt;td&gt;" &amp; fld.Lastmodified &amp; "&lt;/td&gt;&lt;/tr&gt;"
+		
+	End Forall
+	strItemValue = strItemValue &amp; "&lt;/table&gt;"
+	
+	Call stream.WriteText("&lt;html&gt;" &amp; strCSS &amp; " &lt;Body&gt;" &amp; strSourceHTML &amp; "&lt;/body&gt;&lt;/html&gt;")
+	Call bodySource.SetContentFromText(stream, "text/html; charset=UTF-8", 1730)
+	If strAuthorsHTML &lt;&gt; "" Then
+		Call stream.Truncate
+		Call stream.WriteText("&lt;html&gt;" &amp; strCSS &amp; " &lt;Body&gt;" &amp;  "&lt;table&gt;&lt;tr&gt;&lt;th&gt;Поле&lt;/th&gt;&lt;th&gt;Имена&lt;/th&gt;&lt;/tr&gt;" &amp; strAuthorsHTML &amp; "&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;")
+		Set bodySource = docSource.CreateMIMEEntity("listAuthors")	
+		Call bodySource.SetContentFromText(stream, "text/html; charset=UTF-8", 1730)
+	End If
+	If strReadersHTML &lt;&gt; "" Then
+		Call stream.Truncate
+		Call stream.WriteText("&lt;html&gt;" &amp; strCSS &amp; " &lt;Body&gt;" &amp;  "&lt;table&gt;&lt;tr&gt;&lt;th&gt;Поле&lt;/th&gt;&lt;th&gt;Имена&lt;/th&gt;&lt;/tr&gt;" &amp; strReadersHTML &amp; "&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;")
+		Set bodySource = docSource.CreateMIMEEntity("listReaders")	
+		Call bodySource.SetContentFromText(stream, "text/html; charset=UTF-8", 1730)
+	End If
+	Call stream.Close
+	session.ConvertMIME = True
+	Call docSource.ComputeWithForm(False, False)
+	
+	Dim Handle As Long
+	Handle = NEMGetCurrentSubprogramWindow
+	
+	Call NEMStopSubprogramWindow(handle)
+	Call ws.EditDocument( 	False,docSource)
+	
+End Sub
+
+</lotusscript></code><code event='GetFieldType'><lotusscript>Function GetFieldType(lngType As Long) As String
+	Select Case lngType
+		Case  16:
+			GetFieldType = "ACTIONCD"
+		Case 17:
+			GetFieldType = "ASSISTANTINFO"
+		Case  1084:
+			GetFieldType = "ATTACHMENT"
+		Case 1076:
+			GetFieldType = "AUTHORS"	
+		Case  1024:
+			GetFieldType = "DATETIMES"	
+		Case 1090:
+			GetFieldType = "EMBEDDEDOBJECT"	
+		Case  256:
+			GetFieldType = "ERRORITEM"	
+		Case 1536:
+			GetFieldType = "FORMULA"	
+		Case  21:
+			GetFieldType = "HTML"	
+		Case 6:
+			GetFieldType = "ICON"	
+		Case 20:
+			GetFieldType = "LSOBJECT"	
+		Case 25:
+			GetFieldType = "MIME_PART"	
+		Case 1074:
+			GetFieldType = "NAMES"	
+		Case 7:
+			GetFieldType = "NOTELINKS"	
+		Case 4:
+			GetFieldType = "$REF"	
+		Case 768:
+			GetFieldType = "NUMBERS"	
+		Case 1085:
+			GetFieldType = "OTHEROBJECT"	
+		Case 1075:
+			GetFieldType = "READERS"	
+		Case 1282:
+			GetFieldType = "RFC822 Текст"	
+		Case 1:
+			GetFieldType = "RICHTEXT"	
+		Case 8:
+			GetFieldType = "SIGNATURE"	
+		Case 1280:
+			GetFieldType = "TEXT"	
+		Case Else:
+			GetFieldType = "UNKNOWN"	
+	End Select
+End Function</lotusscript></code></agent>
+

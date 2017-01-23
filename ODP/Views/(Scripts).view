@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<view name='(Scripts)' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.7'
+ replicaid='432580060036840F' showinmenu='false' noreplace='true' publicaccess='false'
+ designerversion='8.5.3' unreadmarks='none' onopengoto='lastopened' onrefresh='displayindicator'
+ headers='beveled' opencollapsed='false' showresponsehierarchy='true' showmargin='true'
+ shrinkrows='false' extendlastcolumn='false' showhierarchies='false' unreadcolor='black'
+ rowlinecount='1' headerlinecount='1' rowspacing='1' bgcolor='white' totalscolor='black'
+ headerbgcolor='white' boldunreadrows='false' evaluateactions='false' allownewdocuments='false'
+ allowcustomizations='true' hidemarginborder='false' marginwidth='0px' marginbgcolor='white'
+ uniquekeys='false'>
+<noteinfo noteid='66e' unid='BB3745CC54CC48E24325802100278FC5' sequence='31'>
+<created><datetime>20160901T101207,09+03</datetime></created>
+<modified><datetime>20170123T142648,22+03</datetime></modified>
+<revised><datetime>20170123T142648,21+03</datetime></revised>
+<lastaccessed><datetime>20170123T142648,22+03</datetime></lastaccessed>
+<addedtofile><datetime>20170123T142648,20+03</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></updatedby>
+<wassignedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></wassignedby><code
+ event='selection'><formula>SELECT Form = "ScriptDoc"</formula></code>
+<column sort='descending' hidedetailrows='false' itemname='UNID' width='10'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='false' sortnocase='true'
+ showaslinks='false'><columnheader><font size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' itemname='Script.Name' width='19.8750' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='true' sortnocase='true' showaslinks='false'><columnheader
+ title='#'><font size='9pt' style='bold'/></columnheader></column></view>
+
