@@ -1,60 +1,62 @@
-<?xml version='1.0' encoding='utf-8'?>
-<form name='HTMLTest' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.7'
- replicaid='432580060036840F' publicaccess='false' designerversion='8.5.3'
- renderpassthrough='true'>
-<noteinfo noteid='16de' unid='6AFF404A427A0D004325809900371687' sequence='22'>
-<created><datetime>20161230T130142,47+03</datetime></created>
-<modified><datetime>20170123T143344,18+03</datetime></modified>
-<revised><datetime>20170123T143344,17+03</datetime></revised>
-<lastaccessed><datetime>20170123T143344,18+03</datetime></lastaccessed>
-<addedtofile><datetime>20170123T142648,86+03</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></updatedby>
-<wassignedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></wassignedby>
-<body><richtext>
-<pardef id='1'/>
-<par def='1'/>
-<par def='1'/>
-<par def='1'><run html='true'>CT: </run><run html='true'><computedtext><code
- event='value'><formula>"&lt;table class=\"calendar\" border=\"1\"&gt;
-	   &lt;thead&gt;
-	    &lt;tr&gt;&lt;th&gt;ПН&lt;/th&gt;&lt;th&gt;ВТ&lt;/th&gt;&lt;th&gt;СР&lt;/th&gt;&lt;th&gt;ЧТ&lt;/th&gt;&lt;th&gt;ПТ&lt;/th&gt;&lt;th&gt;СБ&lt;/
-th&gt;&lt;th&gt;ВС&lt;/th&gt;&lt;/tr&gt;
-	   &lt;/thead&gt;
-	   &lt;tbody id=\"cal_body\"&gt;
-&lt;tr&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;"</formula></code></computedtext></run></par>
-<par def='1'/>
-<par def='1'><run html='true'>CFD: </run><run html='true'><field type='text'
- kind='computedfordisplay' name='Computed4display'><code event='defaultvalue'><formula
->"&lt;table class=\"calendar\" border=\"2\"&gt;
-	   &lt;thead&gt;
-	    &lt;tr&gt;&lt;th&gt;ПН&lt;/th&gt;&lt;th&gt;ВТ&lt;/th&gt;&lt;th&gt;СР&lt;/th&gt;&lt;th&gt;ЧТ&lt;/th&gt;&lt;th&gt;ПТ&lt;/th&gt;&lt;th&gt;СБ&lt;/
-th&gt;&lt;th&gt;ВС&lt;/th&gt;&lt;/tr&gt;
-	   &lt;/thead&gt;
-	   &lt;tbody id=\"cal_body\"&gt;
-&lt;tr&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;"</formula></code></field></run><compositedata
- type='98' prevtype='65418' nexttype='222' afterparcount='9' containertype='65418'
- aftercontainercount='1' afterbegincount='3'>
-Yg4BAIQAAAAAAAAAAAA=
-</compositedata></par>
-<par def='1'/>
-<par def='1'><run html='true'>C: </run><run html='true'><field type='text'
- kind='computed' name='Computed'><code event='defaultvalue'><formula>"&lt;table class=\"calendar\" border=\"3\"&gt;
-	   &lt;thead&gt;
-	    &lt;tr&gt;&lt;th&gt;ПН&lt;/th&gt;&lt;th&gt;ВТ&lt;/th&gt;&lt;th&gt;СР&lt;/th&gt;&lt;th&gt;ЧТ&lt;/th&gt;&lt;th&gt;ПТ&lt;/th&gt;&lt;th&gt;СБ&lt;/
-th&gt;&lt;th&gt;ВС&lt;/th&gt;&lt;/tr&gt;
-	   &lt;/thead&gt;
-	   &lt;tbody id=\"cal_body\"&gt;
-&lt;tr&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;"</formula></code></field></run><compositedata
- type='98' prevtype='65418' nexttype='222' afterparcount='9' containertype='65418'
- aftercontainercount='1' afterbegincount='3'>
-Yg4BAIQAAAAAAAAAAAA=
-</compositedata></par>
-<par def='1'/>
-<par def='1'><run html='true'>E: </run><run html='true'><field type='text'
- kind='editable' name='Editable'/></run><compositedata type='98' prevtype='65418'
- nexttype='222' afterparcount='9' containertype='65418' aftercontainercount='1'
- afterbegincount='3'>
-Yg4BAIQAAAAAAAAAAAA=
-</compositedata></par></richtext></body>
-<item name='$$ScriptName' summary='false' sign='true'><text>HTMLTest</text></item></form>
-
+<?xml version="1.0" encoding="UTF-8"?>
+<note xmlns="http://www.lotus.com/dxl" class="form">
+  <item name="$HTMLCode" sign="true">
+    <rawitemdata type="1">
+X/8QAAIADwAHAAAAAAAAAA==
+</rawitemdata>
+  </item>
+  <item name="$TITLE">
+    <text>HTMLTest</text>
+  </item>
+  <item name="$Info" sign="true">
+    <rawitemdata type="1">
+hhgBAIAAAAAAgAAAAQABAP///wAQAAAA
+</rawitemdata>
+  </item>
+  <item name="$Flags">
+    <text/>
+  </item>
+  <item name="Computed" placeholder="true">
+    <rawitemdata type="0"/>
+  </item>
+  <item name="Editable" placeholder="true">
+    <rawitemdata type="0"/>
+  </item>
+  <item name="$Fields">
+    <textlist>
+      <text>Editable</text>
+      <text>Computed</text>
+    </textlist>
+  </item>
+  <item name="$Body" sign="true">
+    <rawitemdata type="1">
+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
+</rawitemdata>
+  </item>
+</note>
