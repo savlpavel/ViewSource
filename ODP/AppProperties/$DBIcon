@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='utf-8'?>
+<note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.8'
+ replicaid='432580060036840F'>
+<noteinfo noteid='18a2' unid='B8EE8623626E50184325811D002F1D51' sequence='1'>
+<created><datetime>20170511T113436,97+03</datetime></created>
+<modified><datetime>20170511T113437,08+03</datetime></modified>
+<revised><datetime>20170511T113437,05+03</datetime></revised>
+<lastaccessed><datetime>20170511T113437,08+03</datetime></lastaccessed>
+<addedtofile><datetime>20170511T113437,08+03</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></updatedby>
+<wassignedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></wassignedby>
+<item name='$TITLE'><text>$DBIcon</text></item>
+<item name='$Flags'><text>34Ci~Q</text></item>
+<item name='$ImagesWide' sign='true'><number>1</number></item>
+<item name='$ImagesHigh' sign='true'><number>1</number></item>
+<item name='$ImagesColorize' sign='true'><number>0</number></item>
+<item name='$FileSize' sign='true'><number>2292</number></item>
+<item name='$ImageData' sign='true'>
+<rawitemdata type='1'>
+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
+A1aDOscwMOqtAAAAAElFTkSuQmCC
+</rawitemdata></item>
+<item name='$MimeType' sign='true'><text>image/png</text></item>
+<item name='$FileModDT' sign='true'><datetime>20170511T113409,84+03</datetime></item>
+<item name='$ImageNames' sign='true'><text>C:\Users\Pavel.Aleshkevich\Downloads\gwenview.png</text></item>
+<item name='$DesignerVersion'><text>8.5.3</text></item></note>
+
