@@ -1,29 +1,40 @@
-<?xml version='1.0' encoding='utf-8'?>
-<form name='(ScriptDoc)' alias='ScriptDoc' xmlns='http://www.lotus.com/dxl'
- version='9.0' maintenanceversion='1.7' replicaid='432580060036840F' nocompose='true'
- noquery='true' publicaccess='false' designerversion='8.5.3' renderpassthrough='true'>
-<noteinfo noteid='5d2' unid='E9EC8601A156C42B432580200037AA3E' sequence='41'>
-<created><datetime>20160831T130800,62+03</datetime></created>
-<modified><datetime>20170123T143344,10+03</datetime></modified>
-<revised><datetime>20170123T143344,09+03</datetime></revised>
-<lastaccessed><datetime>20170123T143344,10+03</datetime></lastaccessed>
-<addedtofile><datetime>20170123T142648,92+03</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></updatedby>
-<wassignedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></wassignedby><code
- event='windowtitle'><formula>@If(!@IsNewDoc;Script.Name;"New")</formula></code>
-<actionbar bgcolor='#f0f0f0' bordercolor='black'>
-<actionbuttonstyle bgcolor='#f0f0f0'/><font size='9pt' color='system'/><border
- style='solid' width='0px 0px 1px'/>
-<sharedactionref id='1'>
-<action title='Close' icon='112'><code event='click'><formula>@Command([FileCloseWindow])</formula></code></action></sharedactionref>
-<sharedactionref id='2'>
-<action title='Edit' icon='5' hide='edit previewedit'><code event='click'><formula
->@Command([EditDocument])</formula></code></action></sharedactionref>
-<sharedactionref id='3'>
-<action title='Save' icon='117'><code event='click'><formula>@Command([FileSave])</formula></code></action></sharedactionref>
-<action title='Script.Colorize' showinmenu='false'><code event='options'><lotusscript
->Use "ls2rtf"
-</lotusscript></code><code event='click'><lotusscript>Sub Click(Source As Button)
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.lotus.com/dxl" name="(ScriptDoc)" alias="ScriptDoc" nocompose="true" noquery="true" publicaccess="false" renderpassthrough="true">
+  <code event="windowtitle">
+    <formula>@If(!@IsNewDoc;Script.Name;"New")</formula>
+  </code>
+  <actionbar bgcolor="#f0f0f0" bordercolor="black">
+    <actionbuttonstyle bgcolor="#f0f0f0"/>
+    <font size="9pt" color="system"/>
+    <border style="solid" width="0px 0px 1px"/>
+    <sharedactionref id="1">
+      <action title="Close" icon="112">
+        <code event="click">
+          <formula>@Command([FileCloseWindow])</formula>
+        </code>
+      </action>
+    </sharedactionref>
+    <sharedactionref id="2">
+      <action title="Edit" icon="5" hide="edit previewedit">
+        <code event="click">
+          <formula>@Command([EditDocument])</formula>
+        </code>
+      </action>
+    </sharedactionref>
+    <sharedactionref id="3">
+      <action title="Save" icon="117">
+        <code event="click">
+          <formula>@Command([FileSave])</formula>
+        </code>
+      </action>
+    </sharedactionref>
+    <action title="Script.Colorize" showinmenu="false">
+      <code event="options">
+        <lotusscript>Use "ls2rtf"
+</lotusscript>
+      </code>
+      <code event="click">
+        <lotusscript>Sub Click(Source As Button)
 	Dim ws As New NotesUIWorkspace
 	Dim uidoc As NotesUIDocument
 	Dim doc As NotesDocument
@@ -47,63 +58,121 @@
 	End If
 	
 End Sub
-</lotusscript></code><code event='label'><formula>"Color"</formula></code></action></actionbar>
-<body><richtext>
-<pardef id='1'/>
-<par def='1'><run><font size='8pt' name='Tahoma' pitch='variable' truetype='true'
- familyid='20'/></run><run><font size='8pt' color='red' name='Tahoma' pitch='variable'
- truetype='true' familyid='20'/><field type='text' kind='computedwhencomposed'
- name='Form'><code event='defaultvalue'><formula>"ScriptDoc"</formula></code></field></run><compositedata
- type='98' prevtype='65418' nexttype='222' afterparcount='7' containertype='65418'
- aftercontainercount='1' afterbegincount='3'>
+</lotusscript>
+      </code>
+      <code event="label">
+        <formula>"Color"</formula>
+      </code>
+    </action>
+  </actionbar>
+  <body>
+    <richtext>
+      <pardef id="1"/>
+      <par def="1">
+        <run>
+          <font size="8pt" name="Tahoma" pitch="variable" truetype="true" familyid="20"/>
+        </run>
+        <run>
+          <font size="8pt" color="red" name="Tahoma" pitch="variable" truetype="true" familyid="20"/>
+          <field type="text" kind="computedwhencomposed" name="Form">
+            <code event="defaultvalue">
+              <formula>"ScriptDoc"</formula>
+            </code>
+          </field>
+        </run>
+        <compositedata type="98" prevtype="65418" nexttype="222" afterparcount="7" containertype="65418" aftercontainercount="1" afterbegincount="3">
 Yg4BAIQAAAAAAAAAAAA=
-</compositedata><run><font size='8pt'
- name='Tahoma' pitch='variable' truetype='true' familyid='20'/></run><run
-><font size='8pt' color='red' name='Tahoma' pitch='variable' truetype='true'
- familyid='20'/><field type='text' kind='computedwhencomposed' name='UNID'><code
- event='defaultvalue'><formula>@Text(@DocumentUniqueID)</formula></code></field></run><compositedata
- type='98' prevtype='65418' nexttype='222' afterparcount='13' containertype='65418'
- aftercontainercount='1' afterbegincount='3'>
+</compositedata>
+        <run>
+          <font size="8pt" name="Tahoma" pitch="variable" truetype="true" familyid="20"/>
+        </run>
+        <run>
+          <font size="8pt" color="red" name="Tahoma" pitch="variable" truetype="true" familyid="20"/>
+          <field type="text" kind="computedwhencomposed" name="UNID">
+            <code event="defaultvalue">
+              <formula>@Text(@DocumentUniqueID)</formula>
+            </code>
+          </field>
+        </run>
+        <compositedata type="98" prevtype="65418" nexttype="222" afterparcount="13" containertype="65418" aftercontainercount="1" afterbegincount="3">
 Yg4BAIQAAAAAAAAAAAA=
-</compositedata><run><font size='8pt'
- name='Tahoma' pitch='variable' truetype='true' familyid='20'/></run></par>
-<par def='1'><run><font size='8pt' name='Tahoma' pitch='variable' truetype='true'
- familyid='20'/></run></par>
-<par def='1'><run><font size='8pt' name='Tahoma' pitch='variable' truetype='true'
- familyid='20'/></run></par>
-<table widthtype='fitmargins' cellbordercolor='silver' refwidth='10.3229in'><border
- style='dot' width='1px'/><tablecolumn width='0.7875in'/><tablecolumn width='100%'/>
-<tablerow>
-<tablecell borderwidth='0px'>
-<pardef id='3' leftmargin='0.0785in' spacebefore='1.5' keepwithnext='true'
- keeptogether='true'/>
-<par def='3'><run><font size='8pt' name='Tahoma' pitch='variable' truetype='true'
- familyid='20'/>Name:</run></par></tablecell>
-<tablecell borderwidth='0px'>
-<pardef id='4' leftmargin='0.0785in' spacebefore='1.5' keepwithnext='true'
- keeptogether='true'/>
-<par def='4'><run><font size='8pt' name='Tahoma' pitch='variable' truetype='true'
- familyid='20'/></run><run><font size='8pt' name='Tahoma' pitch='variable'
- truetype='true' familyid='20'/><field type='text' kind='editable' name='Script.Name'/></run><compositedata
- type='98' prevtype='65418' nexttype='222' afterparcount='7' containertype='65418'
- aftercontainercount='1' afterbegincount='3'>
+</compositedata>
+        <run>
+          <font size="8pt" name="Tahoma" pitch="variable" truetype="true" familyid="20"/>
+        </run>
+      </par>
+      <par def="1">
+        <run>
+          <font size="8pt" name="Tahoma" pitch="variable" truetype="true" familyid="20"/>
+        </run>
+      </par>
+      <par def="1">
+        <run>
+          <font size="8pt" name="Tahoma" pitch="variable" truetype="true" familyid="20"/>
+        </run>
+      </par>
+      <table widthtype="fitmargins" cellbordercolor="silver" refwidth="10.3229in">
+        <border style="dot" width="1px"/>
+        <tablecolumn width="0.7875in"/>
+        <tablecolumn width="100%"/>
+        <tablerow>
+          <tablecell borderwidth="0px">
+            <pardef id="3" leftmargin="0.0785in" spacebefore="1.5" keepwithnext="true" keeptogether="true"/>
+            <par def="3">
+              <run>
+                <font size="8pt" name="Tahoma" pitch="variable" truetype="true" familyid="20"/>Name:</run>
+            </par>
+          </tablecell>
+          <tablecell borderwidth="0px">
+            <pardef id="4" leftmargin="0.0785in" spacebefore="1.5" keepwithnext="true" keeptogether="true"/>
+            <par def="4">
+              <run>
+                <font size="8pt" name="Tahoma" pitch="variable" truetype="true" familyid="20"/>
+              </run>
+              <run>
+                <font size="8pt" name="Tahoma" pitch="variable" truetype="true" familyid="20"/>
+                <field type="text" kind="editable" name="Script.Name"/>
+              </run>
+              <compositedata type="98" prevtype="65418" nexttype="222" afterparcount="7" containertype="65418" aftercontainercount="1" afterbegincount="3">
 Yg4BAIQAAAAAAAAAAAA=
-</compositedata><run><font size='8pt'
- name='Tahoma' pitch='variable' truetype='true' familyid='20'/></run></par></tablecell></tablerow>
-<tablerow>
-<tablecell borderwidth='0px'>
-<par def='3'><run><font size='8pt' name='Tahoma' pitch='variable' truetype='true'
- familyid='20'/>Text:</run></par></tablecell>
-<tablecell borderwidth='0px'>
-<par def='4'><run><font size='8pt' name='Tahoma' pitch='variable' truetype='true'
- familyid='20'/></run><run><font size='8pt' name='Tahoma' pitch='variable'
- truetype='true' familyid='20'/><field type='richtext' kind='editable' name='Script.Text'/></run><compositedata
- type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
- aftercontainercount='1' afterbegincount='3'>
+</compositedata>
+              <run>
+                <font size="8pt" name="Tahoma" pitch="variable" truetype="true" familyid="20"/>
+              </run>
+            </par>
+          </tablecell>
+        </tablerow>
+        <tablerow>
+          <tablecell borderwidth="0px">
+            <par def="3">
+              <run>
+                <font size="8pt" name="Tahoma" pitch="variable" truetype="true" familyid="20"/>Text:</run>
+            </par>
+          </tablecell>
+          <tablecell borderwidth="0px">
+            <par def="4">
+              <run>
+                <font size="8pt" name="Tahoma" pitch="variable" truetype="true" familyid="20"/>
+              </run>
+              <run>
+                <font size="8pt" name="Tahoma" pitch="variable" truetype="true" familyid="20"/>
+                <field type="richtext" kind="editable" name="Script.Text"/>
+              </run>
+              <compositedata type="98" prevtype="65418" nexttype="222" afterparcount="6" containertype="65418" aftercontainercount="1" afterbegincount="3">
 Yg4BAIQAAAAAAAAAAAA=
-</compositedata><run><font size='8pt'
- name='Tahoma' pitch='variable' truetype='true' familyid='20'/></run></par></tablecell></tablerow></table>
-<par def='1'><run><font size='8pt' name='Tahoma' pitch='variable' truetype='true'
- familyid='20'/></run></par></richtext></body>
-<item name='$$ScriptName' summary='false' sign='true'><text>ScriptDoc</text></item></form>
-
+</compositedata>
+              <run>
+                <font size="8pt" name="Tahoma" pitch="variable" truetype="true" familyid="20"/>
+              </run>
+            </par>
+          </tablecell>
+        </tablerow>
+      </table>
+      <par def="1">
+        <run>
+          <font size="8pt" name="Tahoma" pitch="variable" truetype="true" familyid="20"/>
+        </run>
+      </par>
+    </richtext>
+  </body>
+</form>

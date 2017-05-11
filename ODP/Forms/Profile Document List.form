@@ -1,20 +1,14 @@
-<?xml version='1.0' encoding='utf-8'?>
-<form name='Profile Document List' alias='ProfileDocManager' xmlns='http://www.lotus.com/dxl'
- version='9.0' maintenanceversion='1.7' replicaid='432580060036840F' noquery='true'
- otherdialog='true' publicaccess='false' designerversion='8.5.3' bgcolor='#e0f1ff'
- renderpassthrough='true'>
-<noteinfo noteid='1196' unid='8AD2F0DBF45CA93F43258076003A8AD9' sequence='43'>
-<created><datetime>20161125T133926,33+03</datetime></created>
-<modified><datetime>20170123T143344,22+03</datetime></modified>
-<revised><datetime>20170123T143344,21+03</datetime></revised>
-<lastaccessed><datetime>20170123T143344,22+03</datetime></lastaccessed>
-<addedtofile><datetime>20170123T142648,79+03</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></updatedby>
-<wassignedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></wassignedby>
-<globals><code event='options'><lotusscript>Option Public
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.lotus.com/dxl" name="Profile Document List" alias="ProfileDocManager" noquery="true" otherdialog="true" publicaccess="false" bgcolor="#e0f1ff" renderpassthrough="true">
+  <globals>
+    <code event="options">
+      <lotusscript>Option Public
 Option Declare
 %INCLUDE "lsconst"
-</lotusscript></code><code event='declarations'><lotusscript>Dim Gchoices ' choices as they would appear in the selection box, with noteID as keyword synonym
+</lotusscript>
+    </code>
+    <code event="declarations">
+      <lotusscript>Dim Gchoices ' choices as they would appear in the selection box, with noteID as keyword synonym
 Dim GdbTarget As NotesDatabase
 Dim currDoc As NotesDocument
 Dim currUIDoc As NotesUIDocument
@@ -115,7 +109,10 @@ Class ProgressBar
 		If showpct &lt; 100 Then Print "Process aborted, " &amp; (100-showpct) &amp; "% remaining."
 	End Sub
 End Class
-</lotusscript></code><code event='calculateChoices'><lotusscript>Function calculateChoices(db As NotesDatabase) As Long
+</lotusscript>
+    </code>
+    <code event="calculateChoices">
+      <lotusscript>Function calculateChoices(db As NotesDatabase) As Long
 	' assigns Gchoices = list of profiles in the specified database,
 	' and returns number of choices in the list.
 	Dim session As New NotesSession
@@ -215,7 +212,10 @@ common:
 oops:
 	Error Err, Error &amp; " //" &amp; Getthreadinfo(1) &amp; ":" &amp; Erl
 End Function
-</lotusscript></code><code event='RemoveChoice'><lotusscript>Function RemoveChoice(Byval strID$) As Integer
+</lotusscript>
+    </code>
+    <code event="RemoveChoice">
+      <lotusscript>Function RemoveChoice(Byval strID$) As Integer
 	' Given a noteID, remove the profile document with that noteID from the
 	' keyword choice list (the copy in a variable). This is done when the document
 	' was deleted by the user or we discovered it was missing.
@@ -244,12 +244,18 @@ End Function
 End Function
 
 
-</lotusscript></code><code event='NameAbbr'><lotusscript>Function NameAbbr(x As String) As String
+</lotusscript>
+    </code>
+    <code event="NameAbbr">
+      <lotusscript>Function NameAbbr(x As String) As String
 	' Return the abbreviated version of a canonical name
 	Dim nn As New notesname(x)
 	NameAbbr = nn.Abbreviated
 End Function
-</lotusscript></code><code event='stringFill'><lotusscript>Function stringFill(strDat$, Byval llen%) As String
+</lotusscript>
+    </code>
+    <code event="stringFill">
+      <lotusscript>Function stringFill(strDat$, Byval llen%) As String
 	' Make a string exactly a stated number of characters long by removing
 	' excess from the end and inserting "...", or by padding with spaces to
 	' the specified length.
@@ -263,7 +269,10 @@ End Function
 		stringFill = strDat &amp; String$(llen-Len(strDat), " ")
 	End If
 End Function
-</lotusscript></code><code event='RefreshChoices'><lotusscript>Sub RefreshChoices(uidoc As NotesUIDocument)
+</lotusscript>
+    </code>
+    <code event="RefreshChoices">
+      <lotusscript>Sub RefreshChoices(uidoc As NotesUIDocument)
 	' The Gchoices array has been modified; update the display to
 	' reflect this.
 	Dim doc As NotesDocument
@@ -275,8 +284,14 @@ End Function
 	doc.ReplaceItemValue "Choices", Gchoices
 	doc.ReplaceItemValue "Selection", ""
 	uidoc.Refresh
-End Sub</lotusscript></code></globals><code event='windowtitle'><formula>"Profile Manager"</formula></code><code
- event='queryopen'><lotusscript>Sub Queryopen(Source As Notesuidocument, Mode As Integer, Isnewdoc As Variant, Continue As Variant)
+End Sub</lotusscript>
+    </code>
+  </globals>
+  <code event="windowtitle">
+    <formula>"Profile Manager"</formula>
+  </code>
+  <code event="queryopen">
+    <lotusscript>Sub Queryopen(Source As Notesuidocument, Mode As Integer, Isnewdoc As Variant, Continue As Variant)
 	' Before opening the form, prepare a list of all the profile docs in the current db.
 	On Error Goto trap
 	
@@ -296,7 +311,10 @@ trap:
 	Continue = False
 	Exit Sub
 End Sub
-</lotusscript></code><code event='postopen'><lotusscript>Sub Postopen(Source As Notesuidocument)
+</lotusscript>
+  </code>
+  <code event="postopen">
+    <lotusscript>Sub Postopen(Source As Notesuidocument)
 	' we couldn't do this in Queryopen because the back-end document didn't yet exist.
 	' Update the list of profile docs stored in a field, and refresh to make them appear
 	' as choices in the Selection field.
@@ -305,15 +323,26 @@ End Sub
 	Set currUIDoc = Source
 	Set currDoc = currUIDoc.Document
 End Sub
-</lotusscript></code>
-<actionbar bgcolor='silver' bordercolor='black'>
-<actionbuttonstyle bgcolor='silver'/><font size='9pt' color='system'/><border
- style='solid' width='0px 0px 1px' color='system'/>
-<action title='Select All' icon='10'><code event='click'><formula>FIELD Selection := @Right(Choices; "|");
-@Command([RefreshHideFormulas])</formula></code></action>
-<action title='Choose Db'><code event='options'><lotusscript>Option Declare
+</lotusscript>
+  </code>
+  <actionbar bgcolor="silver" bordercolor="black">
+    <actionbuttonstyle bgcolor="silver"/>
+    <font size="9pt" color="system"/>
+    <border style="solid" width="0px 0px 1px" color="system"/>
+    <action title="Select All" icon="10">
+      <code event="click">
+        <formula>FIELD Selection := @Right(Choices; "|");
+@Command([RefreshHideFormulas])</formula>
+      </code>
+    </action>
+    <action title="Choose Db">
+      <code event="options">
+        <lotusscript>Option Declare
 
-</lotusscript></code><code event='click'><lotusscript>Sub Click(Source As Button)
+</lotusscript>
+      </code>
+      <code event="click">
+        <lotusscript>Sub Click(Source As Button)
 	Dim ws As New NotesUIWorkspace
 	Dim ses As New NotesSession
 	
@@ -333,13 +362,23 @@ End Sub
 	
 	Call currUIDoc.Refresh
 End Sub
-</lotusscript></code></action>
-<action title='Clear' icon='11'><code event='click'><formula>FIELD Selection := "";
-@Command([RefreshHideFormulas])</formula></code></action>
-<action title='Edit Profile' icon='89'><code event='options'><lotusscript
->Option Declare
+</lotusscript>
+      </code>
+    </action>
+    <action title="Clear" icon="11">
+      <code event="click">
+        <formula>FIELD Selection := "";
+@Command([RefreshHideFormulas])</formula>
+      </code>
+    </action>
+    <action title="Edit Profile" icon="89">
+      <code event="options">
+        <lotusscript>Option Declare
 
-</lotusscript></code><code event='click'><lotusscript>Sub Click(Source As Button)
+</lotusscript>
+      </code>
+      <code event="click">
+        <lotusscript>Sub Click(Source As Button)
 	Dim docPro As NotesDocument
 	Dim wksp As New NotesUIWorkspace
 	Dim uidoc As NotesUIDocument
@@ -409,11 +448,20 @@ End Sub
 		End If
 	End If
 End Sub
-</lotusscript></code><code event='hidewhen'><formula>@Elements(Selection) != 1</formula></code></action>
-<action title='Delete Selected' icon='116'><code event='options'><lotusscript
->Option Declare
+</lotusscript>
+      </code>
+      <code event="hidewhen">
+        <formula>@Elements(Selection) != 1</formula>
+      </code>
+    </action>
+    <action title="Delete Selected" icon="116">
+      <code event="options">
+        <lotusscript>Option Declare
 
-</lotusscript></code><code event='click'><lotusscript>Sub Click(Source As Button)
+</lotusscript>
+      </code>
+      <code event="click">
+        <lotusscript>Sub Click(Source As Button)
 	Const NL = {
 }
 	Dim docPro As NotesDocument
@@ -441,10 +489,20 @@ End Sub
 		RefreshChoices uidoc
 	End If
 End Sub
-</lotusscript></code><code event='hidewhen'><formula>!(Selection != "")</formula></code></action>
-<action title='Refresh' icon='145'><code event='options'><lotusscript>Option Declare
+</lotusscript>
+      </code>
+      <code event="hidewhen">
+        <formula>!(Selection != "")</formula>
+      </code>
+    </action>
+    <action title="Refresh" icon="145">
+      <code event="options">
+        <lotusscript>Option Declare
 
-</lotusscript></code><code event='click'><lotusscript>Sub Click(Source As Button)
+</lotusscript>
+      </code>
+      <code event="click">
+        <lotusscript>Sub Click(Source As Button)
 	' reload list of profile docs (to make sure nobody changed them while you weren't looking)
 	Dim docPro As NotesDocument
 	Dim wksp As New NotesUIWorkspace
@@ -462,102 +520,145 @@ End Sub
 		Msgbox "No more profile documents!", MB_ICONINFORMATION, WINDOWTITLE
 	End If
 End Sub
-</lotusscript></code></action></actionbar>
-<body><richtext>
-<pardef id='1'/>
-<par def='1'><run><font size='14pt' color='maroon'/>Profile Document Management</run></par>
-<par def='1'>Profiles in <run><font size='12pt' style='bold'/><field type='text'
- kind='computedfordisplay' name='dbTitle_d'><code event='defaultvalue'><formula
->@DbTitle</formula></code></field></run><compositedata type='98' prevtype='65418'
- nexttype='222' afterparcount='6' containertype='65418' aftercontainercount='1'
- afterbegincount='3'>
+</lotusscript>
+      </code>
+    </action>
+  </actionbar>
+  <body>
+    <richtext>
+      <pardef id="1"/>
+      <par def="1">
+        <run>
+          <font size="14pt" color="maroon"/>Profile Document Management</run>
+      </par>
+      <par def="1">Profiles in <run>
+          <font size="12pt" style="bold"/>
+          <field type="text" kind="computedfordisplay" name="dbTitle_d">
+            <code event="defaultvalue">
+              <formula>@DbTitle</formula>
+            </code>
+          </field>
+        </run>
+        <compositedata type="98" prevtype="65418" nexttype="222" afterparcount="6" containertype="65418" aftercontainercount="1" afterbegincount="3">
 Yg4BAIQAAAAAAAAAAAA=
-</compositedata> (<run><font color='maroon'/><field type='text'
- kind='computedfordisplay' name='db_d_1'><code event='defaultvalue'><formula
->@DbName[2]</formula></code></field></run><compositedata type='98' prevtype='65418'
- nexttype='222' afterparcount='12' containertype='65418' aftercontainercount='1'
- afterbegincount='3'>
+</compositedata> (<run>
+          <font color="maroon"/>
+          <field type="text" kind="computedfordisplay" name="db_d_1">
+            <code event="defaultvalue">
+              <formula>@DbName[2]</formula>
+            </code>
+          </field>
+        </run>
+        <compositedata type="98" prevtype="65418" nexttype="222" afterparcount="12" containertype="65418" aftercontainercount="1" afterbegincount="3">
 Yg4BAIQAAAAAAAAAAAA=
-</compositedata> <run><font style='bold'/>on </run><run
-><font color='maroon'/><field type='text' kind='computedfordisplay' name='db_d_2'><code
- event='defaultvalue'><formula>@Name([CN]; @Replace(@DbName[1]; ""; "Local"))</formula></code></field></run><compositedata
- type='98' prevtype='65418' nexttype='222' afterparcount='19' containertype='65418'
- aftercontainercount='1' afterbegincount='3'>
+</compositedata>
+        <run>
+          <font style="bold"/>on </run>
+        <run>
+          <font color="maroon"/>
+          <field type="text" kind="computedfordisplay" name="db_d_2">
+            <code event="defaultvalue">
+              <formula>@Name([CN]; @Replace(@DbName[1]; ""; "Local"))</formula>
+            </code>
+          </field>
+        </run>
+        <compositedata type="98" prevtype="65418" nexttype="222" afterparcount="19" containertype="65418" aftercontainercount="1" afterbegincount="3">
 Yg4BAIQAAAAAAAAAAAA=
 </compositedata>)</par>
-<par def='1'/>
-<par def='1'><run><font size='9pt' name='monospace'/>   </run><actionhotspot
-><code event='click'><formula>FIELD Choices := @Sort(Choices);
-@Command([ViewRefreshFields])</formula></code><run highlight='yellow'><font
- size='9pt' name='monospace'/>_________Profile name________</run></actionhotspot><run
-><font size='9pt' name='monospace'/> </run><actionhotspot><code event='click'><formula
->_sorted := @Sort(Choices; [CustomSort]; @Middle($A; 30; 29) + @Left($A; 29) &gt; @Middle($B; 30; 29) + @Left($B; 29) );
+      <par def="1"/>
+      <par def="1">
+        <run>
+          <font size="9pt" name="monospace"/>
+        </run>
+        <actionhotspot>
+          <code event="click">
+            <formula>FIELD Choices := @Sort(Choices);
+@Command([ViewRefreshFields])</formula>
+          </code>
+          <run highlight="yellow">
+            <font size="9pt" name="monospace"/>_________Profile name________</run>
+        </actionhotspot>
+        <run>
+          <font size="9pt" name="monospace"/>
+        </run>
+        <actionhotspot>
+          <code event="click">
+            <formula>_sorted := @Sort(Choices; [CustomSort]; @Middle($A; 30; 29) + @Left($A; 29) &gt; @Middle($B; 30; 29) + @Left($B; 29) );
 FIELD Choices := _sorted;
-@Command([ViewRefreshFields])</formula></code><run highlight='yellow'><font
- size='9pt' name='monospace'/>___________Key_______________</run></actionhotspot><run
-><font size='9pt' name='monospace'/> </run><actionhotspot><code event='click'><formula
->_sorted := @Sort(Choices; [CustomSort]; @ToTime(@Word(@Middle($A; 60; "|"); "["; 1)) &lt; @ToTime(@Word(@Middle($B; 60; "|"); "["; 1)) );
+@Command([ViewRefreshFields])</formula>
+          </code>
+          <run highlight="yellow">
+            <font size="9pt" name="monospace"/>___________Key_______________</run>
+        </actionhotspot>
+        <run>
+          <font size="9pt" name="monospace"/>
+        </run>
+        <actionhotspot>
+          <code event="click">
+            <formula>_sorted := @Sort(Choices; [CustomSort]; @ToTime(@Word(@Middle($A; 60; "|"); "["; 1)) &lt; @ToTime(@Word(@Middle($B; 60; "|"); "["; 1)) );
 FIELD Choices := _sorted;
-@Command([ViewRefreshFields])</formula></code><run highlight='yellow'><font
- size='9pt' name='monospace'/>______Modified_______</run><run highlight='yellow'><font
- size='9pt' name='monospace'/>_</run></actionhotspot><run highlight='yellow'><font
- size='9pt' name='monospace'/></run></par>
-<pardef id='2' hide='notes web mobile'/>
-<par def='2'><run><font size='9pt' name='monospace'/>   12345678901234567890123456789012345678901234567890123456789012345678901234567890123</run></par>
-<par def='2'><run><font size='9pt' name='monospace'/>   PersonalProfile               Angus Mealie/Acctg/Yoyodyne   10/12/2007 04:55:09 pm</run></par>
-<par def='1'><run><font size='9pt' name='monospace'/><field usenotesstyle='false'
- height='4in' width='6.5625in' multiline='true' borderstyle='none' lookupeachchar='false'
- lookupaddressonrefresh='false' type='keyword' allowmultivalues='true' kind='editable'
- name='Selection' listinputseparators='comma' listdisplayseparator='comma'><keywords
- helperbutton='false' recalconchange='true' recalcchoices='true' columns='1'
- ui='listbox'><formula>Choices</formula></keywords><code event='options'><lotusscript
->Option Declare
+@Command([ViewRefreshFields])</formula>
+          </code>
+          <run highlight="yellow">
+            <font size="9pt" name="monospace"/>______Modified_______</run>
+          <run highlight="yellow">
+            <font size="9pt" name="monospace"/>_</run>
+        </actionhotspot>
+        <run highlight="yellow">
+          <font size="9pt" name="monospace"/>
+        </run>
+      </par>
+      <pardef id="2" hide="notes web mobile"/>
+      <par def="2">
+        <run>
+          <font size="9pt" name="monospace"/>   12345678901234567890123456789012345678901234567890123456789012345678901234567890123</run>
+      </par>
+      <par def="2">
+        <run>
+          <font size="9pt" name="monospace"/>   PersonalProfile               Angus Mealie/Acctg/Yoyodyne   10/12/2007 04:55:09 pm</run>
+      </par>
+      <par def="1">
+        <run>
+          <font size="9pt" name="monospace"/>
+          <field usenotesstyle="false" height="4in" width="6.5625in" multiline="true" borderstyle="none" lookupeachchar="false" lookupaddressonrefresh="false" type="keyword" allowmultivalues="true" kind="editable" name="Selection" listinputseparators="comma" listdisplayseparator="comma">
+            <keywords helperbutton="false" recalconchange="true" recalcchoices="true" columns="1" ui="listbox">
+              <formula>Choices</formula>
+            </keywords>
+            <code event="options">
+              <lotusscript>Option Declare
 
-</lotusscript></code><code event='onchange'><lotusscript>Sub Onchange(Source As Field)
+</lotusscript>
+            </code>
+            <code event="onchange">
+              <lotusscript>Sub Onchange(Source As Field)
 '	Dim wksp As New NotesUIWorkspace
 '	Dim uidoc As NotesUIDocument
 '	Set uidoc = wksp.CurrentDocument
 '	uidoc.RefreshHideFormulas
 End Sub
-</lotusscript></code></field></run></par>
-<par def='2'><run><font size='8pt' color='red'/>hidden: </run><run><font size='8pt'
- color='red'/><field type='text' kind='computedwhencomposed' name='SaveOptions'><code
- event='defaultvalue'><formula>"0"</formula></code></field></run><compositedata
- type='98' prevtype='65418' nexttype='222' afterparcount='9' containertype='65418'
- aftercontainercount='1' afterbegincount='3'>
+</lotusscript>
+            </code>
+          </field>
+        </run>
+      </par>
+      <par def="2">
+        <run>
+          <font size="8pt" color="red"/>hidden: </run>
+        <run>
+          <font size="8pt" color="red"/>
+          <field type="text" kind="computedwhencomposed" name="SaveOptions">
+            <code event="defaultvalue">
+              <formula>"0"</formula>
+            </code>
+          </field>
+        </run>
+        <compositedata type="98" prevtype="65418" nexttype="222" afterparcount="9" containertype="65418" aftercontainercount="1" afterbegincount="3">
 Yg4BAIQAAAAAAAAAAAA=
-</compositedata><run><font size='8pt'
- color='red'/></run></par></richtext></body>
-<item name='$Selection_O' sign='true'>
-<rawitemdata type='14'>
-AQAAAkxTT0IDABQIZW4AAAQACQAoAAQAAAAkAowBAAAAAAQAGAAkAAAAAAAoAAAAHAA8AMgAcAFY
-AAAAAAAAAAIAAAC0AFwBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAtABcAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAEAAAAkACQAAAAAACQAJAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAEABQBMb3R1cyBQcm9kdWN0AAAAVjAuMAAAAAAAAAAAAAAAAAAA
-AAAEAAAAKAAAAAAAAAAkAgAAjAEAAAAAAAAAAAAAAQAAAAAAAAABAAAAAAAAAAEAAAAAAAAAAAAA
-AAUAAABXMzJJJQMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAwCQAQAAAABAAQsAJAAkAFMARQBMAEUAQwBUAEkATwBOAAAAcAADAE4ARQBXAAAAhAAGAEQA
-RQBMAEUAVABFAAAAAAD//woASQBOAEkAVABJAEEATABJAFoARQAAAAAA//8JAFQARQBSAE0ASQBO
-AEEAVABFAAAAjAAGAE8AQgBKAEUAQwBUAAAAAAAEAQAAAAAAAP//GgAoAEcATABPAEIAQQBMAFMA
-KQBQAFIATwBGAEkATABFAEQATwBDAE0AQQBOAEEARwBFAFIAAAAAABgBGgAoAEcAbABvAGIAYQBs
-AHMAKQBQAHIAbwBmAGkAbABlAEQAbwBjAE0AYQBuAGEAZwBlAHIAAAAAADABBgBTAE8AVQBSAEMA
-RQAAAAAA//8IAE8ATgBDAEgAQQBOAEcARQAAAAAA//8FAEYASQBFAEwARAAAAFQBBgAlAEwAUwBJ
-AEQARQAAAAAA//8KAEIASQBOAEQARQBWAEUATgBUAFMAAAAAAP//CwBPAEIASgBFAEMAVABOAEEA
-TQBFAF8AAAAFACgCAAAAABv7GroYAAAAAACQADjbuxKIK74SBAAAABoAAABEAf//AAAAABAAAAAA
-AAAANAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAADFhMp7S5pEL9dAN0BEYa3AAAAAAAAAAAAAAAAAAAAAGQAAAAAAAAAAAAA
-AAAAAAACABgAAAAUAgAAAABcBAEA//8AAAgAAABcAVwBHAEAAAAAAAABAAAATAFMAQAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMAUwBAAAAAAAAAAABAAAAAAAAAAYAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAwABAAAAAAAIAQkCAAAkAAgAAAAAAAAAWAEAAAAAAAACAAAA9AEEAgAAAAAAAAAAAAAA
-AAAAAAD0AfQBAAAAAAAAAAAAAAAAAAAAAAAAAAAEAgQCAAAAAAAAAAABAAAAAgAAAAoAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAwABAAQCAAB0AQYIAAAAAAMAIAAAAAAACAEJAgAAJAATAAAAHAEAAOwAAAAAAAAABAAsAAAA
-AADSzAAdAAAaDwAdGhMAWwQCSfQByiQAphoUAEcEAsvsAAAAtAAaFQAdAgAAABEAGAAAAAAA//8B
-AAMABAAAAAcAHAEJAFgBEAAKAAAA
-</rawitemdata></item>
-<item name='$$ScriptName' summary='false' sign='true'><text>ProfileDocManager</text></item></form>
-
+</compositedata>
+        <run>
+          <font size="8pt" color="red"/>
+        </run>
+      </par>
+    </richtext>
+  </body>
+</form>

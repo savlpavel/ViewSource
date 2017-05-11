@@ -1,42 +1,17 @@
 <?xml version='1.0' encoding='utf-8'?>
-<note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.8'
- replicaid='432580060036840F'>
-<noteinfo noteid='5d6' unid='486F20E1503B5399432580200038E83A' sequence='41'>
+<sharedactions xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.8'
+ replicaid='432580060036840F' hide='v3 v4strict' designerversion='8.5.3' maxid='3'>
+<noteinfo noteid='5d6' unid='486F20E1503B5399432580200038E83A' sequence='50'>
 <created><datetime>20160831T132134,66+03</datetime></created>
-<modified><datetime>20170420T110033,59+03</datetime></modified>
-<revised><datetime>20170420T110033,58+03</datetime></revised>
-<lastaccessed><datetime>20170420T110033,59+03</datetime></lastaccessed>
+<modified><datetime>20170511T114342,98+03</datetime></modified>
+<revised><datetime>20170511T114342,97+03</datetime></revised>
+<lastaccessed><datetime>20170511T114342,98+03</datetime></lastaccessed>
 <addedtofile><datetime>20170123T142648,98+03</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></updatedby>
 <wassignedby><name>CN=Pavel A Aleshkevich/O=DV2/C=RU</name></wassignedby>
-<item name='$TITLE'><text>$ACTIONS</text></item>
-<item name='$DesignerVersion'><text>8.5.3</text></item>
-<item name='$V5ACTIONS' sign='true'>
-<rawitemdata type='1'>
-vRwAAAAAAQABAAAAAAAAAAMAAAAAAAAAAAAAAHn/bAAJAAAAAAAJAAAAAAAAAAAAAAAJAAAAAAAA
-AB8AAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAL7/PAAAAAEAcACfAQEABQAAAAEAAABDbG9zZQAgAAAAEgAC
-APwRAAAAAAAA7QEDAAcADAAFAAkwUzBFAF//EAACAAwABwAAAAAAAABf/xAAAgABAAcAAAAAAAAA
-X/8QAAIAAgAHAAAAAAAAAF//EAACAAsABwAAAAAAAABf/xAAAgAUAAcAAAAAAAAAX/8QAAIACQAH
-AAAAAAAAAF//EAACAAgABwAAAAAAAABf/xAAAgAKAAcAAAAAAAAAX/8QAAIAAwAHAAAAAAAAAF//
-EAACAAYABwAAAAAAAABf/xAAAgAHAAcAAAAAAAAAX/8QAAIABQAHAAAAAAAAAF//EAACAAQABwAA
-AAAAAAC+/zoAAAABAAUAjwABAAQAAAACAAAARWRpdCAAAAASAAIA6AcAAAAAAADtAQMABwAMAAUA
-CTBTMEUAX/8QAAIADAAHAAAAAAAAAF//EAACAAEABwAAAAAAAABf/xAAAgACAAcAAAAAAAAAX/8Q
-AAIACwAHAAAAAAAAAF//EAACABQABwAAAAAAAABf/xAAAgAJAAcAAAAAAAAAX/8QAAIACAAHAAAA
-AAAAAF//EAACAAoABwAAAAAAAABf/xAAAgADAAcAAAAAAAAAX/8QAAIABgAHAAAAAAAAAF//EAAC
-AAcABwAAAAAAAABf/xAAAgAFAAcAAAAAAAAAX/8QAAIABAAHAAAAAAAAAL7/OgAAAAEAdQCfAQEA
-BAAAAAMAAABTYXZlIAAAABIAAgDGCwAAAAAAAO0BAwAHAAwABQAJMFMwRQBf/xAAAgAMAAcAAAAA
-AAAAX/8QAAIAAQAHAAAAAAAAAF//EAACAAIABwAAAAAAAABf/xAAAgALAAcAAAAAAAAAX/8QAAIA
-FAAHAAAAAAAAAF//EAACAAkABwAAAAAAAABf/xAAAgAIAAcAAAAAAAAAX/8QAAIACgAHAAAAAAAA
-AF//EAACAAMABwAAAAAAAABf/xAAAgAGAAcAAAAAAAAAX/8QAAIABwAHAAAAAAAAAF//EAACAAUA
-BwAAAAAAAABf/xAAAgAEAAcAAAAAAAAA
-</rawitemdata></item>
-<item name='$$ScriptName' summary='false' sign='true'><text>$ACTIONS</text></item>
-<item name='$Body' sign='true' seal='true'>
-<rawitemdata type='1'>
-gv9GAAIAAAAAAAAAAACgBQAAoAUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAKYsAAAAAAIATm9ybWFsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-gQKDBAIAhf8IAAEAAAo=
-</rawitemdata></item>
-<item name='$Flags'><text>34yQC</text></item></note>
+<action title='Close' icon='112' id='1'><code event='click'><formula>@Command([FileCloseWindow])</formula></code></action>
+<action title='Edit' icon='5' hide='edit previewedit' id='2'><code event='click'><formula
+>@Command([EditDocument])</formula></code></action>
+<action title='Save' icon='117' id='3'><code event='click'><formula>@Command([FileSave])</formula></code></action>
+<item name='$$ScriptName' summary='false' sign='true'><text>$ACTIONS</text></item></sharedactions>
 
